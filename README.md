@@ -1,0 +1,2 @@
+# -GAS-Trapezoidal-maps---final-prject
+Yourtaskistoimplementtheincrementalconstructionofthe​trapezoidalmap​andtheassociatedDAG,inordertoperformthepointlocationtask.Thetrapezoidalmapmustbedrawninthecanvas,anditispossibletoaddinteractively(mouseleftclick)newsegmentsinthecanvas(theUIhasbeenalreadyimplemented).Whenyouperformaqueryoperation,thetrapezoid in which the point is located must be highlighted.
