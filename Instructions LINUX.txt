@@ -1,0 +1,25 @@
+Download from: https://www.qt.io/download-open-source (you need to register in order to get a free license, use the open-source option when downloading).
+Once you have the file (es. qt-unified-linux-x64-3.0.6-online.run):
+# sudo chmod +x qt-unified-linux-x64-3.0.6-online.run 
+# sudo ./qt-unified-linux-x64-3.0.6-online.run
+Follow the instructions. Note that you need to select only:
+- Qt creator
+- In the latest version of Qt, the Qt gcc compiler component (unselect all Android, ARM, ...).
+
+Install the libraries:
+# sudo apt-get install libeigen3-dev libqglviewer-dev-qt5 libboost-all-dev git doxygen
+
+Open the file .pro with Qt, and the project should compile automatically (libraries should be in the default paths).
+
+In linux the libraries should be located in the following directories (default paths for apt-get commands in ubuntu):
+Eigen -> /usr/include/eigen3
+Boost -> /usr/include/boost
+libQGLViewer -> /usr/lib/x86_64-linux-gnu/ (libQGLViewer.so or libQGLViewer-qt5.so)
+
+You can change the system environment variables if you want to use other paths (libQGLViewer not supported, sorry):
+EIGEN_HOME
+BOOST_HOME
+
+Now open the file .pro with Qt, and the project should compile.
+
+If you have problem, try to execute install_ubuntu.sh!

@@ -1,0 +1,36 @@
+**********************
+WARNING: we suggest you a Ubuntu/Linux virtual machine. Indeed the project will be evaluated in a linux environment with gcc. Note that CLANG compiler can have different warnings, compilation errors, ... from GCC. If you write a correct code (no undefined behavior and standard syntax) the result will be the same in every platform.
+Also, setting up the compiling environment on macOS can be more difficult than Ubuntu.
+**********************
+
+Download from: https://www.qt.io/download-open-source (you need to register in order to get a free license, use the open-source option when downloading).
+Execute the file.
+Follow the instructions. Note that you need to select only:
+- Qt creator
+- In the latest version of Qt, the Qt CLANG compiler component (unselect all Android, ARM, ...).
+
+Install the libraries:
+# brew install git qt eigen boost llvm
+# cd /usr/local/opt
+# git clone https://github.com/GillesDebunne/libQGLViewer.git
+# cd libQGLViewer/QGLViewer
+# /usr/local/opt/qt/bin/qmake
+# make 
+# make install  
+# echo "export QGLVIEWER_HOME=/usr/local/lib" >> ~/.bash_profile #here is installed QGLViewer.framework
+
+In MACOSX the libraries can be located in the following directories:
+Eigen -> /libs/include/eigen3/ or /usr/local/Cellar/eigen/3.3.4/include/eigen3/
+Boost -> /libs/include/boost/ or /usr/local/Cellar/boost/1.66.0/include/
+libQGLViewer -> /usr/local/lib
+
+Or you can change the system environment variables:
+EIGEN_HOME
+BOOST_HOME
+QGLVIEWER_HOME
+
+Once libraries are set, open the file .pro with Qt, and the project should compile.
+
+If you have problems, try to execute install_macos.sh!
+
+If you are not able to compile on your own the project on macOS, download a virtual machine with Ubuntu and follow the instructions for linux.

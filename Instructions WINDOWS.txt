@@ -1,0 +1,29 @@
+**********************
+WARNING: we STRONGLY suggest you to use a Ubuntu/Linux virtual machine. Indeed the project will be evaluated in a linux environment with gcc. Note that MSVC compiler can have STRONGLY different warnings, compilation errors, ... from GCC. If you write a correct code (no undefined behavior and standard syntax) the result will be the same in every platform. Furthermore, on Windows, you have access only to the 32-bit version of Qt.
+Also, setting up the compiling environment on Windows can be more difficult than on Ubuntu.
+
+Windows installation with MSVC or mingw (gcc porting on Windows) is pretty difficult (you will have to manually compile boost, libQGLViewer with the correct compiler). Select the right compiler during the Qt online installation. Eigen is header-only, so you have just download it and link the path to the project.
+**********************
+
+Download from: https://www.qt.io/download-open-source (you need to register in order to get a free license, use the open-source option when downloading).
+Execute the file.
+Follow the instructions. Note that you need to select only:
+- Qt creator
+- In the latest version of Qt, the Qt desired compiler component (mingw or MSVC) (unselect all Android, ARM, ...).
+
+In Windows the libraries can be located in the following directories:
+Eigen -> C:/libs/eigen3
+Boost -> C:/libs/boost
+libQGLViewer -> C:/libs/libQGLViewer
+
+Or you can change the system environment variables:
+EIGEN_HOME
+BOOST_HOME
+QGLVIEWER_HOME
+
+To install boost you will have to compile it with CMake (using the same compiler you are using in your project). Follow some tutorial on internet if you have problems.
+To install libQGLViewer you will have to compile the source code with QtCreator (open the .pro file).  Follow some tutorial on internet if you have problems.
+
+Once libraries are set, open the file .pro with Qt, and the project should compile.
+
+If you are not able to compile on your own the project on Windows, download a virtual machine with Ubuntu and follow the instructions for linux.
