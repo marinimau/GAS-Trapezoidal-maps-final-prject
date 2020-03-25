@@ -1,0 +1,4 @@
+#ifndef TRAPEZOIDALMAP_H
+#define TRAPEZOIDALMAP_H
+
+#endif // TRAPEZOIDALMAP_H

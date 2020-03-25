@@ -1,0 +1,4 @@
+#ifndef VALIDTRAPEZOID_H
+#define VALIDTRAPEZOID_H
+
+#endif // VALIDTRAPEZOID_H
