@@ -83,6 +83,7 @@ TrapezoidalMapManager::TrapezoidalMapManager(QWidget *parent) :
     //the dataset.
 
 
+    mainWindow.pushDrawableObject(&drawableVerticalSegment, "Vertical Segments");
 
 
     //#####################################################################
@@ -195,6 +196,19 @@ void TrapezoidalMapManager::addSegmentToTrapezoidalMap(const cg3::Segment2d& seg
     //efficient in memory. However, depending on how you implement your algorithms and data 
 	//structures, you could save directly the point (Point2d) in each trapezoid (it is fine).
 
+    //Create point extensions
+    VerticalSegment::PointExtension segmentStartExtension;
+    VerticalSegment::PointExtension segmentEndExtension;
+
+    //Add to the drawable dataset
+    segmentStartExtension = {500, segment.p1(), -500};
+    segmentEndExtension = {500, segment.p2(), -500};
+
+    bool extensionP1Inserted;
+    drawableVerticalSegment.addPointExtensions(segmentStartExtension, extensionP1Inserted);
+
+    bool extensionP2Inserted;
+    drawableVerticalSegment.addPointExtensions(segmentEndExtension, extensionP2Inserted);
 
 
 
@@ -271,8 +285,6 @@ void TrapezoidalMapManager::clearTrapezoidalMap()
 {
     //---------------------------------------------------------------------
     //Clear here your trapezoidal map data structure.
-
-
 
     //#####################################################################
 }
@@ -401,7 +413,7 @@ std::vector<cg3::Segment2d> TrapezoidalMapManager::generateRandomNonIntersecting
 
     TrapezoidalMapDataset dataset;
     while (dataset.segmentNumber() < n) {
-        std::uniform_real_distribution<double> dist(0, randomPoints.size() + 0.9999);
+        std::uniform_int_distribution<int> dist(0, randomPoints.size() - 1);
 
         cg3::Point2d p1 = randomPoints[static_cast<size_t>(dist(rng))];
         cg3::Point2d p2 = randomPoints[static_cast<size_t>(dist(rng))];

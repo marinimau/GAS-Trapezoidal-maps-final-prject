@@ -12,6 +12,10 @@
 
 #include "drawables/drawable_trapezoidalmap_dataset.h"
 
+/* my import */
+#include "data_structures/vertical_segment.h"
+#include "drawables/drawable_vertical_segment.h"
+
 namespace Ui {
     class TrapezoidalMapManager;
 }
@@ -57,7 +61,7 @@ private:
     //---------------------------------------------------------------------
     //Declare your attributes here
 
-
+    DrawableVerticalSegment drawableVerticalSegment;
 
 
     //#####################################################################
