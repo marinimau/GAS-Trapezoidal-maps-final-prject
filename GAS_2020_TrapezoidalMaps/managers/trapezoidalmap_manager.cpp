@@ -196,19 +196,8 @@ void TrapezoidalMapManager::addSegmentToTrapezoidalMap(const cg3::Segment2d& seg
     //efficient in memory. However, depending on how you implement your algorithms and data 
 	//structures, you could save directly the point (Point2d) in each trapezoid (it is fine).
 
-    //Create point extensions
-    VerticalSegment::PointExtension segmentStartExtension;
-    VerticalSegment::PointExtension segmentEndExtension;
 
-    //Add to the drawable dataset
-    segmentStartExtension = {500, segment.p1(), -500};
-    segmentEndExtension = {500, segment.p2(), -500};
-
-    bool extensionP1Inserted;
-    drawableVerticalSegment.addPointExtensions(segmentStartExtension, extensionP1Inserted);
-
-    bool extensionP2Inserted;
-    drawableVerticalSegment.addPointExtensions(segmentEndExtension, extensionP2Inserted);
+     TrapezoidalMapBuilder::evaluateSegmentInserted(segment, drawableVerticalSegment);
 
 
 

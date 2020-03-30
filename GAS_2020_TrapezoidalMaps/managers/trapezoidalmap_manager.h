@@ -13,8 +13,8 @@
 #include "drawables/drawable_trapezoidalmap_dataset.h"
 
 /* my import */
-#include "data_structures/vertical_segment.h"
 #include "drawables/drawable_vertical_segment.h"
+#include "algorithms/trapezoidal_map_builder.h"
 
 namespace Ui {
     class TrapezoidalMapManager;
