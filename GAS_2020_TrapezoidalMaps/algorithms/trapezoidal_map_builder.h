@@ -5,7 +5,7 @@
 #include <cg3/geometry/point2.h>
 #include <cg3/geometry/segment2.h>
 
-#include "data_structures/vertical_segment.h"
+#include "data_structures/trapezoidal_map.h"
 #include "drawables/drawable_vertical_segment.h"
 
 namespace TrapezoidalMapBuilder {

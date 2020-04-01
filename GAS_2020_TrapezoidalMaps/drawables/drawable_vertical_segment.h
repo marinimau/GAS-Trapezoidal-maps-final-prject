@@ -1,7 +1,7 @@
-#ifndef DRAWABLE_VERTICAL_SEGMENTS_H
-#define DRAWABLE_VERTICAL_SEGMENTS_H
+#ifndef DRAWABLE_VERTICAL_SEGMENT_H
+#define DRAWABLE_VERTICAL_SEGMENT_H
 
-#include "data_structures/vertical_segment.h"
+#include "data_structures/trapezoidal_map.h"
 
 #include <cg3/viewer/interfaces/drawable_object.h>
 
@@ -10,7 +10,7 @@
 /**
  * @brief Class to draw the vertical segments of the trapezoidal map.
  */
-class DrawableVerticalSegment : public VerticalSegment, public cg3::DrawableObject
+class DrawableVerticalSegment : public TrapezoidalMap, public cg3::DrawableObject
 {
 
 public:
@@ -34,4 +34,4 @@ private:
 
 };
 
-#endif // DRAWABLE_VERTICAL_SEGMENTS_H
+#endif // DRAWABLE_VERTICAL_SEGMENT_H

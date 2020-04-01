@@ -14,6 +14,7 @@
 
 /* my import */
 #include "drawables/drawable_vertical_segment.h"
+#include "drawables/drawable_trapezoid.h"
 #include "algorithms/trapezoidal_map_builder.h"
 
 namespace Ui {
@@ -61,7 +62,11 @@ private:
     //---------------------------------------------------------------------
     //Declare your attributes here
 
+    /* Drawable for the trapezoidal map's vertical segments */
     DrawableVerticalSegment drawableVerticalSegment;
+
+    /* Drawable for the trapezoidal map's trapezoids */
+    DrawableTrapezoid drawableTrapezoids;
 
 
     //#####################################################################

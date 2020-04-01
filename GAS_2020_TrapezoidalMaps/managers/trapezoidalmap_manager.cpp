@@ -84,7 +84,7 @@ TrapezoidalMapManager::TrapezoidalMapManager(QWidget *parent) :
 
 
     mainWindow.pushDrawableObject(&drawableVerticalSegment, "Vertical Segments");
-
+    mainWindow.pushDrawableObject(&drawableTrapezoids, "Trapezoids");
 
     //#####################################################################
 
@@ -122,11 +122,10 @@ TrapezoidalMapManager::~TrapezoidalMapManager()
     //Try to AVOID using dynamic objects whenever it is possible (it will
     //be evaluated!)
 
-
+    mainWindow.deleteDrawableObject(&drawableVerticalSegment);
 
 
     //#####################################################################
-
 
 
     //---------------------------------------------------------------------
@@ -199,15 +198,7 @@ void TrapezoidalMapManager::addSegmentToTrapezoidalMap(const cg3::Segment2d& seg
 
      TrapezoidalMapBuilder::evaluateSegmentInserted(segment, drawableVerticalSegment);
 
-
-
     //#####################################################################
-
-
-
-    //You can delete this line after you implement the algorithm: it is
-    //just needed to suppress the unused-variable warning
-    CG3_SUPPRESS_WARNING(segment);
 }
 
 /**
@@ -274,7 +265,8 @@ void TrapezoidalMapManager::clearTrapezoidalMap()
 {
     //---------------------------------------------------------------------
     //Clear here your trapezoidal map data structure.
-
+    drawableVerticalSegment.clear();
+    drawableTrapezoids.clear();
     //#####################################################################
 }
 

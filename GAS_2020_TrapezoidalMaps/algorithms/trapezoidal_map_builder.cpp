@@ -1,5 +1,7 @@
 #include "algorithms/trapezoidal_map_builder.h"
 
+#define BOUNDINGBOX 1e+6
+
 namespace TrapezoidalMapBuilder {
 
 void evaluateSegmentInserted(const cg3::Segment2d insertedSegment, DrawableVerticalSegment& drawableVerticalSegment)
@@ -21,7 +23,10 @@ void evaluateSegmentInserted(const cg3::Segment2d insertedSegment, DrawableVerti
 void createPointExtension(const cg3::Point2d point, bool& inserted, DrawableVerticalSegment& drawableVerticalSegment)
 {
     inserted = false;
-    VerticalSegment::PointExtension pointExtension = {500, point, -500};
+    //find upper intersection
+    double upper = BOUNDINGBOX;
+    double lower = -BOUNDINGBOX;
+    TrapezoidalMap::PointExtension pointExtension = {upper, point, lower};
     drawableVerticalSegment.addPointExtensions(pointExtension, inserted);
 }
 

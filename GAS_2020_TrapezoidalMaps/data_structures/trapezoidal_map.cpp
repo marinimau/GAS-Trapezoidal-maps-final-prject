@@ -1,16 +1,16 @@
-#include "data_structures/vertical_segment.h"
+#include "data_structures/trapezoidal_map.h"
 
-VerticalSegment::VerticalSegment() :
+TrapezoidalMap::TrapezoidalMap() :
     boundingBox(cg3::Point2d(0,0),cg3::Point2d(0,0))
 {
 
 }
 
-size_t VerticalSegment::addPointExtensions(const PointExtension pointExtension, bool& extensionsInserted)
+size_t TrapezoidalMap::addPointExtensions(const PointExtension pointExtension, bool& extensionsInserted)
 {
     extensionsInserted = false;
     bool found = false;
-    size_t id = 0; //VerticalSegment::findPointExtension(pointExtension, found);
+    size_t id = 0; //TrapezoidalMap::findPointExtension(pointExtension, found);
 
     // if point is not inserted
     if(!found){
@@ -24,9 +24,9 @@ size_t VerticalSegment::addPointExtensions(const PointExtension pointExtension, 
 }
 
 /*
-size_t VerticalSegment::findPointExtension(const VerticalSegment::PointExtensions& pointExtension, bool& found)
+size_t TrapezoidalMap::findPointExtension(const TrapezoidalMap::PointExtensions& pointExtension, bool& found)
 {
-    std::unordered_map<VerticalSegment::PointExtensions, size_t>::iterator it = pointExtensionsMap.find(pointExtension);
+    std::unordered_map<TrapezoidalMap::PointExtensions, size_t>::iterator it = pointExtensionsMap.find(pointExtension);
 
     // if pointExtension already exists return true and its id
     if (it != pointExtensionsMap.end()) {
@@ -41,20 +41,20 @@ size_t VerticalSegment::findPointExtension(const VerticalSegment::PointExtension
 }
 */
 
-size_t VerticalSegment::pointExtensionsNumber()
+size_t TrapezoidalMap::pointExtensionsNumber()
 {
     return pointExtensions.size();
 }
 
-const std::vector<VerticalSegment::PointExtension> VerticalSegment::getPointExtensions() const
+const std::vector<TrapezoidalMap::PointExtension> TrapezoidalMap::getPointExtensions() const
 {
     return pointExtensions;
 }
 
-std::vector<cg3::Segment2d> VerticalSegment::getVerticalSegments() const
+std::vector<cg3::Segment2d> TrapezoidalMap::getVerticalSegments() const
 {
     std::vector<cg3::Segment2d> verticalSegments;
-    for (const VerticalSegment::PointExtension& pointExtention : getPointExtensions()) {
+    for (const TrapezoidalMap::PointExtension& pointExtention : getPointExtensions()) {
         /* upward segment of given point */
         cg3::Point2d upperEndPoint = cg3::Point2d(std::get<1>(pointExtention).x(),std::get<0>(pointExtention));
         verticalSegments.push_back(cg3::Segment2d(upperEndPoint, std::get<1>(pointExtention)));
@@ -65,17 +65,17 @@ std::vector<cg3::Segment2d> VerticalSegment::getVerticalSegments() const
     return verticalSegments;
 }
 
-VerticalSegment::PointExtension VerticalSegment::getPointExtension(size_t id) const
+TrapezoidalMap::PointExtension TrapezoidalMap::getPointExtension(size_t id) const
 {
     return pointExtensions[id];
 }
 
-const cg3::BoundingBox2& VerticalSegment::getBoundingBox() const
+const cg3::BoundingBox2& TrapezoidalMap::getBoundingBox() const
 {
     return boundingBox;
 }
 
-void VerticalSegment::clear()
+void TrapezoidalMap::clear()
 {
     pointExtensions.clear();
     //pointExtensionsMap.clear();

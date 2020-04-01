@@ -1,5 +1,5 @@
-#ifndef VERTICAL_SEGMENT_H
-#define VERTICAL_SEGMENT_H
+#ifndef TRAPEZOIDAL_MAP_H
+#define TRAPEZOIDAL_MAP_H
 
 #include <unordered_map>
 #include <vector>
@@ -12,7 +12,7 @@
 /**
  * @brief This class store the verticals segments of the trapezoidal map.
  */
-class VerticalSegment{
+class TrapezoidalMap{
 
 public:
 
@@ -23,7 +23,7 @@ public:
      */
     typedef std::tuple<double, cg3::Point2d, double> PointExtension;
 
-    VerticalSegment();
+    TrapezoidalMap();
 
     size_t addPointExtensions(const PointExtension pointExtension, bool& extensionsInserted);
     //size_t findPointExtension(const VerticalSegment::PointExtensions& point, bool& found);
@@ -45,4 +45,4 @@ private:
 
 };
 
-#endif // VERTICAL_SEGMENT_H
+#endif // TRAPEZOIDAL_MAP_H
