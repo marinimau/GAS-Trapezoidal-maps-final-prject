@@ -1,11 +1,12 @@
 #ifndef DRAWABLE_TRAPEZOID_H
 #define DRAWABLE_TRAPEZOID_H
 
-#include "data_structures/trapezoidal_map.h"
+#include "data_structures/trapezoidalmap.h"
 
 #include <cg3/viewer/interfaces/drawable_object.h>
 
 #include <cg3/utilities/color.h>
+#include "utils/fill_color.h"
 
 /**
  * @brief Class to draw the trapezoids of the trapezoidal map.

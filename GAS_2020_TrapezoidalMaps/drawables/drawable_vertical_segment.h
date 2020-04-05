@@ -1,7 +1,7 @@
 #ifndef DRAWABLE_VERTICAL_SEGMENT_H
 #define DRAWABLE_VERTICAL_SEGMENT_H
 
-#include "data_structures/trapezoidal_map.h"
+#include "data_structures/trapezoidalmap.h"
 
 #include <cg3/viewer/interfaces/drawable_object.h>
 

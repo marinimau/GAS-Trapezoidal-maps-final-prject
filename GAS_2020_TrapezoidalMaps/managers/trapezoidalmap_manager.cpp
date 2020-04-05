@@ -84,7 +84,8 @@ TrapezoidalMapManager::TrapezoidalMapManager(QWidget *parent) :
 
 
     mainWindow.pushDrawableObject(&drawableVerticalSegment, "Vertical Segments");
-    mainWindow.pushDrawableObject(&drawableTrapezoids, "Trapezoids");
+    mainWindow.pushDrawableObject(&drawableTrapezoid, "Trapezoids");
+
 
     //#####################################################################
 
@@ -123,7 +124,7 @@ TrapezoidalMapManager::~TrapezoidalMapManager()
     //be evaluated!)
 
     mainWindow.deleteDrawableObject(&drawableVerticalSegment);
-
+    mainWindow.deleteDrawableObject(&drawableTrapezoid);
 
     //#####################################################################
 
@@ -196,7 +197,7 @@ void TrapezoidalMapManager::addSegmentToTrapezoidalMap(const cg3::Segment2d& seg
 	//structures, you could save directly the point (Point2d) in each trapezoid (it is fine).
 
 
-     TrapezoidalMapBuilder::evaluateSegmentInserted(segment, drawableVerticalSegment);
+     TrapezoidalMapBuilder::evaluateSegmentInserted(segment, drawableVerticalSegment, drawableTrapezoid);
 
     //#####################################################################
 }
@@ -266,7 +267,7 @@ void TrapezoidalMapManager::clearTrapezoidalMap()
     //---------------------------------------------------------------------
     //Clear here your trapezoidal map data structure.
     drawableVerticalSegment.clear();
-    drawableTrapezoids.clear();
+    drawableTrapezoid.clear();
     //#####################################################################
 }
 

@@ -66,7 +66,7 @@ private:
     DrawableVerticalSegment drawableVerticalSegment;
 
     /* Drawable for the trapezoidal map's trapezoids */
-    DrawableTrapezoid drawableTrapezoids;
+    DrawableTrapezoid drawableTrapezoid;
 
 
     //#####################################################################

@@ -12,8 +12,11 @@ DrawableTrapezoid::DrawableTrapezoid():
 
 void DrawableTrapezoid::draw() const
 {
-    for (const cg3::Segment2d& vLine : getVerticalSegments()) {
-        cg3::opengl::drawLine2(vLine.p1(), vLine.p2(), fillColor, static_cast<int>(boundarySize));
+    cg3::Point2d topLeft, bottomLeft, topRight, bottomRight;
+    for (const TrapezoidalMap::Trapezoid& trapezoid : getTrapezoidsData()) {
+        TrapezoidalMap::getPointsByVerticalSegment(trapezoid.first, topLeft, bottomLeft);
+        TrapezoidalMap::getPointsByVerticalSegment(trapezoid.second, topRight, bottomRight);
+        cg3::opengl::drawQuad2(topLeft, topRight, bottomLeft, bottomRight, FillColor::getRandomColor(), 0, true);
     }
 }
 

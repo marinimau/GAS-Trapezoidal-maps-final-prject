@@ -47,9 +47,11 @@ SOURCES +=  \
     managers/trapezoidalmap_manager.cpp \
     utils/fileutils.cpp \
     algorithms/trapezoidal_map_builder.cpp \
-    data_structures/trapezoidal_map.cpp \
     drawables/drawable_vertical_segment.cpp \
-    drawables/drawable_trapezoid.cpp
+    drawables/drawable_trapezoid.cpp \
+    data_structures/trapezoidalmap.cpp \
+    utils/fill_color.cpp \
+    data_structures/trapezoid.cpp
 
 FORMS += \
     managers/trapezoidalmapmanager.ui
@@ -61,9 +63,11 @@ HEADERS += \
     managers/trapezoidalmap_manager.h \
     utils/fileutils.h \
     algorithms/trapezoidal_map_builder.h \
-    data_structures/trapezoidal_map.h \
     drawables/drawable_vertical_segment.h \
-    drawables/drawable_trapezoid.h
+    drawables/drawable_trapezoid.h \
+    data_structures/trapezoidalmap.h \
+    utils/fill_color.h \
+    data_structures/trapezoid.h
 
 
 
