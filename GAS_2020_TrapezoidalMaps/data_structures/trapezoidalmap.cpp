@@ -21,7 +21,7 @@ TrapezoidalMap::TrapezoidalMap() :
  */
 void TrapezoidalMap::addPointExtension(const PointExtension pointExtension)
 {
-    pointExtensions.push_back(pointExtension);
+    pointExtensions.insert(pointExtension);
 }
 
 /**
@@ -37,7 +37,7 @@ size_t TrapezoidalMap::pointExtensionsNumber()
  * @brief TrapezoidalMap::getPointExtensionsData
  * @return The raw point extension dataStructure
  */
-const std::vector<TrapezoidalMap::PointExtension> TrapezoidalMap::getPointExtensionsData() const
+const std::set<TrapezoidalMap::PointExtension> TrapezoidalMap::getPointExtensionsData() const
 {
     return pointExtensions;
 }
@@ -65,10 +65,11 @@ std::vector<cg3::Segment2d> TrapezoidalMap::getVerticalSegments() const
  * @param id
  * @return the point extension at the given position
  */
-TrapezoidalMap::PointExtension TrapezoidalMap::getPointExtensionById(size_t id) const
+/*
+TrapezoidalMap::PointExtension TrapezoidalMap::findPointExtension(const TrapezoidalMap::PointExtension pointExtension) const
 {
-    return pointExtensions[id];
-}
+    return pointExtensions.find(pointExtension);
+}*/
 
 
 /* Trapezoids */
@@ -79,9 +80,9 @@ TrapezoidalMap::PointExtension TrapezoidalMap::getPointExtensionById(size_t id) 
  * @param trapezoidInserted (flag)
  * @return the id of the trapezoid inserted or an arbitry number in case of error.
  */
-void TrapezoidalMap::addTrapezoid(const TrapezoidalMap::Trapezoid trapezoid)
+void TrapezoidalMap::addTrapezoid(const Trapezoid trapezoid)
 {
-    trapezoids.push_back(trapezoid);
+    trapezoids.insert(trapezoid);
 }
 
 /**
@@ -97,44 +98,22 @@ size_t TrapezoidalMap::trapezoidNumber() const
  * @brief TrapezoidalMap::getTrapezoidsData
  * @return the raw trapezoid's data
  */
-const std::vector<TrapezoidalMap::Trapezoid> TrapezoidalMap::getTrapezoidsData() const
+const std::set<Trapezoid> TrapezoidalMap::getTrapezoids() const
 {
     return trapezoids;
 }
 
-/**
- * @brief TrapezoidalMap::getPointsByVerticalSegment, given a polygon component (pointExtension + type of involvement, return the points
- * @param component
- * @param top
- * @param bottom
- */
-void TrapezoidalMap::getPointsByVerticalSegment(const std::pair<PointExtension, typeOfInvolvement>& component, cg3::Point2d& top, cg3::Point2d& bottom) const
-{
-    switch (component.second) {
-        case upper:
-            top = cg3::Point2d(std::get<1>(component.first).x(), std::get<0>(component.first));
-            bottom = std::get<1>(component.first);
-            break;
-        case lower:
-            top = std::get<1>(component.first);
-            bottom = cg3::Point2d(std::get<1>(component.first).x(), std::get<2>(component.first));
-            break;
-        case both:
-            top = cg3::Point2d(std::get<1>(component.first).x(), std::get<0>(component.first));
-            bottom = cg3::Point2d(std::get<1>(component.first).x(), std::get<2>(component.first));
-            break;
-    }
-}
 
 /**
  * @brief TrapezoidalMap::getTrapezoidById
  * @param id
  * @return the trapezoid object at the given position
  */
+/*
 TrapezoidalMap::Trapezoid TrapezoidalMap::getTrapezoidById(size_t id) const
 {
     return trapezoids[id];
-}
+}*/
 
 
 /* Generic */

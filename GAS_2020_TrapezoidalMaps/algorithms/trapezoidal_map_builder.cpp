@@ -4,6 +4,12 @@
 
 namespace TrapezoidalMapBuilder {
 
+/**
+ * @brief evaluateSegmentInserted: incremental step
+ * @param insertedSegment
+ * @param drawableVerticalSegment
+ * @param drawableTrapezoid
+ */
 void evaluateSegmentInserted(const cg3::Segment2d& insertedSegment, DrawableVerticalSegment& drawableVerticalSegment, DrawableTrapezoid& drawableTrapezoid)
 {
     std::vector<cg3::Point2d> interestedPoints;
@@ -25,11 +31,18 @@ void evaluateSegmentInserted(const cg3::Segment2d& insertedSegment, DrawableVert
     }
 }
 
-void followSegment(const cg3::Segment2d& insertedSegment, DrawableTrapezoid& drawableTrapezoid)
+
+/**
+ * @brief followSegment: return all the trapezoids intersected by the new segment.
+ * @param insertedSegment
+ * @param drawableTrapezoid
+ */
+std::vector<Trapezoid *> followSegment(const cg3::Segment2d& insertedSegment, DrawableTrapezoid& drawableTrapezoid)
 {
     cg3::Point2d p, q;
+    std::vector<Trapezoid *> interestedTrapezoids;
 
-    /* 1. Assing p and q based on x_coordinates */
+    /* 1. Assign p and q based on x_coordinates */
     if(insertedSegment.p1().x()<insertedSegment.p2().x()){
         p = insertedSegment.p1();
         q = insertedSegment.p2();
@@ -39,16 +52,43 @@ void followSegment(const cg3::Segment2d& insertedSegment, DrawableTrapezoid& dra
         q = insertedSegment.p1();
     }
 
-    /* 2 Find the trapezoid that contains p */
-    TrapezoidalMap::Trapezoid t0 =  findTrapezoidThatContainsPoint(p, drawableTrapezoid);
+    /* 2. Find the trapezoid that contains p */
+    Trapezoid* t =  findTrapezoidThatContainsPoint(p, drawableTrapezoid);
+
+    /* 3. Check iteratively if rightP of t is interested */
+    while (q.x() < t->rightP().x()){
+
+        interestedTrapezoids.push_back(t);
+
+        double yAtRightP = PointUtils::evaluateYValue(p, q, t->rightP().x());
+
+        if (t->rightP().y() > yAtRightP){
+            t = t->getdAjacent(Trapezoid::lowerRight);
+        }
+        else {
+            t = t->getdAjacent(Trapezoid::lowerRight);
+        }
+    }
+
+    return interestedTrapezoids;
 
 }
 
-TrapezoidalMap::Trapezoid findTrapezoidThatContainsPoint(cg3::Point2d point, DrawableTrapezoid& drawableTrapezoid)
+/**
+ * @brief findTrapezoidThatContainsPoint: given a point, returns the trapezoid that contains it.
+ * @param point
+ * @param drawableTrapezoid
+ * @return
+ */
+Trapezoid* findTrapezoidThatContainsPoint(cg3::Point2d point, DrawableTrapezoid& drawableTrapezoid)
 {
 
 }
-
+/**
+ * @brief createPointExtension: given a point create the 2 extensions associated with that point.
+ * @param point
+ * @param drawableVerticalSegment
+ */
 void createPointExtension(const cg3::Point2d point, DrawableVerticalSegment& drawableVerticalSegment)
 {
     //find upper intersection

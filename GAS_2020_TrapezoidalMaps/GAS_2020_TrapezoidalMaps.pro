@@ -51,7 +51,9 @@ SOURCES +=  \
     drawables/drawable_trapezoid.cpp \
     data_structures/trapezoidalmap.cpp \
     utils/fill_color.cpp \
-    data_structures/trapezoid.cpp
+    data_structures/trapezoid.cpp \
+    utils/point_utils.cpp \
+    data_structures/dag.cpp
 
 FORMS += \
     managers/trapezoidalmapmanager.ui
@@ -67,7 +69,9 @@ HEADERS += \
     drawables/drawable_trapezoid.h \
     data_structures/trapezoidalmap.h \
     utils/fill_color.h \
-    data_structures/trapezoid.h
+    data_structures/trapezoid.h \
+    utils/point_utils.h \
+    data_structures/dag.h
 
 
 
