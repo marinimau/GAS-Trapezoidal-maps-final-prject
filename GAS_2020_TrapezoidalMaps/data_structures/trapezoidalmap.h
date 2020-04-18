@@ -38,7 +38,7 @@ public:
     /* trapezoids */
     void addTrapezoid(const Trapezoid trapezoid);
     size_t trapezoidNumber() const;
-    const std::set<Trapezoid> getTrapezoids() const;
+    const std::vector<Trapezoid> getTrapezoids() const;
     Trapezoid getTrapezoidById(size_t id) const;
 
     /* generic */
@@ -51,7 +51,7 @@ private:
     std::set<PointExtension> pointExtensions;
 
     /* trapezoids */
-    std::set<Trapezoid> trapezoids;
+    std::vector<Trapezoid> trapezoids;
 
 
     cg3::BoundingBox2 boundingBox;

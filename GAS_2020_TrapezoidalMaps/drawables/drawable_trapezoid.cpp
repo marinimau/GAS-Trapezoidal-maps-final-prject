@@ -15,7 +15,7 @@ void DrawableTrapezoid::draw() const
     cg3::Point2d topLeft, bottomLeft, topRight, bottomRight;
     for (const Trapezoid& trapezoid : getTrapezoids()) {
         std::tuple<cg3::Point2d, cg3::Point2d, cg3::Point2d, cg3::Point2d> points = trapezoid.getVertices();
-        cg3::opengl::drawQuad2(std::get<0>(points), std::get<1>(points), std::get<2>(points), std::get<3>(points), FillColor::getRandomColor(), 0, true);
+        cg3::opengl::drawQuad2(std::get<0>(points), std::get<1>(points), std::get<2>(points), std::get<3>(points), FillColor::getFillColor(trapezoid), 0, true);
     }
 }
 

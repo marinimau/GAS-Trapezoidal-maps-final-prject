@@ -1,11 +1,12 @@
 #ifndef FILL_COLOR_H
 #define FILL_COLOR_H
 
-#include <cg3/utilities/color.h>
+#include <QColor>
+#include "data_structures/trapezoid.h"
 
 namespace FillColor {
 
-    cg3::Color getRandomColor();
+    QColor getFillColor(const Trapezoid& trapezoid);
 }
 
 #endif // FILL_COLOR_H

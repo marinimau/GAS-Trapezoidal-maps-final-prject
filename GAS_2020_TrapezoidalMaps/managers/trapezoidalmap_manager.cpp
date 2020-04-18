@@ -86,6 +86,7 @@ TrapezoidalMapManager::TrapezoidalMapManager(QWidget *parent) :
     mainWindow.pushDrawableObject(&drawableVerticalSegment, "Vertical Segments");
     mainWindow.pushDrawableObject(&drawableTrapezoid, "Trapezoids");
 
+    //TrapezoidalMapBuilder::init(drawableTrapezoid, BOUNDINGBOX);
 
     //#####################################################################
 

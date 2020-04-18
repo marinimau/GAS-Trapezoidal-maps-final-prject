@@ -12,7 +12,7 @@ namespace PointUtils {
 double evaluateYValue(const cg3::Point2d a, const cg3::Point2d b, const double xValue)
 {
     double m = (b.y() - a.y()) / (b.x() - a.x());
-    return m * xValue + a.y();
+    return m * (xValue - a.x()) + a.y();
 }
 
 

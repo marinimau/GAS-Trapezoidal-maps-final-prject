@@ -82,7 +82,7 @@ TrapezoidalMap::PointExtension TrapezoidalMap::findPointExtension(const Trapezoi
  */
 void TrapezoidalMap::addTrapezoid(const Trapezoid trapezoid)
 {
-    trapezoids.insert(trapezoid);
+    trapezoids.push_back(trapezoid);
 }
 
 /**
@@ -98,7 +98,7 @@ size_t TrapezoidalMap::trapezoidNumber() const
  * @brief TrapezoidalMap::getTrapezoidsData
  * @return the raw trapezoid's data
  */
-const std::set<Trapezoid> TrapezoidalMap::getTrapezoids() const
+const std::vector<Trapezoid> TrapezoidalMap::getTrapezoids() const
 {
     return trapezoids;
 }

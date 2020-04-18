@@ -20,6 +20,8 @@ public:
     /* Getters */
     cg3::Point2d rightP() const;
     cg3::Point2d leftP() const;
+    cg3::Segment2d top() const;
+    cg3::Segment2d bottom() const;
     double getArea() const;
     const std::tuple<cg3::Point2d, cg3::Point2d, cg3::Point2d, cg3::Point2d> getVertices() const;
     const std::tuple<Trapezoid *, Trapezoid *, Trapezoid *, Trapezoid *> getAdjacents() const;
@@ -28,6 +30,15 @@ public:
     /* Setters */
     void setAdjacents(Trapezoid * rightTop, Trapezoid * leftTop, Trapezoid * leftBottom, Trapezoid * rightBottom);
     void setAdjacent(Trapezoid * adjacent, const adjacentPosition position);
+
+    /* Operator override */
+    inline bool operator < (const Trapezoid& otherTrapezoid) const
+    {
+        if (this->_leftP < otherTrapezoid._leftP) return true;
+        if (this->_leftP > otherTrapezoid._leftP) return false;
+        if (this->_rightP < otherTrapezoid._rightP) return true;
+        return false;
+    }
 
 private:
 

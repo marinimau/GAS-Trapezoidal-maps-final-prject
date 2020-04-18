@@ -12,11 +12,18 @@
 
 namespace TrapezoidalMapBuilder {
 
+/* Initialization */
+void init(DrawableTrapezoid& drawableTrapezoid, double boundingBoxDimensions);
+
+/* Insertion step */
 void evaluateSegmentInserted(const cg3::Segment2d& insertedSegment, DrawableVerticalSegment& drawableVerticalSegment, DrawableTrapezoid& drawableTrapezoid);
+cg3::Segment2d normalizeSegment(const cg3::Segment2d& insertedSegment);
 std::vector<Trapezoid *> followSegment(const cg3::Segment2d& insertedSegment);
 Trapezoid* findTrapezoidThatContainsPoint(cg3::Point2d point, DrawableTrapezoid& drawableTrapezoid);
 void createPointExtension(const cg3::Point2d point, DrawableVerticalSegment& drawableVerticalSegment);
 
+/* insertion cases */
+void simpleInsertion(const cg3::Segment2d insertedSegment, const Trapezoid& buildArea, DrawableTrapezoid& drawableTrapezoid);
 
 }
 
