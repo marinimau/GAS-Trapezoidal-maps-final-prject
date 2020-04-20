@@ -2,7 +2,7 @@
 #define TRAPEZOIDALMAP_H
 
 #include <set>
-#include <vector>
+#include <list>
 #include <utility>
 
 #include <cg3/geometry/point2.h>
@@ -38,7 +38,7 @@ public:
     /* trapezoids */
     void addTrapezoid(const Trapezoid trapezoid);
     size_t trapezoidNumber() const;
-    const std::vector<Trapezoid> getTrapezoids() const;
+    const std::list<Trapezoid> getTrapezoids() const;
     Trapezoid getTrapezoidById(size_t id) const;
 
     /* generic */
@@ -51,7 +51,7 @@ private:
     std::set<PointExtension> pointExtensions;
 
     /* trapezoids */
-    std::vector<Trapezoid> trapezoids;
+    std::list<Trapezoid> trapezoids;
 
 
     cg3::BoundingBox2 boundingBox;

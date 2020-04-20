@@ -5,22 +5,28 @@
 
 namespace FillColor {
 
-   QColor getFillColor(const Trapezoid& trapezoid)
-   {
-       int color[3];
+/**
+ * @brief getFillColor: return a QColor to fill the trapezoid, the color is calculated through
+ * 3 simple pseudo hash functions using some parameters of the trapezoid itself.
+ * This beacause if I used a random function, the color of each trapezoid would change with each step.
+ * @param trapezoid
+ * @return
+ */
+QColor getFillColor(const Trapezoid& trapezoid)
+{
+   int color[3];
 
-       assert(BASE + CONTRAST -1 <= 255);
+   assert(BASE + CONTRAST -1 <= 255);
 
-       /* like 3 hash functions: this is beacuse the color of single trapezoid must not change at each step  */
-       color[0] = BASE + (static_cast<int>(trapezoid.top().p1().y()) % CONTRAST);
-       color[1] = BASE + (static_cast<int>(trapezoid.leftP().x() + trapezoid.top().p1().y()) % CONTRAST);
-       color[2] = BASE + (static_cast<int>(trapezoid.rightP().y()) % CONTRAST);
+   color[0] = BASE + (static_cast<int>(trapezoid.top().p1().y()) % CONTRAST);
+   color[1] = BASE + (static_cast<int>(trapezoid.leftP().x() + trapezoid.top().p1().y()) % CONTRAST);
+   color[2] = BASE + (static_cast<int>(trapezoid.rightP().y() - trapezoid.bottom().p2().x()) % CONTRAST);
 
-       QColor fillColor = QColor();
-       fillColor.setRgb(color[0], color[1], color[2]);
+   QColor fillColor = QColor();
+   fillColor.setRgb(color[0], color[1], color[2]);
 
-       return fillColor;
+   return fillColor;
 
-   }
+}
 
 }

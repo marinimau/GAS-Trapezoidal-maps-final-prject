@@ -98,7 +98,7 @@ size_t TrapezoidalMap::trapezoidNumber() const
  * @brief TrapezoidalMap::getTrapezoidsData
  * @return the raw trapezoid's data
  */
-const std::vector<Trapezoid> TrapezoidalMap::getTrapezoids() const
+const std::list<Trapezoid> TrapezoidalMap::getTrapezoids() const
 {
     return trapezoids;
 }
