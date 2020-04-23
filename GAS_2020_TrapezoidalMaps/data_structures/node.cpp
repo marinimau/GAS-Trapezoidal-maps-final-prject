@@ -7,7 +7,7 @@
  * @param type
  * @param trapezoid
  */
-Node::Node(Node::nodeType type, Trapezoid * trapezoid)
+Node::Node(const Node::nodeType type, Trapezoid * trapezoid)
 {
     assert(type == Node::nodeType.t);
     _type = type;
@@ -20,7 +20,7 @@ Node::Node(Node::nodeType type, Trapezoid * trapezoid)
  * @param type
  * @param segment
  */
-Node::Node(Node::nodeType type, cg3::Segment2d * segment)
+Node::Node(const Node::nodeType type, cg3::Segment2d * segment)
 {
     assert(type == Node::nodeType.s);
     _type = type;
@@ -32,7 +32,7 @@ Node::Node(Node::nodeType type, cg3::Segment2d * segment)
  * @param type
  * @param point
  */
-Node::Node(Node::nodeType type, cg3::Point2d * point)
+Node::Node(const Node::nodeType type, cg3::Point2d * point)
 {
     assert(type == Node::nodeType.p || type == Node::nodeType.q);
     _type = type;
@@ -44,16 +44,25 @@ Node::Node(Node::nodeType type, cg3::Point2d * point)
  * @brief value, return value of the node
  * @return
  */
-void * Node::value()
+void * Node::value() const
 {
     return _value;
+}
+
+/**
+ * @brief Node::type: return the type of the node
+ * @return
+ */
+Node::nodeType Node::type() const
+{
+    return _type;
 }
 
 /**
  * @brief Node::leftChild: return the left child of current node
  * @return
  */
-Node * Node::leftChild()
+Node * Node::leftChild() const
 {
     assert(_type != t);
     return _left_child;
@@ -63,7 +72,8 @@ Node * Node::leftChild()
  * @brief Node::rightChild: return the right child of the current node
  * @return
  */
-Node * Node::rightChild(){
+Node * Node::rightChild() const
+{
     assert(_type != t);
     return _right_child;
 }
@@ -75,7 +85,7 @@ Node * Node::rightChild(){
  * @param type
  * @param trapezoid
  */
-void Node::setValue(Node::nodeType type, Trapezoid * trapezoid)
+void Node::setValue(const Node::nodeType type, Trapezoid * trapezoid)
 {
     assert(type == t);
     _type = type;
@@ -87,7 +97,7 @@ void Node::setValue(Node::nodeType type, Trapezoid * trapezoid)
  * @param type
  * @param segment
  */
-void Node::setValue(Node::nodeType type, cg3::Segment2d * segment)
+void Node::setValue(const Node::nodeType type, cg3::Segment2d * segment)
 {
     assert(type == s);
     _type = type;
@@ -99,7 +109,7 @@ void Node::setValue(Node::nodeType type, cg3::Segment2d * segment)
  * @param type
  * @param segment
  */
-void Node::setValue(Node::nodeType type, cg3::Point2d * point)
+void Node::setValue(const Node::nodeType type, cg3::Point2d * point)
 {
     assert(type == p || type == q);
     _type = type;

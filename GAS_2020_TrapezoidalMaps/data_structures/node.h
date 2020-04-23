@@ -13,21 +13,22 @@ public:
 
     /* Constructors */
 
-    Node(nodeType type, Trapezoid * trapezoid);
-    Node(nodeType type, cg3::Segment2d * segment);
-    Node(nodeType type, cg3::Point2d * point);
+    Node(const nodeType type, Trapezoid * trapezoid);
+    Node(const nodeType type, cg3::Segment2d * segment);
+    Node(const nodeType type, cg3::Point2d * point);
 
     /* Getters */
 
-    void * value();
-    Node * leftChild();
-    Node * rightChild();
+    void * value() const;
+    nodeType type() const;
+    Node * leftChild() const;
+    Node * rightChild() const;
 
     /* Setters */
 
-    void setValue(nodeType type, Trapezoid * trapezoid);
-    void setValue(nodeType type, cg3::Segment2d * segment);
-    void setValue(nodeType type, cg3::Point2d * point);
+    void setValue(const nodeType type, Trapezoid * trapezoid);
+    void setValue(const nodeType type, cg3::Segment2d * segment);
+    void setValue(const nodeType type, cg3::Point2d * point);
 
     void setLeftChild(Node * left_child);
     void setRightChild(Node * right_child);
