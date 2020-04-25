@@ -3,13 +3,21 @@
 /* Constructors */
 
 /**
+ * @brief Node::Node: default constructor
+ */
+Node::Node(){
+    _type = Node::t;
+    _value = nullptr;
+}
+
+/**
  * @brief Node::Node: costructor for a trapezoid node
  * @param type
  * @param trapezoid
  */
 Node::Node(const Node::nodeType type, Trapezoid * trapezoid)
 {
-    assert(type == Node::nodeType.t);
+    assert(type == Node::t);
     _type = type;
     _value = trapezoid;
 
@@ -22,7 +30,7 @@ Node::Node(const Node::nodeType type, Trapezoid * trapezoid)
  */
 Node::Node(const Node::nodeType type, cg3::Segment2d * segment)
 {
-    assert(type == Node::nodeType.s);
+    assert(type == Node::s);
     _type = type;
     _value = segment;
 }
@@ -34,7 +42,7 @@ Node::Node(const Node::nodeType type, cg3::Segment2d * segment)
  */
 Node::Node(const Node::nodeType type, cg3::Point2d * point)
 {
-    assert(type == Node::nodeType.p || type == Node::nodeType.q);
+    assert(type == Node::p || type == Node::q);
     _type = type;
     _value = point;
 }
@@ -64,7 +72,7 @@ Node::nodeType Node::type() const
  */
 Node * Node::leftChild() const
 {
-    assert(_type != t);
+    assert(_type != Node::t);
     return _left_child;
 }
 
@@ -74,7 +82,7 @@ Node * Node::leftChild() const
  */
 Node * Node::rightChild() const
 {
-    assert(_type != t);
+    assert(_type != Node::t);
     return _right_child;
 }
 
@@ -87,7 +95,7 @@ Node * Node::rightChild() const
  */
 void Node::setValue(const Node::nodeType type, Trapezoid * trapezoid)
 {
-    assert(type == t);
+    assert(type == Node::t);
     _type = type;
     _value = trapezoid;
 }
@@ -99,7 +107,7 @@ void Node::setValue(const Node::nodeType type, Trapezoid * trapezoid)
  */
 void Node::setValue(const Node::nodeType type, cg3::Segment2d * segment)
 {
-    assert(type == s);
+    assert(type == Node::s);
     _type = type;
     _value = segment;
 }
@@ -111,7 +119,7 @@ void Node::setValue(const Node::nodeType type, cg3::Segment2d * segment)
  */
 void Node::setValue(const Node::nodeType type, cg3::Point2d * point)
 {
-    assert(type == p || type == q);
+    assert(type == Node::p || type == Node::q);
     _type = type;
     _value = point;
 }
@@ -122,7 +130,7 @@ void Node::setValue(const Node::nodeType type, cg3::Point2d * point)
  */
 void Node::setLeftChild(Node * left_child)
 {
-    assert(_type != t);
+    assert(_type != Node::t);
     _left_child = left_child;
 }
 
@@ -132,7 +140,7 @@ void Node::setLeftChild(Node * left_child)
  */
 void Node::setRightChild(Node * right_child)
 {
-    assert(_type != t);
+    assert(_type != Node::t);
     _right_child = right_child;
 
 }

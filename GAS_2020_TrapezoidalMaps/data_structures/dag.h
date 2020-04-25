@@ -9,16 +9,20 @@ class Dag {
 public:
 
     /* Constructors */
-    Dag(Node * root);
-    Node * find(Node * current, cg3::Point2d query) const;
+    Dag(Node root);
+    Node * find(Node * current, const cg3::Point2d query) const;
 
     /* Getters */
-    Node * root() const;
+    Node root() const;
+    Node * rootRef();
+
+    /* Setters */
+    void setRoot(Node root);
 
 
 private:
 
-    Node * _root;
+    Node _root;
 
 };
 

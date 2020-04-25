@@ -45,6 +45,7 @@ SOURCES +=  \
     drawables/drawable_trapezoidalmap_dataset.cpp \
     main.cpp \
     managers/trapezoidalmap_manager.cpp \
+    utils/consistence_checker.cpp \
     utils/fileutils.cpp \
     algorithms/trapezoidal_map_builder.cpp \
     drawables/drawable_vertical_segment.cpp \
@@ -64,6 +65,7 @@ HEADERS += \
     data_structures/trapezoidalmap_dataset.h \
     drawables/drawable_trapezoidalmap_dataset.h \
     managers/trapezoidalmap_manager.h \
+    utils/consistence_checker.h \
     utils/fileutils.h \
     algorithms/trapezoidal_map_builder.h \
     drawables/drawable_vertical_segment.h \

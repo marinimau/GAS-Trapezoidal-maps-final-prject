@@ -15,6 +15,7 @@
 /* my import */
 #include "drawables/drawable_vertical_segment.h"
 #include "drawables/drawable_trapezoid.h"
+#include "data_structures/dag.h"
 #include "algorithms/trapezoidal_map_builder.h"
 
 namespace Ui {
@@ -68,6 +69,8 @@ private:
     /* Drawable for the trapezoidal map's trapezoids */
     DrawableTrapezoid drawableTrapezoid;
 
+    /* Dag */
+    Dag * dag;
 
     //#####################################################################
 

@@ -13,6 +13,7 @@ public:
 
     /* Constructors */
 
+    Node();
     Node(const nodeType type, Trapezoid * trapezoid);
     Node(const nodeType type, cg3::Segment2d * segment);
     Node(const nodeType type, cg3::Point2d * point);
