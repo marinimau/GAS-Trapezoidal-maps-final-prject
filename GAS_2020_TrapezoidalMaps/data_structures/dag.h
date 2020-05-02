@@ -9,20 +9,28 @@ class Dag {
 public:
 
     /* Constructors */
-    Dag(Node root);
-    Node * find(Node * current, const cg3::Point2d query) const;
+    Dag();
+
+    /* Destructors */
+    ~Dag();
+    void clear(Node * current);
+    void clearIntermediateNodes(Node * current);
 
     /* Getters */
-    Node root() const;
-    Node * rootRef();
+    Node * root();
 
     /* Setters */
-    void setRoot(Node root);
+    void setRoot(Node * root);
 
+    /* Others */
+    Node * find(Node * current, const cg3::Point2d query) const;
+
+    /* Debug */
+    void inOrderVisit(Node * current);
 
 private:
 
-    Node _root;
+    Node * _root;
 
 };
 

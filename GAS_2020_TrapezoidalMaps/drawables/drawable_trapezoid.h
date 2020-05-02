@@ -30,10 +30,14 @@ public:
     unsigned int getBoundarySize() const;
     void setBoundarySize(unsigned int value);
 
+    void storeQueryResult(Trapezoid * result);
+
 private:
 
     cg3::Color fillColor;
     unsigned int boundarySize;
+    size_t trapezoidsCountWhenQuery;
+    Trapezoid * queryResult;
 
 };
 

@@ -70,7 +70,7 @@ double Trapezoid::getArea() const
 }
 
 /**
- * @brief Trapezoid::getPoints return a tuple that contains the trapezoids points
+ * @brief Trapezoid::getVertices return a tuple that contains the trapezoids points
  * in counter-clockwise order starting from topright
  * @return
  */

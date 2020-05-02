@@ -16,7 +16,9 @@
 #include "drawables/drawable_vertical_segment.h"
 #include "drawables/drawable_trapezoid.h"
 #include "data_structures/dag.h"
-#include "algorithms/trapezoidal_map_builder.h"
+#include "data_structures/node.h"
+#include "algorithms/trapezoidalmap_builder.h"
+#include "algorithms/trapezoidalmap_query.h"
 
 namespace Ui {
     class TrapezoidalMapManager;

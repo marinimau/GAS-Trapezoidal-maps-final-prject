@@ -82,10 +82,10 @@ TrapezoidalMapManager::TrapezoidalMapManager(QWidget *parent) :
     //and re-drawing it again. See how we implemented the drawing of the bounding box and 
     //the dataset.
 
-
     mainWindow.pushDrawableObject(&drawableVerticalSegment, "Vertical Segments");
     mainWindow.pushDrawableObject(&drawableTrapezoid, "Trapezoids");
 
+    dag = new Dag();
 
     //#####################################################################
 
@@ -142,6 +142,7 @@ TrapezoidalMapManager::~TrapezoidalMapManager()
     //Try to AVOID using dynamic objects whenever it is possible (it will
     //be evaluated!)
 
+    delete dag;
 
 
 
@@ -196,6 +197,9 @@ void TrapezoidalMapManager::addSegmentToTrapezoidalMap(const cg3::Segment2d& seg
     //efficient in memory. However, depending on how you implement your algorithms and data 
 	//structures, you could save directly the point (Point2d) in each trapezoid (it is fine).
 
+    if(dag == NULL){
+         dag = new Dag();
+    }
 
      TrapezoidalMapBuilder::evaluateSegmentInserted(segment, drawableVerticalSegment, drawableTrapezoid, dag);
 
@@ -234,7 +238,13 @@ void TrapezoidalMapManager::queryTrapezoidalMap(const cg3::Point2d& queryPoint)
     //TrapezoidalMap and DAG are two separate general purpose data structures that an algorithm uses.
     //THINK ABOUT YOUR STRUCTURE BEFORE WRITING CODE!
 
-
+    Trapezoid * result = TrapezoidalmapQuery::pointQuery(queryPoint, dag);
+    if(result == nullptr){
+        printf("in bounding box");
+    }
+    else {
+        drawableTrapezoid.storeQueryResult(result);
+    }
 
 
     //#####################################################################
@@ -268,6 +278,11 @@ void TrapezoidalMapManager::clearTrapezoidalMap()
     //Clear here your trapezoidal map data structure.
     drawableVerticalSegment.clear();
     drawableTrapezoid.clear();
+
+    dag->clear(dag->root());
+    dag->setRoot(nullptr);
+
+
     //#####################################################################
 }
 

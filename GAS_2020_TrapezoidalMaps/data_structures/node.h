@@ -9,14 +9,17 @@ class Node
 {
 public:
 
-   enum nodeType {p, q, s, t};
+    enum nodeType {p, q, s, t};
 
     /* Constructors */
 
     Node();
-    Node(const nodeType type, Trapezoid * trapezoid);
-    Node(const nodeType type, cg3::Segment2d * segment);
-    Node(const nodeType type, cg3::Point2d * point);
+    Node(Trapezoid * trapezoid);
+    Node(cg3::Segment2d * segment);
+    Node(const nodeType& type, cg3::Point2d * point);
+
+    /* destructors */
+    ~Node();
 
     /* Getters */
 
@@ -27,19 +30,21 @@ public:
 
     /* Setters */
 
-    void setValue(const nodeType type, Trapezoid * trapezoid);
-    void setValue(const nodeType type, cg3::Segment2d * segment);
+    void setValue(Trapezoid * trapezoid);
+    void setValue(cg3::Segment2d * segment);
     void setValue(const nodeType type, cg3::Point2d * point);
 
     void setLeftChild(Node * left_child);
     void setRightChild(Node * right_child);
 
+    /* node can't change type, leaf node (type == t) can't have childs */
+
 private:
 
     nodeType _type;
     void * _value;
-    Node * _left_child;
-    Node * _right_child;
+    Node *_leftChild;
+    Node * _rightChild;
 
 };
 
