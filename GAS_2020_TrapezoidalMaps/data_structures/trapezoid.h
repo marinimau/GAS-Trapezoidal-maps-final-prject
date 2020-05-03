@@ -8,6 +8,9 @@
 #include <cg3/geometry/bounding_box2.h>
 #include "utils/point_utils.h"
 
+/* Because i can't include Node here and Trapezoid in Node */
+class Node;
+
 class Trapezoid {
 
 public:
@@ -26,10 +29,14 @@ public:
     const std::tuple<cg3::Point2d, cg3::Point2d, cg3::Point2d, cg3::Point2d> getVertices() const;
     const std::tuple<Trapezoid *, Trapezoid *, Trapezoid *, Trapezoid *> getAdjacents() const;
     Trapezoid * getdAjacent(const adjacentPosition position);
+    bool active() const;
+    Node * dagRef() const;
 
     /* Setters */
     void setAdjacents(Trapezoid * rightTop, Trapezoid * leftTop, Trapezoid * leftBottom, Trapezoid * rightBottom);
     void setAdjacent(Trapezoid * adjacent, const adjacentPosition position);
+    void deactivate();
+    void setDagRef(Node * ref);
 
     /* Operator override */
     inline bool operator < (const Trapezoid& otherTrapezoid) const
@@ -54,6 +61,13 @@ private:
     Trapezoid * _lb;
     Trapezoid * _rb;
 
+    /* active */
+    bool _active;
+
+    /* Node */
+    Node * _dagRef;
+    /* 2-way reference can cause inconsistence, but allow to access in O(1)
+     * at the dag leaf after the execution of followSegment */
 
 };
 

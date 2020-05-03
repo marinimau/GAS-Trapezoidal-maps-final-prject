@@ -86,7 +86,7 @@ TrapezoidalMapManager::TrapezoidalMapManager(QWidget *parent) :
     mainWindow.pushDrawableObject(&drawableTrapezoid, "Trapezoids");
 
     dag = new Dag();
-
+    TrapezoidalMapBuilder::init(drawableTrapezoid, dag);
     //#####################################################################
 
 
@@ -281,6 +281,8 @@ void TrapezoidalMapManager::clearTrapezoidalMap()
 
     dag->clear(dag->root());
     dag->setRoot(nullptr);
+
+    TrapezoidalMapBuilder::init(drawableTrapezoid, dag);
 
 
     //#####################################################################

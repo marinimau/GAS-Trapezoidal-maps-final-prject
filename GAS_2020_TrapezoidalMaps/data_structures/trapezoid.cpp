@@ -15,6 +15,8 @@ Trapezoid::Trapezoid(const cg3::Segment2d top, const cg3::Segment2d bottom, cons
     _bottom = bottom;
     _leftP = leftP;
     _rightP = rightP;
+    _active = true;
+    _dagRef = nullptr;
 }
 
 
@@ -117,6 +119,24 @@ Trapezoid * Trapezoid::getdAjacent(const Trapezoid::adjacentPosition position)
     return nullptr;
 }
 
+/**
+ * @brief Trapezoid::active
+ * @return
+ */
+bool Trapezoid::active() const
+{
+    return _active;
+}
+
+/**
+ * @brief Trapezoid::dagRef return the node of dag that point to the trapezoid
+ * @return
+ */
+Node * Trapezoid::dagRef() const
+{
+    return _dagRef;
+}
+
 
 /* Setters */
 
@@ -158,3 +178,19 @@ void Trapezoid::setAdjacent(Trapezoid * adjacent, const adjacentPosition positio
     }
 }
 
+/**
+ * @brief Trapezoid::deactivate: marks trapezoid for elimination
+ */
+void Trapezoid::deactivate()
+{
+    _active = false;
+}
+
+/**
+ * @brief Trapezoid::setDagRef
+ * @param ref
+ */
+void Trapezoid::setDagRef(Node *ref)
+{
+    _dagRef = ref;
+}

@@ -22,6 +22,7 @@ public:
 
     /* trapezoids */
     void addTrapezoid(Trapezoid * trapezoid);
+    void deleteTrapezoid(Trapezoid * trapezoid);
     size_t trapezoidNumber() const;
     const std::list<Trapezoid *> getTrapezoids() const;
 

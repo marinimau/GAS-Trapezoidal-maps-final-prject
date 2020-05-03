@@ -2,6 +2,7 @@
 #define TRAPEZOIDALMAPBUILDER_H
 
 #include <list>
+#include <vector>
 #include <cg3/geometry/point2.h>
 #include <cg3/geometry/segment2.h>
 
@@ -16,12 +17,14 @@
 namespace TrapezoidalMapBuilder {
 
 /* Initialization */
-Trapezoid boundingBox();
+Trapezoid * boundingBox();
+void init(DrawableTrapezoid& drawableTrapezoid, Dag * dag);
 
 /* Insertion step */
 cg3::Segment2d normalizeSegment(const cg3::Segment2d& insertedSegment);
 void evaluateSegmentInserted(const cg3::Segment2d& insertedSegment, DrawableVerticalSegment& drawableVerticalSegment, DrawableTrapezoid& drawableTrapezoid, Dag * dag);
-std::list<Trapezoid *> followSegment(const cg3::Segment2d& normalizedSegment, Dag * dag);
+std::vector<Trapezoid *> followSegment(const cg3::Segment2d& normalizedSegment, Dag * dag);
+Node * createLeafNode(Trapezoid * t);
 
 /* insertion cases */
 Node * simpleInsertion(const cg3::Segment2d insertedSegment, const Trapezoid& buildArea, DrawableTrapezoid& drawableTrapezoid);
