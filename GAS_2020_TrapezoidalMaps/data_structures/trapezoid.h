@@ -28,7 +28,7 @@ public:
     double getArea() const;
     const std::tuple<cg3::Point2d, cg3::Point2d, cg3::Point2d, cg3::Point2d> getVertices() const;
     const std::tuple<Trapezoid *, Trapezoid *, Trapezoid *, Trapezoid *> getAdjacents() const;
-    Trapezoid * getdAjacent(const adjacentPosition position);
+    Trapezoid * getAdjacent(const adjacentPosition position) const;
     bool active() const;
     Node * dagRef() const;
 

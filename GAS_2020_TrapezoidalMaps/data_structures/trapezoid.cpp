@@ -17,6 +17,12 @@ Trapezoid::Trapezoid(const cg3::Segment2d top, const cg3::Segment2d bottom, cons
     _rightP = rightP;
     _active = true;
     _dagRef = nullptr;
+
+    /* Adjacents trapezoids */
+    _rt = nullptr;
+    _lt = nullptr;
+    _lb = nullptr;
+    _rb = nullptr;
 }
 
 
@@ -104,7 +110,7 @@ const std::tuple<Trapezoid *, Trapezoid *, Trapezoid *, Trapezoid *> Trapezoid::
  * @param position
  * @return
  */
-Trapezoid * Trapezoid::getdAjacent(const Trapezoid::adjacentPosition position)
+Trapezoid * Trapezoid::getAdjacent(const Trapezoid::adjacentPosition position) const
 {
     switch (position) {
         case upperRight:

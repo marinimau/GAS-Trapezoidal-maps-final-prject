@@ -6,7 +6,7 @@
  * @brief DrawableTrapezoid::DrawableTrapezoid
  */
 DrawableTrapezoid::DrawableTrapezoid():
-    fillColor(255,255,0),
+    _lineColor(255,0,0),
     boundarySize(0)
 {
 
@@ -17,22 +17,21 @@ DrawableTrapezoid::DrawableTrapezoid():
  */
 void DrawableTrapezoid::draw() const
 {
-    QColor red = QColor(255,0,0);
     size_t trapezoidCount = trapezoidNumber();
 
     for (const Trapezoid* trapezoid : getTrapezoids()) {
         if(trapezoid->active()){
             std::tuple<cg3::Point2d, cg3::Point2d, cg3::Point2d, cg3::Point2d> vertices = trapezoid->getVertices();
 
-            /* temporaneo */
-            cg3::opengl::drawLine2(std::get<1>(vertices), std::get<2>(vertices), red, static_cast<int>(1));
-            cg3::opengl::drawLine2(std::get<0>(vertices), std::get<3>(vertices), red, static_cast<int>(1));
+            /* vertical lines */
+            drawVerticalLine(vertices);
 
+            /* trapezoids */
             if(trapezoidCount == trapezoidsCountWhenQuery && trapezoid == queryResult){
-                cg3::opengl::drawQuad2(std::get<0>(vertices), std::get<1>(vertices), std::get<2>(vertices), std::get<3>(vertices), red, 0, true);
+                drawTrapezoid(vertices, _lineColor);
             }
             else {
-                cg3::opengl::drawQuad2(std::get<0>(vertices), std::get<1>(vertices), std::get<2>(vertices), std::get<3>(vertices), FillColor::getFillColor(*(trapezoid)), 0, true);
+                drawTrapezoid(vertices, FillColor::getFillColor(*(trapezoid)));
             }
         }
         else {
@@ -65,18 +64,18 @@ double DrawableTrapezoid::sceneRadius() const
  * @brief DrawableTrapezoid::getFillColor
  * @return
  */
-const cg3::Color& DrawableTrapezoid::getFillColor() const
+const cg3::Color& DrawableTrapezoid::lineColor() const
 {
-    return fillColor;
+    return _lineColor;
 }
 
 /**
  * @brief DrawableTrapezoid::setFillColor
  * @param value
  */
-void DrawableTrapezoid::setFillColor(const cg3::Color &value)
+void DrawableTrapezoid::setLineColor(const cg3::Color &value)
 {
-    fillColor = value;
+    _lineColor = value;
 }
 
 /**
@@ -109,5 +108,25 @@ void DrawableTrapezoid::storeQueryResult(Trapezoid * result)
     trapezoidsCountWhenQuery = trapezoidNumber();
     queryResult = result;
 }
+
+/**
+ * @brief DrawableTrapezoid::drawTrapezoid
+ * @param vertices
+ */
+inline void DrawableTrapezoid::drawTrapezoid(const std::tuple<cg3::Point2d, cg3::Point2d, cg3::Point2d, cg3::Point2d>& vertices, const QColor& fillColor) const
+{
+    cg3::opengl::drawQuad2(std::get<0>(vertices), std::get<1>(vertices), std::get<2>(vertices), std::get<3>(vertices), fillColor, 0, true);
+}
+
+/**
+ * @brief drawVerticalLine
+ * @param vertices
+ */
+inline void DrawableTrapezoid::drawVerticalLine(const std::tuple<cg3::Point2d, cg3::Point2d, cg3::Point2d, cg3::Point2d>& vertices) const
+{
+    cg3::opengl::drawLine2(std::get<1>(vertices), std::get<2>(vertices), _lineColor, static_cast<int>(1));
+    cg3::opengl::drawLine2(std::get<0>(vertices), std::get<3>(vertices), _lineColor, static_cast<int>(1));
+}
+
 
 

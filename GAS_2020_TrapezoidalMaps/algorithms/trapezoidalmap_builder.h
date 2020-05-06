@@ -24,10 +24,20 @@ void init(DrawableTrapezoid& drawableTrapezoid, Dag * dag);
 cg3::Segment2d normalizeSegment(const cg3::Segment2d& insertedSegment);
 void evaluateSegmentInserted(const cg3::Segment2d& insertedSegment, DrawableVerticalSegment& drawableVerticalSegment, DrawableTrapezoid& drawableTrapezoid, Dag * dag);
 std::vector<Trapezoid *> followSegment(const cg3::Segment2d& normalizedSegment, Dag * dag);
+Node * find(Node * current, const cg3::Point2d query);
 Node * createLeafNode(Trapezoid * t);
 
 /* insertion cases */
-Node * simpleInsertion(const cg3::Segment2d insertedSegment, const Trapezoid& buildArea, DrawableTrapezoid& drawableTrapezoid);
+Node * simpleInsertion(const cg3::Segment2d insertedSegment, Trapezoid * buildArea, DrawableTrapezoid& drawableTrapezoid);
+Node * twoInterestedTrapezoidInsertion(const cg3::Segment2d insertedSegment, std::vector<Trapezoid *>& buildArea, DrawableTrapezoid& drawableTrapezoid);
+
+Node * leftOfMultipleInsertion(const cg3::Segment2d insertedSegment, const Trapezoid& buildArea, DrawableTrapezoid& drawableTrapezoid);
+Node * intermediateOfMultiple(const cg3::Segment2d insertedSegment, const Trapezoid& buildArea, DrawableTrapezoid& drawableTrapezoid);
+Node * rightOfMultipleInsertion(const cg3::Segment2d insertedSegment, const Trapezoid& buildArea, DrawableTrapezoid& drawableTrapezoid);
+
+/* Neighbor Adjacency */
+void setNeighborOfNeighborLeftSide(Trapezoid * insertedLeft, Trapezoid * buildArea);
+void setNeighborOfNeighborRightSide(Trapezoid * inseretedRight, Trapezoid * buildArea);
 
 }
 

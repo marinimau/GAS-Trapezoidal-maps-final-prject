@@ -23,9 +23,7 @@ public:
     void setRoot(Node * root);
 
     /* Others */
-    Node * find(Node * current, const cg3::Point2d query) const;
     void deleteTrapezoid(Node * trapezoid);
-    Node * replaceLeafNode(Node current, Trapezoid target);
 
     /* Debug */
     void inOrderVisit(Node * current);

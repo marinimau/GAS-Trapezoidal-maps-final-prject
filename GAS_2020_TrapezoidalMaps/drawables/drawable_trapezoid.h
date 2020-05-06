@@ -24,17 +24,20 @@ public:
     cg3::Point3d sceneCenter() const;
     double sceneRadius() const;
 
-    const cg3::Color& getFillColor() const;
-    void setFillColor(const cg3::Color& value);
+    const cg3::Color& lineColor() const;
+    void setLineColor(const cg3::Color& value);
 
     unsigned int getBoundarySize() const;
     void setBoundarySize(unsigned int value);
 
     void storeQueryResult(Trapezoid * result);
 
+    inline void drawTrapezoid(const std::tuple<cg3::Point2d, cg3::Point2d, cg3::Point2d, cg3::Point2d>& vertices, const QColor& fillColor) const;
+    inline void drawVerticalLine(const std::tuple<cg3::Point2d, cg3::Point2d, cg3::Point2d, cg3::Point2d>& vertices) const;
+
 private:
 
-    cg3::Color fillColor;
+    cg3::Color _lineColor;
     unsigned int boundarySize;
     size_t trapezoidsCountWhenQuery;
     Trapezoid * queryResult;

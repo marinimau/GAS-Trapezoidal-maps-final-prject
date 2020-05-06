@@ -238,7 +238,7 @@ void TrapezoidalMapManager::queryTrapezoidalMap(const cg3::Point2d& queryPoint)
     //TrapezoidalMap and DAG are two separate general purpose data structures that an algorithm uses.
     //THINK ABOUT YOUR STRUCTURE BEFORE WRITING CODE!
 
-    Trapezoid * result = TrapezoidalmapQuery::pointQuery(queryPoint, dag);
+    Trapezoid * result = TrapezoidalmapQuery::pointQuery(queryPoint, dag->root());
     if(result == nullptr){
         printf("in bounding box");
     }
