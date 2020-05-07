@@ -36,8 +36,8 @@ Node * intermediateOfMultiple(const cg3::Segment2d insertedSegment, const Trapez
 Node * rightOfMultipleInsertion(const cg3::Segment2d insertedSegment, const Trapezoid& buildArea, DrawableTrapezoid& drawableTrapezoid);
 
 /* Neighbor Adjacency */
-void setNeighborOfNeighborLeftSide(Trapezoid * insertedLeft, Trapezoid * buildArea);
-void setNeighborOfNeighborRightSide(Trapezoid * inseretedRight, Trapezoid * buildArea);
+void setNeighborOfNeighborLeftSide(Trapezoid * insertedLeftUpper, Trapezoid * insertedLeftLower, Trapezoid * buildArea);
+void setNeighborOfNeighborRightSide(Trapezoid * inseretedRightUpper, Trapezoid * insertedRightLower, Trapezoid * buildArea);
 
 }
 

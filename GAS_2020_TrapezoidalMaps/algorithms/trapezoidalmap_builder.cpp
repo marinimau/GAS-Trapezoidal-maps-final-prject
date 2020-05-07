@@ -55,13 +55,14 @@ void evaluateSegmentInserted(const cg3::Segment2d& insertedSegment, DrawableVert
 
         Node * insertionRoot = interestedTrapezoid[0]->dagRef();
         delete insertionRoot;
-         interestedTrapezoid[0]->deactivate();
         *(insertionRoot) = *(simpleInsertion(normalizedSegment, interestedTrapezoid[0], drawableTrapezoid));
+
 
     }
     /* 2.b the new segment intersects more than one trapezoid */
     else {
         if(interestedTrapezoid.size() == 2){
+
             twoInterestedTrapezoidInsertion(normalizedSegment, interestedTrapezoid, drawableTrapezoid);
         }
 
@@ -90,12 +91,10 @@ void evaluateSegmentInserted(const cg3::Segment2d& insertedSegment, DrawableVert
  */
 cg3::Segment2d normalizeSegment(const cg3::Segment2d& insertedSegment)
 {
-    if(insertedSegment.p1().x() < insertedSegment.p2().x()){
-        return cg3::Segment2d(insertedSegment.p1(), insertedSegment.p2());
-    }
-    else {
+    if(insertedSegment.p1().x() > insertedSegment.p2().x()){
         return cg3::Segment2d(insertedSegment.p2(), insertedSegment.p1());
     }
+    return insertedSegment;
 }
 
 
@@ -111,7 +110,8 @@ std::vector<Trapezoid *> followSegment(const cg3::Segment2d& normalizedSegment, 
     std::vector<Trapezoid *> interestedTrapezoids;
 
     /* Search with p in the search strucutre D to find T */
-    Trapezoid * t = TrapezoidalmapQuery::pointQuery(p, dag->root());
+    bool isDegenere = false;
+    Trapezoid * t = TrapezoidalmapQuery::pointQuery(p, dag->root(), isDegenere);
     /* insert the first trapezoid */
     interestedTrapezoids.push_back(t);
 
@@ -119,6 +119,7 @@ std::vector<Trapezoid *> followSegment(const cg3::Segment2d& normalizedSegment, 
     while (t != nullptr && q.x() > t->rightP().x()){
 
         double yAtRightP = PointUtils::evaluateYValue(p, q, t->rightP().x());
+
         if (t->rightP().y() > yAtRightP){
             t = t->getAdjacent(Trapezoid::lowerRight);
         }
@@ -126,9 +127,11 @@ std::vector<Trapezoid *> followSegment(const cg3::Segment2d& normalizedSegment, 
             t = t->getAdjacent(Trapezoid::upperRight);
         }
 
+
         /* insert trapezoid */
         interestedTrapezoids.push_back(t);
     }
+
 
     return interestedTrapezoids;
 
@@ -161,57 +164,130 @@ Node * createLeafNode(Trapezoid * t)
  */
 Node * simpleInsertion(const cg3::Segment2d insertedSegment, Trapezoid * buildArea, DrawableTrapezoid& drawableTrapezoid)
 {
-    Trapezoid * tLeft = new Trapezoid(buildArea->top(), buildArea->bottom(), buildArea->leftP(), insertedSegment.p1());
+
+    /* center trapezoids */
     Trapezoid * tCenterTop = new Trapezoid(buildArea->top(), insertedSegment, insertedSegment.p1(), insertedSegment.p2());
     Trapezoid * tCenterBottom = new Trapezoid(insertedSegment, buildArea->bottom(), insertedSegment.p1(), insertedSegment.p2());
-    Trapezoid * tRight = new Trapezoid(buildArea->top(), buildArea->bottom(), insertedSegment.p2(), buildArea->rightP());
+
+
+    /* left and right trapezoids, not always needed */
+    Trapezoid * tLeft = nullptr;
+    Trapezoid * tRight = nullptr;
+
+    /* if inserted segment.p1.x != buildArea.leftP.x build left trapezoid */
+    if(!PointUtils::checkDegenere(insertedSegment.p1(), buildArea->leftP())){
+        tLeft = new Trapezoid(buildArea->top(), buildArea->bottom(), buildArea->leftP(), insertedSegment.p1());
+    }
+    /* if inserted segment.p2.x != buildArea.rightP.x build right trapezoid */
+    if(!PointUtils::checkDegenere(insertedSegment.p2(), buildArea->rightP())){
+        tRight = new Trapezoid(buildArea->top(), buildArea->bottom(), insertedSegment.p2(), buildArea->rightP());
+    }
+
 
     #ifdef QT_DEBUG
     // Check coinsistence (it can degrade the performance)
     std::list<Trapezoid *> before = {buildArea};
-    std::list<Trapezoid *> after = {tLeft, tCenterTop, tCenterBottom, tRight};
+    std::list<Trapezoid *> after = {tCenterTop, tCenterBottom};
+
+    if(tLeft != nullptr){
+        after.push_back(tLeft);
+    }
+    if(tRight != nullptr){
+        after.push_back(tRight);
+    }
 
     assert(ConsistenceChecker::equalArea(before, after));
+
 
     #endif
 
     /* Adjacents trapezoid */
-    tLeft->setAdjacents(tCenterTop, buildArea->getAdjacent(Trapezoid::upperLeft), buildArea->getAdjacent(Trapezoid::lowerLeft), tCenterBottom);
-    tCenterTop->setAdjacents(tRight, tLeft, tLeft, tRight);
-    tCenterBottom->setAdjacents(tRight, tLeft, tLeft, tRight);
-    tRight->setAdjacents(buildArea->getAdjacent(Trapezoid::upperRight), tCenterTop, tCenterBottom, buildArea->getAdjacent(Trapezoid::lowerRight));
+    if(tLeft != nullptr){
 
-    /* Update adjacency in neighborhood */
-    /* left */
-    setNeighborOfNeighborLeftSide(tLeft, buildArea);
-    /* right */
-    //setNeighborOfNeighborRightSide(tRight, buildArea);
+        tLeft->setAdjacents(tCenterTop, buildArea->getAdjacent(Trapezoid::upperLeft), buildArea->getAdjacent(Trapezoid::lowerLeft), tCenterBottom);
+
+
+        tCenterTop->setAdjacent(tLeft, Trapezoid::upperLeft);
+        tCenterTop->setAdjacent(tLeft, Trapezoid::lowerLeft);
+
+        tCenterBottom->setAdjacent(tLeft, Trapezoid::upperLeft);
+        tCenterBottom->setAdjacent(tLeft, Trapezoid::lowerLeft);
+
+        setNeighborOfNeighborLeftSide(tLeft, tLeft, buildArea);
+
+    }
+    else {
+
+        tCenterTop->setAdjacent(buildArea->getAdjacent(Trapezoid::upperLeft), Trapezoid::upperLeft);
+        tCenterTop->setAdjacent(buildArea->getAdjacent(Trapezoid::upperLeft), Trapezoid::lowerLeft);
+
+        tCenterBottom->setAdjacent(buildArea->getAdjacent(Trapezoid::lowerLeft), Trapezoid::upperLeft);
+        tCenterBottom->setAdjacent(buildArea->getAdjacent(Trapezoid::lowerLeft), Trapezoid::lowerLeft);
+
+        setNeighborOfNeighborLeftSide(tCenterTop, tCenterBottom, buildArea);
+    }
+    if(tRight != nullptr){
+
+        tRight->setAdjacents(buildArea->getAdjacent(Trapezoid::upperRight), tCenterTop, tCenterBottom, buildArea->getAdjacent(Trapezoid::lowerRight));
+
+        tCenterTop->setAdjacent(tRight, Trapezoid::upperRight);
+        tCenterTop->setAdjacent(tRight, Trapezoid::lowerRight);
+
+        tCenterBottom->setAdjacent(tRight, Trapezoid::upperRight);
+        tCenterBottom->setAdjacent(tRight, Trapezoid::lowerRight);
+
+        setNeighborOfNeighborRightSide(tRight, tRight, buildArea);
+
+    }
+    else {
+
+        tCenterTop->setAdjacent(buildArea->getAdjacent(Trapezoid::upperRight), Trapezoid::upperRight);
+        tCenterTop->setAdjacent(buildArea->getAdjacent(Trapezoid::upperRight), Trapezoid::lowerRight);
+
+        tCenterBottom->setAdjacent(buildArea->getAdjacent(Trapezoid::lowerRight), Trapezoid::upperRight);
+        tCenterBottom->setAdjacent(buildArea->getAdjacent(Trapezoid::lowerRight), Trapezoid::lowerRight);
+
+        setNeighborOfNeighborRightSide(tCenterTop, tCenterBottom, buildArea);
+
+
+    }
 
     /* Trapezoidal Map */
-    drawableTrapezoid.addTrapezoid(tLeft);
+    if(tLeft != nullptr){
+        drawableTrapezoid.addTrapezoid(tLeft);
+    }
+    if(tRight != nullptr){
+        drawableTrapezoid.addTrapezoid(tRight);
+    }
     drawableTrapezoid.addTrapezoid(tCenterTop);
     drawableTrapezoid.addTrapezoid(tCenterBottom);
-    drawableTrapezoid.addTrapezoid(tRight);
+
 
 
     /* Dag */
     /* root */
     Node * insertionRoot = new Node(Node::p, new cg3::Point2d(insertedSegment.p1().x(), insertedSegment.p1().y()));
     /* root > left */
-    insertionRoot->setLeftChild(createLeafNode(tLeft));
+    if(tLeft != nullptr){
+        insertionRoot->setLeftChild(createLeafNode(tLeft));
+    }
      /* root > right */
     insertionRoot->setRightChild(new Node(Node::q, new cg3::Point2d(insertedSegment.p2().x(), insertedSegment.p2().y())));
     /* root > right > left */
     insertionRoot->rightChild()->setLeftChild(new Node(new cg3::Segment2d(insertedSegment.p1(), insertedSegment.p2())));
     /* root > right > right */
-    insertionRoot->rightChild()->setRightChild(createLeafNode(tRight));
+    if(tRight != nullptr){
+        insertionRoot->rightChild()->setRightChild(createLeafNode(tRight));
+    }
     /* root > right > left > left */
     insertionRoot->rightChild()->leftChild()->setLeftChild(createLeafNode(tCenterTop));
     /* root > right > left > right */
     insertionRoot->rightChild()->leftChild()->setRightChild(createLeafNode(tCenterBottom));
 
-    assert(insertionRoot->leftChild()->type() == Node::t);
 
+
+    /* deactivate old trapezoid */
+    buildArea->deactivate();
 
     return insertionRoot;
 }
@@ -237,8 +313,9 @@ Node * twoInterestedTrapezoidInsertion(const cg3::Segment2d insertedSegment, std
 
 
     /* between tLeft and tRight there are 3 trapezoid. There are 2 possible configuration according to the u of buildArea[0].rightP */
-    if(buildArea[0]->rightP().y() <= PointUtils::evaluateYValue(insertedSegment.p1(), insertedSegment.p2(), buildArea[0]->rightP().x())){
+    bool segmentAboveRightP = buildArea[0]->rightP().y() <= PointUtils::evaluateYValue(insertedSegment.p1(), insertedSegment.p2(), buildArea[0]->rightP().x());
 
+    if(segmentAboveRightP){
         tCenter1 = new Trapezoid(buildArea[0]->top(), insertedSegment, insertedSegment.p1(), insertedSegment.p2());
         tCenter2 = new Trapezoid(insertedSegment, buildArea[0]->bottom(), insertedSegment.p1(), buildArea[0]->rightP());
         tCenter3 = new Trapezoid(insertedSegment, buildArea[1]->bottom(), buildArea[1]->leftP(), insertedSegment.p2());
@@ -268,6 +345,41 @@ Node * twoInterestedTrapezoidInsertion(const cg3::Segment2d insertedSegment, std
     drawableTrapezoid.addTrapezoid(tCenter3);
     drawableTrapezoid.addTrapezoid(tRight);
 
+    /* Dag */
+
+    /* Substitute buildArea[0]->dagRef() */
+
+    /* root: substitute trapezoid with insertedSegment.p1 */
+
+    /* root > left_child: tLeft */
+
+    /* root > right_child: inserted_segment */
+
+    /* root > right_child > left_child > tCenter1 */
+
+    /* root > right_child > right_child > tCenter2 */
+
+
+    /* Substitute buildArea[1]->dagRef() */
+
+    /* root: substitute trapezoid with insertedSegment.p2 */
+
+    /* root > right_child: tRight */
+
+    /* root > left_child: inserted_segment */
+
+    if(segmentAboveRightP){
+        /* root > left_child > left_child > tCenter1 */
+
+        /* root > left_child > right_child > tCenter3 */
+    }
+    else {
+        /* root > left_child > left_child > tCenter3 */
+
+        /* root > left_child > right_child > tCenter2 */
+    }
+
+
     /* deactivate other */
     buildArea[0]->deactivate();
     buildArea[1]->deactivate();
@@ -282,7 +394,7 @@ Node * twoInterestedTrapezoidInsertion(const cg3::Segment2d insertedSegment, std
  * @param insertedLeft
  * @param buildArea
  */
-void setNeighborOfNeighborLeftSide(Trapezoid * insertedLeft, Trapezoid * buildArea)
+void setNeighborOfNeighborLeftSide(Trapezoid * insertedLeftUpper, Trapezoid * insertedLeftLower, Trapezoid * buildArea)
 {
     Trapezoid * upperLeft = buildArea->getAdjacent(Trapezoid::upperLeft);
     Trapezoid * lowerLeft = buildArea->getAdjacent(Trapezoid::lowerLeft);
@@ -290,19 +402,19 @@ void setNeighborOfNeighborLeftSide(Trapezoid * insertedLeft, Trapezoid * buildAr
     if(upperLeft != nullptr){
         /* resolve upperLeft */
         if (upperLeft->getAdjacent(Trapezoid::upperRight) == buildArea){
-            upperLeft->setAdjacent(insertedLeft, Trapezoid::upperRight);
+            upperLeft->setAdjacent(insertedLeftUpper, Trapezoid::upperRight);
         }
         if (upperLeft->getAdjacent(Trapezoid::lowerRight) == buildArea){
-            upperLeft->setAdjacent(insertedLeft, Trapezoid::lowerRight);
+            upperLeft->setAdjacent(insertedLeftUpper, Trapezoid::lowerRight);
         }
     }
     if(lowerLeft != nullptr){
         /* resolve lowerLeft */
-        if (lowerLeft->getAdjacent(Trapezoid::upperRight) == buildArea){
-            lowerLeft->setAdjacent(insertedLeft, Trapezoid::upperRight);
+        if (lowerLeft->getAdjacent(Trapezoid::upperRight) == buildArea && lowerLeft != upperLeft){
+            lowerLeft->setAdjacent(insertedLeftLower, Trapezoid::upperRight);
         }
         if (lowerLeft->getAdjacent(Trapezoid::lowerRight) == buildArea){
-            lowerLeft->setAdjacent(insertedLeft, Trapezoid::lowerRight);
+            lowerLeft->setAdjacent(insertedLeftLower, Trapezoid::lowerRight);
         }
     }
 
@@ -313,7 +425,7 @@ void setNeighborOfNeighborLeftSide(Trapezoid * insertedLeft, Trapezoid * buildAr
  * @param insertedRight
  * @param buildArea
  */
-void setNeighborOfNeighborRightSide(Trapezoid * insertedRight, Trapezoid * buildArea)
+void setNeighborOfNeighborRightSide(Trapezoid * insertedRightUpper, Trapezoid * insertedRightLower, Trapezoid * buildArea)
 {
     Trapezoid * upperRight = buildArea->getAdjacent(Trapezoid::upperRight);
     Trapezoid * lowerRight = buildArea->getAdjacent(Trapezoid::lowerRight);
@@ -321,20 +433,20 @@ void setNeighborOfNeighborRightSide(Trapezoid * insertedRight, Trapezoid * build
     if(upperRight != nullptr){
         /* resolve upperLeft */
         if (upperRight->getAdjacent(Trapezoid::upperLeft) == buildArea){
-            upperRight->setAdjacent(insertedRight, Trapezoid::upperLeft);
+            upperRight->setAdjacent(insertedRightUpper, Trapezoid::upperLeft);
         }
         if (upperRight->getAdjacent(Trapezoid::lowerLeft) == buildArea){
-            upperRight->setAdjacent(insertedRight, Trapezoid::lowerLeft);
+            upperRight->setAdjacent(insertedRightUpper, Trapezoid::lowerLeft);
         }
     }
 
     if(lowerRight != nullptr){
         /* resolve lowerLeft */
-        if (lowerRight->getAdjacent(Trapezoid::upperLeft) == buildArea){
-            lowerRight->setAdjacent(insertedRight, Trapezoid::upperLeft);
+        if (lowerRight->getAdjacent(Trapezoid::upperLeft) == buildArea && lowerRight != upperRight){
+            lowerRight->setAdjacent(insertedRightLower, Trapezoid::upperLeft);
         }
         if (lowerRight->getAdjacent(Trapezoid::lowerLeft) == buildArea){
-            lowerRight->setAdjacent(insertedRight, Trapezoid::lowerLeft);
+            lowerRight->setAdjacent(insertedRightLower, Trapezoid::lowerLeft);
         }
     }
 }

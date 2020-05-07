@@ -15,5 +15,16 @@ double evaluateYValue(const cg3::Point2d a, const cg3::Point2d b, const double x
     return m * (xValue - a.x()) + a.y();
 }
 
+/**
+ * @brief checkDegenere: return true if point have the same x (for this purpose check y is not needed)
+ * @param p1
+ * @param p2
+ * @return
+ */
+bool checkDegenere(const cg3::Point2d& p1, const cg3::Point2d& p2)
+{
+    return (fabs(p1.x() - p2.x()) <= std::numeric_limits<double>::epsilon());
+}
+
 
 }
