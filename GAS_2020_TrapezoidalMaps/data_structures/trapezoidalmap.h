@@ -21,10 +21,10 @@ public:
     TrapezoidalMap();
 
     /* trapezoids */
-    void addTrapezoid(Trapezoid * trapezoid);
+    Trapezoid * addTrapezoid(Trapezoid trapezoid);
     void deleteTrapezoid(Trapezoid * trapezoid);
     size_t trapezoidNumber() const;
-    const std::list<Trapezoid *> getTrapezoids() const;
+    const std::list<Trapezoid> getTrapezoids() const;
 
     /* generic */
     const cg3::BoundingBox2& getBoundingBox() const;
@@ -33,7 +33,7 @@ public:
 private:
 
     /* trapezoids */
-    std::list<Trapezoid *> trapezoids;
+    std::list<Trapezoid> trapezoids;
 
     cg3::BoundingBox2 boundingBox;
 

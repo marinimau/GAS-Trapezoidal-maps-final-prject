@@ -7,6 +7,7 @@
  */
 DrawableTrapezoid::DrawableTrapezoid():
     _lineColor(255,0,0),
+    _queryAreaColor(0,0,255),
     boundarySize(0)
 {
 
@@ -19,19 +20,19 @@ void DrawableTrapezoid::draw() const
 {
     size_t trapezoidCount = trapezoidNumber();
 
-    for (const Trapezoid* trapezoid : getTrapezoids()) {
-        if(trapezoid->active()){
-            std::tuple<cg3::Point2d, cg3::Point2d, cg3::Point2d, cg3::Point2d> vertices = trapezoid->getVertices();
+    for (const Trapezoid  trapezoid : getTrapezoids()) {
+        if(trapezoid.active()){
+            std::tuple<cg3::Point2d, cg3::Point2d, cg3::Point2d, cg3::Point2d> vertices = trapezoid.getVertices();
 
             /* vertical lines */
             drawVerticalLine(vertices);
 
             /* trapezoids */
-            if(trapezoidCount == trapezoidsCountWhenQuery && trapezoid == queryResult){
-                drawTrapezoid(vertices, _lineColor);
+            if(trapezoidCount == trapezoidsCountWhenQuery && trapezoid == *(queryResult)){
+                drawTrapezoid(vertices, _queryAreaColor);
             }
             else {
-                drawTrapezoid(vertices, FillColor::getFillColor(*(trapezoid)));
+                drawTrapezoid(vertices, FillColor::getFillColor(trapezoid));
             }
         }
         else {

@@ -11,16 +11,16 @@ namespace ConsistenceChecker {
  * @param olds
  * @return
  */
-bool equalArea(const std::list<Trapezoid *> before, const std::list<Trapezoid *> after)
+bool equalArea(const std::list<Trapezoid> before, const std::list<Trapezoid> after)
 {
     double before_area = 0, after_area = 0;
 
     for (auto const& b : before) {
-        before_area += b->getArea();
+        before_area += b.getArea();
     }
 
     for (auto const& a : after) {
-        after_area += a->getArea();
+        after_area += a.getArea();
     }
 
     return fabs(before_area - after_area) < (std::numeric_limits<double>::epsilon() + TOLLERANCE);

@@ -16,36 +16,17 @@ Dag::Dag()
  */
 Dag::~Dag()
 {
-    clear(_root);
+    clear();
 
 }
 
 /**
  * @brief Dag::clear: recursive destructor
  */
-void Dag::clear(Node * current)
+void Dag::clear()
 {
-    if(current != NULL){
-        if(current->type() != Node::t){
-            clear(current->leftChild());
-            clear(current->rightChild());
-        }
-        delete current;
-    }
-}
-
-/**
- * @brief Dag::clearIntermediateNodes: given a node destroy all its
- * childs except leaf nodes, leafs can be reached by other nodes.
- * @param current
- */
-void Dag::clearIntermediateNodes(Node * current)
-{
-    if(current != NULL && current->type() != Node::t){
-        clear(current->leftChild());
-        clear(current->rightChild());
-        delete current;
-    }
+    _root = nullptr;
+    nodes.clear();
 }
 
 
@@ -69,6 +50,29 @@ Node * Dag::root()
 void Dag::setRoot(Node * root)
 {
     _root = root;
+}
+
+/* Others */
+
+/**
+ * @brief addNode
+ * @param node
+ * @return
+ */
+Node * Dag::addNode(Node node)
+{
+    nodes.push_back(node);
+    return &nodes.back();
+
+}
+
+/**
+ * @brief Dag::deleteLeaf
+ * @param trapezoid
+ */
+void Dag::deleteLeaf(Node * leaf)
+{
+
 }
 
 /* Debug */

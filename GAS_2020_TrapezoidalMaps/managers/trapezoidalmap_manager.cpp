@@ -280,7 +280,7 @@ void TrapezoidalMapManager::clearTrapezoidalMap()
     drawableVerticalSegment.clear();
     drawableTrapezoid.clear();
 
-    dag->clear(dag->root());
+    dag->clear();
     dag->setRoot(nullptr);
 
     TrapezoidalMapBuilder::init(drawableTrapezoid, dag);

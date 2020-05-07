@@ -6,7 +6,7 @@
 
 namespace ConsistenceChecker {
 
-bool equalArea(const std::list<Trapezoid *> before, const std::list<Trapezoid *> after);
+bool equalArea(const std::list<Trapezoid> before, const std::list<Trapezoid> after);
 
 };
 

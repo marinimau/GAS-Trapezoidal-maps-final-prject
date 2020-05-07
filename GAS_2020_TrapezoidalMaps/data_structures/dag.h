@@ -3,6 +3,7 @@
 
 #include "data_structures/node.h"
 #include <cg3/geometry/point2.h>
+#include <list>
 
 class Dag {
 
@@ -13,8 +14,7 @@ public:
 
     /* Destructors */
     ~Dag();
-    void clear(Node * current);
-    void clearIntermediateNodes(Node * current);
+    void clear();
 
     /* Getters */
     Node * root();
@@ -23,7 +23,8 @@ public:
     void setRoot(Node * root);
 
     /* Others */
-    void deleteTrapezoid(Node * trapezoid);
+    Node * addNode(Node node);
+    void deleteLeaf(Node * leaf);
 
     /* Debug */
     void inOrderVisit(Node * current);
@@ -31,6 +32,7 @@ public:
 private:
 
     Node * _root;
+    std::list<Node> nodes;
 
 };
 

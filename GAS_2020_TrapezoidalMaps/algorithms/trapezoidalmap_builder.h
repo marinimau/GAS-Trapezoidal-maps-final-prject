@@ -17,7 +17,7 @@
 namespace TrapezoidalMapBuilder {
 
 /* Initialization */
-Trapezoid * boundingBox();
+Trapezoid boundingBox();
 void init(DrawableTrapezoid& drawableTrapezoid, Dag * dag);
 
 /* Insertion step */
@@ -25,10 +25,10 @@ cg3::Segment2d normalizeSegment(const cg3::Segment2d& insertedSegment);
 void evaluateSegmentInserted(const cg3::Segment2d& insertedSegment, DrawableVerticalSegment& drawableVerticalSegment, DrawableTrapezoid& drawableTrapezoid, Dag * dag);
 std::vector<Trapezoid *> followSegment(const cg3::Segment2d& normalizedSegment, Dag * dag);
 Node * find(Node * current, const cg3::Point2d query);
-Node * createLeafNode(Trapezoid * t);
+Node * createLeafNode(Trapezoid * t, Dag * dag);
 
 /* insertion cases */
-Node * simpleInsertion(const cg3::Segment2d insertedSegment, Trapezoid * buildArea, DrawableTrapezoid& drawableTrapezoid);
+Node * simpleInsertion(const cg3::Segment2d insertedSegment, Trapezoid * buildArea, DrawableTrapezoid& drawableTrapezoid, Dag * dag);
 Node * twoInterestedTrapezoidInsertion(const cg3::Segment2d insertedSegment, std::vector<Trapezoid *>& buildArea, DrawableTrapezoid& drawableTrapezoid);
 
 Node * leftOfMultipleInsertion(const cg3::Segment2d insertedSegment, const Trapezoid& buildArea, DrawableTrapezoid& drawableTrapezoid);

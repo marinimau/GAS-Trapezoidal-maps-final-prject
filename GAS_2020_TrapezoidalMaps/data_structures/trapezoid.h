@@ -47,6 +47,15 @@ public:
         return false;
     }
 
+    inline bool operator == (const Trapezoid& otherTrapezoid) const
+    {
+        return(
+                    this->leftP() == otherTrapezoid.leftP() &&
+                    this->rightP() == otherTrapezoid.rightP() &&
+                    this->top() == otherTrapezoid.top() &&
+                    this->bottom() == otherTrapezoid.bottom());
+    }
+
 private:
 
     /* Points */

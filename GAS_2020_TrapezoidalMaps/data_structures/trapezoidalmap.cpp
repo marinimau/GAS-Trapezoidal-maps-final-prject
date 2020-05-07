@@ -15,19 +15,20 @@ TrapezoidalMap::TrapezoidalMap() :
 /* Trapezoids */
 
 /**
- * @brief TrapezoidalMap::addTrapezoid
+ * @brief TrapezoidalMap::addTrapezoid add a trapezoid and return the ref of the trapezoid inserted.
  * @param trapezoid (the trapezoid object to insert)
  * @param trapezoidInserted (flag)
- * @return the id of the trapezoid inserted or an arbitry number in case of error.
+ * @return
  */
-void TrapezoidalMap::addTrapezoid(Trapezoid * trapezoid)
+Trapezoid * TrapezoidalMap::addTrapezoid(Trapezoid trapezoid)
 {
     trapezoids.push_back(trapezoid);
+    return &trapezoids.back();
 }
 
 /**
- * @brief TrapezoidalMap::trapezoidNumber
- * @return the size of the array that contains the trapezoids
+ * @brief TrapezoidalMap::trapezoidNumber returns the size of the array that contains the trapezoids
+ * @return
  */
 size_t TrapezoidalMap::trapezoidNumber() const
 {
@@ -35,10 +36,10 @@ size_t TrapezoidalMap::trapezoidNumber() const
 }
 
 /**
- * @brief TrapezoidalMap::getTrapezoidsData
- * @return the raw trapezoid's data
+ * @brief TrapezoidalMap::getTrapezoidsData returns  the raw trapezoid's data
+ * @return
  */
-const std::list<Trapezoid *> TrapezoidalMap::getTrapezoids() const
+const std::list<Trapezoid> TrapezoidalMap::getTrapezoids() const
 {
     return trapezoids;
 }
@@ -46,8 +47,8 @@ const std::list<Trapezoid *> TrapezoidalMap::getTrapezoids() const
 /* Generic */
 
 /**
- * @brief TrapezoidalMap::getBoundingBox
- * @return the boundingBox
+ * @brief TrapezoidalMap::getBoundingBox returns the boundingBox
+ * @return
  */
 const cg3::BoundingBox2& TrapezoidalMap::getBoundingBox() const
 {
@@ -59,8 +60,5 @@ const cg3::BoundingBox2& TrapezoidalMap::getBoundingBox() const
  */
 void TrapezoidalMap::clear()
 {
-    for(auto t: trapezoids) {
-        delete t;
-    }
     trapezoids.clear();
 }

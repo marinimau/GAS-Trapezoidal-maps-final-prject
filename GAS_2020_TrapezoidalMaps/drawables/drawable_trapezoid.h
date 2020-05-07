@@ -38,6 +38,7 @@ public:
 private:
 
     cg3::Color _lineColor;
+    cg3::Color _queryAreaColor;
     unsigned int boundarySize;
     size_t trapezoidsCountWhenQuery;
     Trapezoid * queryResult;
