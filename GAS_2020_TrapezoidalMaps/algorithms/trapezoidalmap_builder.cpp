@@ -132,6 +132,11 @@ std::vector<Trapezoid *> followSegment(const cg3::Segment2d& normalizedSegment, 
         interestedTrapezoids.push_back(t);
     }
 
+    if(isDegenere && interestedTrapezoids.size() == 1){
+        /* this solve some anomalies */
+        interestedTrapezoids[0] = TrapezoidalmapQuery::pointQuery(q, dag->root(), isDegenere);
+    }
+
 
     return interestedTrapezoids;
 
