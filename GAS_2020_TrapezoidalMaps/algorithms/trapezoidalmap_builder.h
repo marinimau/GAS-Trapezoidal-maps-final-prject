@@ -17,23 +17,37 @@
 
 namespace TrapezoidalMapBuilder {
 
-/* Initialization */
+/*-------------------------------------------------------------------------*
+ *
+ * Initialization
+ *
+ *-------------------------------------------------------------------------*/
 Trapezoid boundingBox();
 void init(DrawableTrapezoid& drawableTrapezoid, Dag * dag);
 
-/* Insertion step */
+/*-------------------------------------------------------------------------*
+ *
+ * Insertion step
+ *
+ *-------------------------------------------------------------------------*/
 void evaluateSegmentInserted(const cg3::Segment2d& insertedSegment, DrawableVerticalSegment& drawableVerticalSegment, DrawableTrapezoid& drawableTrapezoid, Dag * dag);
 cg3::Segment2d normalizeSegment(const cg3::Segment2d& insertedSegment);
 std::vector<Trapezoid *> followSegment(const cg3::Segment2d& normalizedSegment, Dag * dag);
 Node * createLeafNode(Trapezoid * t, Dag * dag);
 
-Node * find(Node * current, const cg3::Point2d query);
-
-/* insertion cases */
+/*-------------------------------------------------------------------------*
+ *
+ * Insertion Cases
+ *
+ *-------------------------------------------------------------------------*/
 void simpleInsertion(const cg3::Segment2d& insertedSegment, std::vector<Trapezoid *>& buildArea, DrawableTrapezoid& drawableTrapezoid, Dag * dag);
 void twoInterestedTrapezoidsInsertion(const cg3::Segment2d& insertedSegment, std::vector<Trapezoid *>& buildArea, DrawableTrapezoid& drawableTrapezoid, Dag * dag);
 
-/* Trapezoid creation step */
+/*-------------------------------------------------------------------------*
+ *
+ * Trapezoid creation step
+ *
+ *-------------------------------------------------------------------------*/
 /* General */
 std::tuple<Trapezoid *, Trapezoid *> addLeftAndRightTrapezoid(const cg3::Segment2d& insertedSegment, std::vector<Trapezoid *>& buildArea, DrawableTrapezoid& drawableTrapezoid);
 Trapezoid * addLeftTrapezoid(const cg3::Segment2d& insertedSegment, const Trapezoid& buildArea, DrawableTrapezoid& drawableTrapezoid);
@@ -42,18 +56,30 @@ Trapezoid * addRightTrapezoid(const cg3::Segment2d& insertedSegment, const Trape
 /* Center trapezoids in 2 interested trapezoid insertion case */
 std::tuple<Trapezoid *, Trapezoid *, Trapezoid *> twoInterestedTrapezoidsBuldCenterTrapezoids(const cg3::Segment2d& insertedSegment, std::vector<Trapezoid *>& buildArea, DrawableTrapezoid& drawableTrapezoid, bool& segmentAboveRightP);
 
-/* Adjacency steps */
+/*-------------------------------------------------------------------------*
+ *
+ * Adjacency update step
+ *
+ *-------------------------------------------------------------------------*/
 
 /* simple case (1 interested trapezoid) */
 void simpleCaseBuildAdjacency(Trapezoid * tLeft, Trapezoid * tRight, Trapezoid * tCenterTop, Trapezoid * tCenterBottom, const Trapezoid& buildArea);
 void simpleCaseAdjacencyLeft(Trapezoid * tLeft, Trapezoid * tCenterBottom, Trapezoid * tCenterTop, const Trapezoid & buildArea);
 void simpleCaseAdjacencyRight(Trapezoid * tRight, Trapezoid * tCenterBottom, Trapezoid * tCenterTop, const Trapezoid & buildArea);
 
+/* twoIntewrestedTrapezoids Adjacency */
+void twoInterestedTrapezoidsBuildAdjacency(Trapezoid * tLeft, Trapezoid * tRight, Trapezoid * tCenter1, Trapezoid * tCenter2, Trapezoid * tCenter3, const std::vector<Trapezoid*>& buildArea, const bool& segmentAboveRightP);
+inline int twoInterestedTrapezoidsEvaluateAdjacencyCase(const std::vector<Trapezoid*>& buildArea, const bool& segmentAboveRightP);
+
 /* Neighbor Adjacency step */
 void setNeighborOfNeighborLeftSide(Trapezoid * insertedLeftUpper, Trapezoid * insertedLeftLower, const Trapezoid& buildArea);
 void setNeighborOfNeighborRightSide(Trapezoid * inseretedRightUpper, Trapezoid * insertedRightLower, const Trapezoid& buildArea);
 
-/* Dag update */
+/*-------------------------------------------------------------------------*
+ *
+ * Dag update step
+ *
+ *-------------------------------------------------------------------------*/
 void simpleCaseDagUpdate(const cg3::Segment2d& insertedSegment, Trapezoid * tLeft, Trapezoid * tRight, Trapezoid * tCenterTop, Trapezoid * tCenterBottom, Trapezoid * buildArea, Dag * dag);
 void twoInterestedTrapezoidsDagUpdate(const cg3::Segment2d& insertedSegment, Trapezoid * tLeft, Trapezoid * tRight, Trapezoid * tCenter1, Trapezoid * tCenter2, Trapezoid * tCenter3, std::vector<Trapezoid *>& buildArea, Dag * dag, const bool& segmentAboveRightP);
 }

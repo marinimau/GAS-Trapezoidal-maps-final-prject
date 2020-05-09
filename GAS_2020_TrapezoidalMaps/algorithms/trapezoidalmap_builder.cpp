@@ -5,7 +5,11 @@
 namespace TrapezoidalMapBuilder {
 
 
-/* Initializaiton */
+/*-------------------------------------------------------------------------*
+ *
+ * Initialization
+ *
+ *-------------------------------------------------------------------------*/
 /**
  * @brief boundingBox() return the boundingBox
  * @return
@@ -18,6 +22,7 @@ Trapezoid boundingBox()
     cg3::Point2d bottomRight = cg3::Point2d(BOUNDINGBOX, -BOUNDINGBOX);
     return Trapezoid(cg3::Segment2d(topLeft, topRight), cg3::Segment2d(bottomLeft, bottomRight), topLeft, bottomRight);
 }
+
 
 /**
  * @brief init: setup of dag and trapezoidal map
@@ -32,6 +37,7 @@ void init(DrawableTrapezoid& drawableTrapezoid, Dag * dag)
     Trapezoid * bBoxRef = drawableTrapezoid.addTrapezoid(bBox);
     dag->setRoot(createLeafNode(bBoxRef, dag));
 }
+
 
 /* Insertion step */
 /**
@@ -51,7 +57,7 @@ void evaluateSegmentInserted(const cg3::Segment2d& insertedSegment, DrawableVert
     std::vector<Trapezoid *> interestedTrapezoid = followSegment(normalizedSegment, dag);
 
     /* 2.a Simple insertion */
-    if(interestedTrapezoid.size()==1){
+    if(interestedTrapezoid.size() == 1){
         simpleInsertion(normalizedSegment, interestedTrapezoid, drawableTrapezoid, dag);
     }
 
@@ -123,7 +129,6 @@ std::vector<Trapezoid *> followSegment(const cg3::Segment2d& normalizedSegment, 
             t = t->getAdjacent(Trapezoid::upperRight);
         }
 
-
         /* insert trapezoid */
         interestedTrapezoids.push_back(t);
     }
@@ -133,9 +138,7 @@ std::vector<Trapezoid *> followSegment(const cg3::Segment2d& normalizedSegment, 
         interestedTrapezoids[0] = TrapezoidalmapQuery::pointQuery(q, dag->root(), isDegenere);
     }
 
-
     return interestedTrapezoids;
-
 }
 
 
@@ -155,7 +158,11 @@ Node * createLeafNode(Trapezoid * t, Dag * dag)
 }
 
 
-/* Insertion cases */
+/*-------------------------------------------------------------------------*
+ *
+ * Insertion Cases
+ *
+ *-------------------------------------------------------------------------*/
 
 /**
  * @brief simpleInsertion: Base case, the new segment is fully contained in a unique trapezoid (or there are not any other segments)
@@ -223,26 +230,19 @@ void twoInterestedTrapezoidsInsertion(const cg3::Segment2d& insertedSegment, std
     Trapezoid * tCenter2 = std::get<1>(centerTrapezoids);
     Trapezoid * tCenter3 = std::get<2>(centerTrapezoids);
 
-
-    if(segmentAboveRightP)
-    {
-        /* Adjacents */
-        tRight->setAdjacents(buildArea[1]->getAdjacent(Trapezoid::upperRight), tCenter1, tCenter3, buildArea[1]->getAdjacent(Trapezoid::lowerRight));
-
-    }
-    else {
-        /* Adjacents */
-        tRight->setAdjacents(buildArea[1]->getAdjacent(Trapezoid::upperRight), tCenter3, tCenter2, buildArea[1]->getAdjacent(Trapezoid::lowerRight));
-    }
-
-    /* Adjacent  equals in both cases */
-    tLeft->setAdjacents(tCenter1, buildArea[0]->getAdjacent(Trapezoid::upperLeft), buildArea[0]->getAdjacent(Trapezoid::lowerLeft), tCenter2);
+    /* Adjacency update */
+    twoInterestedTrapezoidsBuildAdjacency(tLeft, tRight, tCenter1, tCenter2, tCenter3, buildArea, segmentAboveRightP);
 
     /* Dag update */
     twoInterestedTrapezoidsDagUpdate(insertedSegment, tLeft, tRight, tCenter1, tCenter2, tCenter3, buildArea, dag, segmentAboveRightP);
 }
 
-/* Trapezoid creation step */
+
+/*-------------------------------------------------------------------------*
+ *
+ * Trapezoid creation step
+ *
+ *-------------------------------------------------------------------------*/
 
 /* general */
 
@@ -330,7 +330,11 @@ std::tuple<Trapezoid *, Trapezoid *, Trapezoid *> twoInterestedTrapezoidsBuldCen
 }
 
 
-/* Adjacency step */
+/*-------------------------------------------------------------------------*
+ *
+ * Adjacency update step
+ *
+ *-------------------------------------------------------------------------*/
 
 /* simple case */
 
@@ -349,6 +353,7 @@ void simpleCaseBuildAdjacency(Trapezoid * tLeft, Trapezoid * tRight, Trapezoid *
     /* right step */
     simpleCaseAdjacencyRight(tRight, tCenterBottom, tCenterTop, buildArea);
 }
+
 
 /**
  * @brief simpleCaseAdjacencyLeft build the adjacency for the simple insertion case: left step
@@ -376,6 +381,7 @@ void simpleCaseAdjacencyLeft(Trapezoid * tLeft, Trapezoid * tCenterBottom, Trape
     }
 }
 
+
 /**
  * @brief simpleCaseAdjacencyRight build the adjacency for the simple insertion case: right step
  * @param tRight
@@ -399,6 +405,88 @@ void simpleCaseAdjacencyRight(Trapezoid * tRight, Trapezoid * tCenterBottom, Tra
         tCenterBottom->setAdjacent(buildArea.getAdjacent(Trapezoid::lowerRight), Trapezoid::upperRight);
         tCenterBottom->setAdjacent(buildArea.getAdjacent(Trapezoid::lowerRight), Trapezoid::lowerRight);
         setNeighborOfNeighborRightSide(tCenterTop, tCenterBottom, buildArea);
+    }
+}
+
+
+/* twoIntewrestedTrapezoids Adjacency */
+
+/**
+ * @brief twoInterestedTrapezoidsBuildAdjacency build the adjacency for the twoInterestedTrapezoids insertion case
+ * @param tLeft
+ * @param tRight
+ * @param tCenter1
+ * @param tCenter2
+ * @param tCenter3
+ * @param buildArea
+ * @param segmentAboveRightP
+ */
+void twoInterestedTrapezoidsBuildAdjacency(Trapezoid * tLeft, Trapezoid * tRight, Trapezoid * tCenter1, Trapezoid * tCenter2, Trapezoid * tCenter3, const std::vector<Trapezoid*>& buildArea, const bool& segmentAboveRightP)
+{
+    /* If tLeft and tRight != null */
+    switch(twoInterestedTrapezoidsEvaluateAdjacencyCase(buildArea, segmentAboveRightP)){
+        case 1:
+            tLeft->setAdjacents(tCenter1, buildArea[0]->getAdjacent(Trapezoid::upperLeft), buildArea[0]->getAdjacent(Trapezoid::lowerLeft), tCenter2);
+            tCenter1->setAdjacents(tRight, tLeft, tLeft, tRight);
+            tCenter2->setAdjacents(tCenter3, tLeft, tLeft, buildArea[0]->getAdjacent(Trapezoid::lowerRight));
+            tCenter3->setAdjacents(tRight, tCenter2, tCenter2, tRight);
+            tRight->setAdjacents(buildArea[1]->getAdjacent(Trapezoid::upperRight), tCenter1, tCenter3, buildArea[1]->getAdjacent(Trapezoid::lowerRight));
+        break;
+
+        case 2:
+            tLeft->setAdjacents(tCenter1, buildArea[0]->getAdjacent(Trapezoid::upperLeft), buildArea[0]->getAdjacent(Trapezoid::lowerLeft), tCenter2);
+            tCenter1->setAdjacents(buildArea[0]->getAdjacent(Trapezoid::upperRight), tLeft, tLeft, tCenter3);
+            tCenter2->setAdjacents(tRight, tLeft, tLeft, tRight);
+            tCenter3->setAdjacents(tRight, tCenter1, tCenter1, tRight);
+            tRight->setAdjacents(buildArea[1]->getAdjacent(Trapezoid::upperRight), tCenter3, tCenter2, buildArea[1]->getAdjacent(Trapezoid::lowerRight));
+        break;
+
+        case 3:
+            tLeft->setAdjacents(tCenter1, buildArea[0]->getAdjacent(Trapezoid::upperLeft), buildArea[0]->getAdjacent(Trapezoid::lowerLeft), tCenter2);
+            tCenter1->setAdjacents(tRight, tLeft, tLeft, tRight);
+            tCenter2->setAdjacents(tCenter3, tLeft, tLeft, tCenter3);
+            tCenter3->setAdjacents(tRight, tCenter2, buildArea[1]->getAdjacent(Trapezoid::lowerLeft), tRight);
+            tRight->setAdjacents(buildArea[1]->getAdjacent(Trapezoid::upperRight), tCenter1, tCenter3, buildArea[1]->getAdjacent(Trapezoid::lowerRight));
+        break;
+
+        case 4:
+            tLeft->setAdjacents(tCenter1, buildArea[0]->getAdjacent(Trapezoid::upperLeft), buildArea[0]->getAdjacent(Trapezoid::lowerLeft), tCenter2);
+            tCenter1->setAdjacents(tCenter3, tLeft, tLeft, tCenter3);
+            tCenter2->setAdjacents(tRight, tLeft, tLeft, tRight);
+            tCenter3->setAdjacents(tRight, buildArea[1]->getAdjacent(Trapezoid::upperLeft), tCenter1, tRight);
+            tRight->setAdjacents(buildArea[1]->getAdjacent(Trapezoid::upperRight), tCenter3, tCenter2, buildArea[1]->getAdjacent(Trapezoid::lowerRight));
+        break;
+    }
+
+    setNeighborOfNeighborLeftSide(tLeft, tLeft, *buildArea[0]);
+    setNeighborOfNeighborRightSide(tRight, tRight, *buildArea[1]);
+}
+
+
+/**
+ * @brief twoInterestedTrapezoidsEvaluateAdjacencyCase: there are 4 possible variants of case 2
+ *  this function evaluates in which case we are.
+ * @param buildArea
+ * @param segmentAboveRightP
+ * @return
+ */
+inline int twoInterestedTrapezoidsEvaluateAdjacencyCase(const std::vector<Trapezoid*>& buildArea, const bool& segmentAboveRightP)
+{
+    if(segmentAboveRightP){
+        if(buildArea[0]->bottom().p2().y() < buildArea[1]->bottom().p1().y()){
+            return 1;
+        }
+        else {
+            return 3;
+        }
+    }
+    else {
+        if(buildArea[0]->top().p2().y() > buildArea[1]->top().p1().y()){
+            return 2;
+        }
+        else {
+            return 4;
+        }
     }
 }
 
@@ -436,6 +524,7 @@ void setNeighborOfNeighborLeftSide(Trapezoid * insertedLeftUpper, Trapezoid * in
 
 }
 
+
 /**
  * @brief setNeighborOfNeighborRightSide
  * @param insertedRight
@@ -468,7 +557,11 @@ void setNeighborOfNeighborRightSide(Trapezoid * insertedRightUpper, Trapezoid * 
 }
 
 
-/* Dag update */
+/*-------------------------------------------------------------------------*
+ *
+ * Dag update step
+ *
+ *-------------------------------------------------------------------------*/
 
 /**
  * @brief simpleCaseDagUpdate: dag update for the simple case insertion, only a leaf is substituted
@@ -507,6 +600,18 @@ void simpleCaseDagUpdate(const cg3::Segment2d& insertedSegment, Trapezoid * tLef
 }
 
 
+/**
+ * @brief twoInterestedTrapezoidsDagUpdate: update the dag for twoInterestedTrapezoidsInsertion case (2 leaf interested)
+ * @param insertedSegment
+ * @param tLeft
+ * @param tRight
+ * @param tCenter1
+ * @param tCenter2
+ * @param tCenter3
+ * @param buildArea
+ * @param dag
+ * @param segmentAboveRightP
+ */
 void twoInterestedTrapezoidsDagUpdate(const cg3::Segment2d& insertedSegment, Trapezoid * tLeft, Trapezoid * tRight, Trapezoid * tCenter1, Trapezoid * tCenter2, Trapezoid * tCenter3, std::vector<Trapezoid *>& buildArea, Dag * dag, const bool& segmentAboveRightP)
 {
     /* Dag */
@@ -515,13 +620,13 @@ void twoInterestedTrapezoidsDagUpdate(const cg3::Segment2d& insertedSegment, Tra
     /* root: substitute trapezoid with insertedSegment.p1 */
     Node * insertionRoot1 = dag->addNode(Node(Node::p, new cg3::Point2d(insertedSegment.p1().x(), insertedSegment.p1().y())));
     /* root > left_child: tLeft */
-    insertionRoot1->setLeftChild(dag->addNode(Node(tLeft)));
+    insertionRoot1->setLeftChild(createLeafNode(tLeft, dag));
     /* root > right_child: inserted_segment */
     insertionRoot1->setRightChild(dag->addNode(Node(new cg3::Segment2d(insertedSegment.p1(), insertedSegment.p2()))));
     /* root > right_child > left_child > tCenter1 */
-    insertionRoot1->rightChild()->setLeftChild(dag->addNode(Node(tCenter1)));
+    insertionRoot1->rightChild()->setLeftChild(createLeafNode(tCenter1, dag));
     /* root > right_child > right_child > tCenter2 */
-    insertionRoot1->rightChild()->setRightChild(dag->addNode(Node(tCenter2)));
+    insertionRoot1->rightChild()->setRightChild(createLeafNode(tCenter2, dag));
 
     // replace node
     buildArea[0]->deactivate();
@@ -532,21 +637,21 @@ void twoInterestedTrapezoidsDagUpdate(const cg3::Segment2d& insertedSegment, Tra
     /* root: substitute trapezoid with insertedSegment.p2 */
     Node * insertionRoot2 = dag->addNode(Node(Node::p, new cg3::Point2d(insertedSegment.p2().x(), insertedSegment.p2().y())));
     /* root > right_child: tRight */
-    insertionRoot2->setRightChild(dag->addNode(Node(tRight)));
+    insertionRoot2->setRightChild(createLeafNode(tRight, dag));
     /* root > left_child: inserted_segment */
     insertionRoot2->setLeftChild(dag->addNode(Node(new cg3::Segment2d(insertedSegment.p1(), insertedSegment.p2()))));
 
     if(segmentAboveRightP){
         /* root > left_child > left_child > tCenter1 */
-        insertionRoot2->leftChild()->setLeftChild(dag->addNode(Node(tCenter1)));
+        insertionRoot2->leftChild()->setLeftChild(createLeafNode(tCenter1, dag));
         /* root > left_child > right_child > tCenter3 */
-        insertionRoot2->leftChild()->setRightChild(dag->addNode(Node(tCenter3)));
+        insertionRoot2->leftChild()->setRightChild(createLeafNode(tCenter3, dag));
     }
     else {
         /* root > left_child > left_child > tCenter3 */
-        insertionRoot2->leftChild()->setLeftChild(dag->addNode(Node(tCenter3)));
+        insertionRoot2->leftChild()->setLeftChild(createLeafNode(tCenter3, dag));
         /* root > left_child > right_child > tCenter2 */
-        insertionRoot2->leftChild()->setRightChild(dag->addNode(Node(tCenter2)));
+        insertionRoot2->leftChild()->setRightChild(createLeafNode(tCenter2, dag));
     }
 
     buildArea[1]->deactivate();
