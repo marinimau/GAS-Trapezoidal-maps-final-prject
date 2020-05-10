@@ -392,7 +392,13 @@ void simpleCaseAdjacencyLeft(Trapezoid * tLeft, Trapezoid * tCenterBottom, Trape
         tCenterTop->setAdjacent(buildArea.getAdjacent(Trapezoid::upperLeft), Trapezoid::lowerLeft);
         tCenterBottom->setAdjacent(buildArea.getAdjacent(Trapezoid::lowerLeft), Trapezoid::upperLeft);
         tCenterBottom->setAdjacent(buildArea.getAdjacent(Trapezoid::lowerLeft), Trapezoid::lowerLeft);
-        setNeighborOfNeighborLeftSide(tCenterTop, tCenterBottom, buildArea);
+        /* check if it is degenere because chain or triangle */
+        if(PointUtils::checkDegenere(buildArea.top().p1(), tCenterTop->getVertex(Trapezoid::topLeft))){
+              setNeighborOfNeighborLeftSide(nullptr, tCenterBottom, buildArea);
+        }
+        else {
+            setNeighborOfNeighborLeftSide(tCenterTop, tCenterBottom, buildArea);
+        }
     }
 }
 
@@ -419,7 +425,13 @@ void simpleCaseAdjacencyRight(Trapezoid * tRight, Trapezoid * tCenterBottom, Tra
         tCenterTop->setAdjacent(buildArea.getAdjacent(Trapezoid::upperRight), Trapezoid::lowerRight);
         tCenterBottom->setAdjacent(buildArea.getAdjacent(Trapezoid::lowerRight), Trapezoid::upperRight);
         tCenterBottom->setAdjacent(buildArea.getAdjacent(Trapezoid::lowerRight), Trapezoid::lowerRight);
-        setNeighborOfNeighborRightSide(tCenterTop, tCenterBottom, buildArea);
+        /* check if it is degenere because chain or triangle */
+        if(PointUtils::checkDegenere(buildArea.top().p2(), tCenterBottom->getVertex(Trapezoid::topRight))){
+              setNeighborOfNeighborRightSide(nullptr, tCenterBottom, buildArea);
+        }
+        else {
+            setNeighborOfNeighborRightSide(tCenterTop, tCenterBottom, buildArea);
+        }
     }
 }
 
@@ -534,7 +546,7 @@ void setNeighborOfNeighborLeftSide(Trapezoid * insertedLeftUpper, Trapezoid * in
     Trapezoid * upperLeft = buildArea.getAdjacent(Trapezoid::upperLeft);
     Trapezoid * lowerLeft = buildArea.getAdjacent(Trapezoid::lowerLeft);
 
-    if(upperLeft != nullptr){
+    if(upperLeft != nullptr && insertedLeftUpper != nullptr){
         /* resolve upperLeft */
         if (*(upperLeft->getAdjacent(Trapezoid::upperRight)) == buildArea){
             upperLeft->setAdjacent(insertedLeftUpper, Trapezoid::upperRight);
@@ -543,7 +555,7 @@ void setNeighborOfNeighborLeftSide(Trapezoid * insertedLeftUpper, Trapezoid * in
             upperLeft->setAdjacent(insertedLeftUpper, Trapezoid::lowerRight);
         }
     }
-    if(lowerLeft != nullptr){
+    if(lowerLeft != nullptr && insertedLeftLower != nullptr){
         /* resolve lowerLeft */
         if (*(lowerLeft->getAdjacent(Trapezoid::upperRight)) == buildArea && lowerLeft != upperLeft){
             lowerLeft->setAdjacent(insertedLeftLower, Trapezoid::upperRight);
@@ -566,7 +578,7 @@ void setNeighborOfNeighborRightSide(Trapezoid * insertedRightUpper, Trapezoid * 
     Trapezoid * upperRight = buildArea.getAdjacent(Trapezoid::upperRight);
     Trapezoid * lowerRight = buildArea.getAdjacent(Trapezoid::lowerRight);
 
-    if(upperRight != nullptr){
+    if(upperRight != nullptr && insertedRightUpper != nullptr){
         /* resolve upperLeft */
         if (*(upperRight->getAdjacent(Trapezoid::upperLeft)) == buildArea){
             upperRight->setAdjacent(insertedRightUpper, Trapezoid::upperLeft);
@@ -576,7 +588,7 @@ void setNeighborOfNeighborRightSide(Trapezoid * insertedRightUpper, Trapezoid * 
         }
     }
 
-    if(lowerRight != nullptr){
+    if(lowerRight != nullptr && insertedRightLower != nullptr){
         /* resolve lowerLeft */
         if (*(lowerRight->getAdjacent(Trapezoid::upperLeft)) == buildArea && lowerRight != upperRight){
             lowerRight->setAdjacent(insertedRightLower, Trapezoid::upperLeft);

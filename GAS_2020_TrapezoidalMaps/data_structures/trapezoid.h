@@ -16,6 +16,7 @@ class Trapezoid {
 public:
 
     enum adjacentPosition {upperLeft, lowerLeft, upperRight, lowerRight};
+    enum vertexPosition {topLeft, topRight, bottomLeft, bottomRight};
 
     /* Constructors */
     Trapezoid(const cg3::Segment2d top, const cg3::Segment2d bottom, const cg3::Point2d leftP, const cg3::Point2d rightP);
@@ -26,15 +27,16 @@ public:
     cg3::Segment2d top() const;
     cg3::Segment2d bottom() const;
     double getArea() const;
+    const cg3::Point2d getVertex(const vertexPosition& position);
     const std::tuple<cg3::Point2d, cg3::Point2d, cg3::Point2d, cg3::Point2d> getVertices() const;
     const std::tuple<Trapezoid *, Trapezoid *, Trapezoid *, Trapezoid *> getAdjacents() const;
-    Trapezoid * getAdjacent(const adjacentPosition position) const;
+    Trapezoid * getAdjacent(const adjacentPosition& position) const;
     bool active() const;
     Node * dagRef() const;
 
     /* Setters */
     void setAdjacents(Trapezoid * rightTop, Trapezoid * leftTop, Trapezoid * leftBottom, Trapezoid * rightBottom);
-    void setAdjacent(Trapezoid * adjacent, const adjacentPosition position);
+    void setAdjacent(Trapezoid * adjacent, const adjacentPosition& position);
     void deactivate();
     void setDagRef(Node * ref);
 
