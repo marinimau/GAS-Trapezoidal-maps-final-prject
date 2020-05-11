@@ -87,7 +87,7 @@ double Trapezoid::getArea() const
  * @param position
  * @return
  */
-const cg3::Point2d Trapezoid::getVertex(const Trapezoid::vertexPosition& position)
+const cg3::Point2d Trapezoid::getVertex(const Trapezoid::vertexPosition& position) const
 {
     switch(position){
         case topRight:

@@ -27,7 +27,7 @@ public:
     cg3::Segment2d top() const;
     cg3::Segment2d bottom() const;
     double getArea() const;
-    const cg3::Point2d getVertex(const vertexPosition& position);
+    const cg3::Point2d getVertex(const vertexPosition& position) const;
     const std::vector<cg3::Point2d> getVertices() const;
     const std::tuple<Trapezoid *, Trapezoid *, Trapezoid *, Trapezoid *> getAdjacents() const;
     Trapezoid * getAdjacent(const adjacentPosition& position) const;
