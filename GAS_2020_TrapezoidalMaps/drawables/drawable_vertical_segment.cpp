@@ -12,11 +12,7 @@ DrawableVerticalSegment::DrawableVerticalSegment():
 
 void DrawableVerticalSegment::draw() const
 {
-    for (const Trapezoid trapezoid : getTrapezoids()) {
-        std::tuple<cg3::Point2d, cg3::Point2d, cg3::Point2d, cg3::Point2d> vertices = trapezoid.getVertices(); // topRight, topLeft, bottomLeft, bottomRight
-        cg3::opengl::drawLine2(std::get<1>(vertices), std::get<2>(vertices), segmentColor, static_cast<int>(segmentSize));
-        cg3::opengl::drawLine2(std::get<0>(vertices), std::get<3>(vertices), segmentColor, static_cast<int>(segmentSize));
-    }
+
 }
 
 cg3::Point3d DrawableVerticalSegment::sceneCenter() const

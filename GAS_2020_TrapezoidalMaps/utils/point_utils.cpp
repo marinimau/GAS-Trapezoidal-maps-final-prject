@@ -15,15 +15,32 @@ double evaluateYValue(const cg3::Point2d a, const cg3::Point2d b, const double x
     return m * (xValue - a.x()) + a.y();
 }
 
+
 /**
- * @brief checkDegenere: return true if point have the same x (for this purpose check y is not needed)
+ * @brief checkDegenere: return true if points are degenere
  * @param p1
  * @param p2
  * @return
  */
 bool checkDegenere(const cg3::Point2d& p1, const cg3::Point2d& p2)
 {
-    return (fabs(p1.x() - p2.x()) <= std::numeric_limits<double>::epsilon());
+    return (fabs(p1.x() - p2.x()) <= std::numeric_limits<double>::epsilon() && fabs(p1.y() - p2.y()) <= std::numeric_limits<double>::epsilon());
+}
+
+
+/**
+ * @brief removeDegenere
+ * @param points
+ */
+void removeDegenere(std::vector<cg3::Point2d> points)
+{
+    assert(points.size() == 4);
+    if(checkDegenere(points[0], points[3])){
+        points.pop_back();
+    }
+    if(checkDegenere(points[1], points[2])) {
+        points.erase(points.begin()+1);
+    }
 }
 
 

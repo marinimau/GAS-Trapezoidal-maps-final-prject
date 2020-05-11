@@ -32,8 +32,8 @@ public:
 
     void storeQueryResult(Trapezoid * result);
 
-    inline void drawTrapezoid(const std::tuple<cg3::Point2d, cg3::Point2d, cg3::Point2d, cg3::Point2d>& vertices, const QColor& fillColor) const;
-    inline void drawVerticalLine(const std::tuple<cg3::Point2d, cg3::Point2d, cg3::Point2d, cg3::Point2d>& vertices) const;
+    inline void drawTrapezoid(const std::vector<cg3::Point2d>& vertices, const cg3::Color& fillColor) const;
+    inline void drawVerticalLine(const std::vector<cg3::Point2d>& vertices) const;
 
 private:
 
