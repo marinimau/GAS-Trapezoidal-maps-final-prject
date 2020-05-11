@@ -42,15 +42,18 @@ bool checkDegenere(const cg3::Point2d& p1, const cg3::Point2d& p2)
 /**
  * @brief removeDegenere
  * @param points
+ * @return
  */
-void removeDegenere(std::vector<cg3::Point2d> points)
+void removeDegenere(std::vector<cg3::Point2d>& points)
 {
     assert(points.size() == 4);
     if(checkDegenere(points[0], points[3])){
         points.pop_back();
     }
-    if(checkDegenere(points[1], points[2])) {
-        points.erase(points.begin()+1);
+    else {
+        if(checkDegenere(points[1], points[2])) {
+            points.erase(points.begin()+2);
+        }
     }
 }
 

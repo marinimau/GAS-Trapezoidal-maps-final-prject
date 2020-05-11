@@ -109,15 +109,12 @@ const cg3::Point2d Trapezoid::getVertex(const Trapezoid::vertexPosition& positio
  */
 const std::vector<cg3::Point2d> Trapezoid::getVertices() const
 {
-    std::vector<cg3::Point2d> points = {
+    return {
         cg3::Point2d(_rightP.x(), (PointUtils::evaluateYValue(_top.p1(), _top.p2(), _rightP.x()))), // top right
         cg3::Point2d(_leftP.x(), (PointUtils::evaluateYValue(_top.p1(), _top.p2(), _leftP.x()))), // top left
         cg3::Point2d(_leftP.x(), (PointUtils::evaluateYValue(_bottom.p1(), _bottom.p2(), _leftP.x()))), // bottom left
         cg3::Point2d(_rightP.x(), (PointUtils::evaluateYValue(_bottom.p1(), _bottom.p2(), _rightP.x()))) // bottom right
     };
-
-    PointUtils::removeDegenere(points);
-    return points;
 }
 
 

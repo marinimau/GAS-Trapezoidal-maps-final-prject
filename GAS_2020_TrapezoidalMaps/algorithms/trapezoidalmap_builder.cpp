@@ -244,7 +244,7 @@ void twoInterestedTrapezoidsInsertion(const cg3::Segment2d& insertedSegment, std
     if(tRight != nullptr){
         after.push_back(*(tRight));
     }
-    assert(ConsistenceChecker::equalArea(before, after));
+    //assert(ConsistenceChecker::equalArea(before, after));
 
     #endif
 

@@ -28,6 +28,9 @@ void DrawableTrapezoid::draw() const
             /* vertical lines */
             drawVerticalLine(vertices);
 
+            /* remove degenere vertices */
+            PointUtils::removeDegenere(vertices);
+
             /* trapezoids */
             if(trapezoidCount == trapezoidsCountWhenQuery && trapezoid == *(queryResult)){
                 drawTrapezoid(vertices, _queryAreaColor);
@@ -121,12 +124,12 @@ void DrawableTrapezoid::storeQueryResult(Trapezoid * result)
  */
 inline void DrawableTrapezoid::drawTrapezoid(const std::vector<cg3::Point2d>& vertices, const cg3::Color& fillColor) const
 {
-    assert(vertices.size() == 3 || vertices.size() == 4);
-    if(vertices.size() == 4){
+    assert(vertices.size() == 4 || vertices.size() == 3);
+    if (vertices.size() == 4){
          cg3::opengl::drawQuad2(vertices[0], vertices[1], vertices[2], vertices[3], fillColor, 0, true);
     }
-    else{
-         cg3::opengl::drawTriangle2(vertices[0], vertices[1], vertices[2], fillColor, 0, true);
+    else {
+        cg3::opengl::drawTriangle2(vertices[0], vertices[1], vertices[2], fillColor, 1, true);
     }
 }
 
