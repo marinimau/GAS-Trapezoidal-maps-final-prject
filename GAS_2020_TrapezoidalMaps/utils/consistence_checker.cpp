@@ -1,5 +1,5 @@
 #include "consistence_checker.h"
-#define TOLLERANCE 0.01
+#define TOLLERANCE 0.1
 
 namespace ConsistenceChecker {
 

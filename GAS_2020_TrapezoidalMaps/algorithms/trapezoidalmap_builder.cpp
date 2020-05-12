@@ -108,21 +108,19 @@ cg3::Segment2d normalizeSegment(const cg3::Segment2d& insertedSegment)
  */
 std::vector<Trapezoid *> followSegment(const cg3::Segment2d& normalizedSegment,  Dag * dag)
 {
-    cg3::Point2d p = normalizedSegment.p1(), q = normalizedSegment.p2();
+    const cg3::Point2d *p = &normalizedSegment.p1(), *q = &normalizedSegment.p2();
     std::vector<Trapezoid *> interestedTrapezoids;
 
     /* Search with p in the search strucutre D to find T */
     bool isDegenere = false;
-    double m = 0;
-    PointUtils::angularCoefficient(m, p, q);
-    Trapezoid * t = TrapezoidalmapQuery::pointQuery(p, dag->root(), isDegenere, m);
+    Trapezoid * t = TrapezoidalmapQuery::pointQuery(*p, dag->root(), isDegenere, q);
     /* insert the first trapezoid */
     interestedTrapezoids.push_back(t);
 
     /* while q lies to the right of rightp */
-    while (t != nullptr && q.x() > t->rightP().x()){
+    while (t != nullptr && q->x() > t->rightP().x()){
 
-        double yAtRightP = PointUtils::evaluateYValue(p, q, t->rightP().x());
+        double yAtRightP = PointUtils::evaluateYValue(*p, *q, t->rightP().x());
 
         if (t->rightP().y() > yAtRightP){
             t = t->getAdjacent(Trapezoid::lowerRight);
@@ -372,14 +370,14 @@ void buildAdjacencyLeft(const cg3::Segment2d& insertedSegment, Trapezoid * tLeft
         setNeighborOfNeighborLeftSide(tLeft, tLeft, buildArea);
     }
     else {
-        if(PointUtils::checkDegenere(insertedSegment.p1(), buildArea.getVertex(Trapezoid::topLeft))){
+        if(PointUtils::checkDegenerate(insertedSegment.p1(), buildArea.getVertex(Trapezoid::topLeft))){
             /* triangle 1 */
             tCenterBottom->setAdjacent(buildArea.getAdjacent(Trapezoid::upperLeft), Trapezoid::upperLeft);
             tCenterBottom->setAdjacent(buildArea.getAdjacent(Trapezoid::lowerLeft), Trapezoid::lowerLeft);
             setNeighborOfNeighborLeftSide(tCenterBottom, tCenterBottom, buildArea);
         }
         else {
-            if(PointUtils::checkDegenere(insertedSegment.p1(), buildArea.getVertex(Trapezoid::bottomLeft))) {
+            if(PointUtils::checkDegenerate(insertedSegment.p1(), buildArea.getVertex(Trapezoid::bottomLeft))) {
                 /* triangle 2 */
                 tCenterTop->setAdjacent(buildArea.getAdjacent(Trapezoid::upperLeft), Trapezoid::upperLeft);
                 tCenterTop->setAdjacent(buildArea.getAdjacent(Trapezoid::lowerLeft), Trapezoid::lowerLeft);
@@ -413,14 +411,14 @@ void buildAdjacencyRight(const cg3::Segment2d& insertedSegment, Trapezoid * tRig
         setNeighborOfNeighborLeftSide(tRight, tRight, buildArea);
     }
     else {
-        if(PointUtils::checkDegenere(insertedSegment.p2(), buildArea.getVertex(Trapezoid::topRight))){
+        if(PointUtils::checkDegenerate(insertedSegment.p2(), buildArea.getVertex(Trapezoid::topRight))){
             /* triangle 1 */
             tCenterBottom->setAdjacent(buildArea.getAdjacent(Trapezoid::upperRight), Trapezoid::upperRight);
             tCenterBottom->setAdjacent(buildArea.getAdjacent(Trapezoid::lowerRight), Trapezoid::lowerRight);
             setNeighborOfNeighborLeftSide(tCenterBottom, tCenterBottom, buildArea);
         }
         else {
-            if(PointUtils::checkDegenere(insertedSegment.p2(), buildArea.getVertex(Trapezoid::bottomRight))) {
+            if(PointUtils::checkDegenerate(insertedSegment.p2(), buildArea.getVertex(Trapezoid::bottomRight))) {
                 /* triangle 2 */
                 tCenterTop->setAdjacent(buildArea.getAdjacent(Trapezoid::upperRight), Trapezoid::upperRight);
                 tCenterTop->setAdjacent(buildArea.getAdjacent(Trapezoid::lowerRight), Trapezoid::lowerRight);

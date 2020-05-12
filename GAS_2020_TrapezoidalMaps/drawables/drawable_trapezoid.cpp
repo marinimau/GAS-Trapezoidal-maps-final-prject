@@ -29,7 +29,7 @@ void DrawableTrapezoid::draw() const
             drawVerticalLine(vertices);
 
             /* remove degenere vertices */
-            PointUtils::removeDegenere(vertices);
+            PointUtils::removeDegenerate(vertices);
 
             /* trapezoids */
             if(trapezoidCount == trapezoidsCountWhenQuery && trapezoid == *(queryResult)){
