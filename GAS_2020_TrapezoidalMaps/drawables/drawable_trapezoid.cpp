@@ -126,7 +126,7 @@ inline void DrawableTrapezoid::drawTrapezoid(const std::vector<cg3::Point2d>& ve
 {
     assert(vertices.size() == 4 || vertices.size() == 3);
     if (vertices.size() == 4){
-         cg3::opengl::drawQuad2(vertices[0], vertices[1], vertices[2], vertices[3], fillColor, 0, true);
+         cg3::opengl::drawQuad2((std::array<cg3::Point2d, 4>){vertices[0], vertices[1], vertices[2], vertices[3]}, fillColor, 1, true);
     }
     else {
         cg3::opengl::drawTriangle2(vertices[0], vertices[1], vertices[2], fillColor, 1, true);
