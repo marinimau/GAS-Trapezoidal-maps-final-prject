@@ -10,8 +10,8 @@
 
 namespace TrapezoidalmapQuery
 {
-    Trapezoid* pointQuery(cg3::Point2d point,  Node * startNode, bool & isDegenere);
-    Node * find(Node * current, const cg3::Point2d query, bool & isDegenere);
+    Trapezoid* pointQuery(const cg3::Point2d& point,  Node * startNode, bool& isDegenere, const double& angularCoefficient = 0);
+    Node * find(Node * current, const cg3::Point2d& query, bool& isDegenere, const double& angularCoefficient);
 };
 
 #endif // TRAPEZOIDALMAPQUERY_H

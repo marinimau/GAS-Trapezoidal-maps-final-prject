@@ -113,7 +113,9 @@ std::vector<Trapezoid *> followSegment(const cg3::Segment2d& normalizedSegment, 
 
     /* Search with p in the search strucutre D to find T */
     bool isDegenere = false;
-    Trapezoid * t = TrapezoidalmapQuery::pointQuery(p, dag->root(), isDegenere);
+    double m = 0;
+    PointUtils::angularCoefficient(m, p, q);
+    Trapezoid * t = TrapezoidalmapQuery::pointQuery(p, dag->root(), isDegenere, m);
     /* insert the first trapezoid */
     interestedTrapezoids.push_back(t);
 

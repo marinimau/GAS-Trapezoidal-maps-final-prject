@@ -11,7 +11,7 @@ namespace ConsistenceChecker {
  * @param olds
  * @return
  */
-bool equalArea(const std::list<Trapezoid> before, const std::list<Trapezoid> after)
+bool equalArea(const std::list<Trapezoid>& before, const std::list<Trapezoid>& after)
 {
     double before_area = 0, after_area = 0;
 
