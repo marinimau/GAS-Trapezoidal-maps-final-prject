@@ -57,6 +57,7 @@ SOURCES       = ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/interfaces/pickabl
 		../GAS_2020_TrapezoidalMaps/algorithms/trapezoidalmap_query.cpp \
 		../GAS_2020_TrapezoidalMaps/data_structures/segment_intersection_checker.cpp \
 		../GAS_2020_TrapezoidalMaps/data_structures/trapezoidalmap_dataset.cpp \
+		../GAS_2020_TrapezoidalMaps/data_structures/verticalsegment.cpp \
 		../GAS_2020_TrapezoidalMaps/drawables/drawable_trapezoidalmap_dataset.cpp \
 		../GAS_2020_TrapezoidalMaps/main.cpp \
 		../GAS_2020_TrapezoidalMaps/managers/trapezoidalmap_manager.cpp \
@@ -84,6 +85,7 @@ OBJECTS       = pickable_object.o \
 		trapezoidalmap_query.o \
 		segment_intersection_checker.o \
 		trapezoidalmap_dataset.o \
+		verticalsegment.o \
 		drawable_trapezoidalmap_dataset.o \
 		main.o \
 		trapezoidalmap_manager.o \
@@ -301,6 +303,7 @@ DIST          = ../GAS_2020_TrapezoidalMaps/cg3lib/LICENSE \
 		../../../Qt/5.14.2/gcc_64/mkspecs/features/qt_config.prf \
 		../../../Qt/5.14.2/gcc_64/mkspecs/linux-g++/qmake.conf \
 		../../../Qt/5.14.2/gcc_64/mkspecs/features/spec_post.prf \
+		../GAS_2020_TrapezoidalMaps/.qmake.stash \
 		../../../Qt/5.14.2/gcc_64/mkspecs/features/exclusive_builds.prf \
 		../../../Qt/5.14.2/gcc_64/mkspecs/features/toolchain.prf \
 		../../../Qt/5.14.2/gcc_64/mkspecs/features/default_pre.prf \
@@ -416,6 +419,7 @@ DIST          = ../GAS_2020_TrapezoidalMaps/cg3lib/LICENSE \
 		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/internal/submanager.h \
 		../GAS_2020_TrapezoidalMaps/algorithms/trapezoidalmap_builder.h \
 		../GAS_2020_TrapezoidalMaps/algorithms/trapezoidalmap_query.h \
+		../GAS_2020_TrapezoidalMaps/data_structures/Verticalsegment.h \
 		../GAS_2020_TrapezoidalMaps/data_structures/segment_intersection_checker.h \
 		../GAS_2020_TrapezoidalMaps/data_structures/trapezoidalmap_dataset.h \
 		../GAS_2020_TrapezoidalMaps/drawables/drawable_trapezoidalmap_dataset.h \
@@ -434,6 +438,7 @@ DIST          = ../GAS_2020_TrapezoidalMaps/cg3lib/LICENSE \
 		../GAS_2020_TrapezoidalMaps/algorithms/trapezoidalmap_query.cpp \
 		../GAS_2020_TrapezoidalMaps/data_structures/segment_intersection_checker.cpp \
 		../GAS_2020_TrapezoidalMaps/data_structures/trapezoidalmap_dataset.cpp \
+		../GAS_2020_TrapezoidalMaps/data_structures/verticalsegment.cpp \
 		../GAS_2020_TrapezoidalMaps/drawables/drawable_trapezoidalmap_dataset.cpp \
 		../GAS_2020_TrapezoidalMaps/main.cpp \
 		../GAS_2020_TrapezoidalMaps/managers/trapezoidalmap_manager.cpp \
@@ -648,6 +653,7 @@ Makefile: ../GAS_2020_TrapezoidalMaps/GAS_2020_TrapezoidalMaps.pro ../../../Qt/5
 		../../../Qt/5.14.2/gcc_64/mkspecs/features/qt_config.prf \
 		../../../Qt/5.14.2/gcc_64/mkspecs/linux-g++/qmake.conf \
 		../../../Qt/5.14.2/gcc_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		../../../Qt/5.14.2/gcc_64/mkspecs/features/exclusive_builds.prf \
 		../../../Qt/5.14.2/gcc_64/mkspecs/features/toolchain.prf \
 		../../../Qt/5.14.2/gcc_64/mkspecs/features/default_pre.prf \
@@ -867,6 +873,7 @@ Makefile: ../GAS_2020_TrapezoidalMaps/GAS_2020_TrapezoidalMaps.pro ../../../Qt/5
 ../../../Qt/5.14.2/gcc_64/mkspecs/features/qt_config.prf:
 ../../../Qt/5.14.2/gcc_64/mkspecs/linux-g++/qmake.conf:
 ../../../Qt/5.14.2/gcc_64/mkspecs/features/spec_post.prf:
+.qmake.stash:
 ../../../Qt/5.14.2/gcc_64/mkspecs/features/exclusive_builds.prf:
 ../../../Qt/5.14.2/gcc_64/mkspecs/features/toolchain.prf:
 ../../../Qt/5.14.2/gcc_64/mkspecs/features/default_pre.prf:
@@ -911,8 +918,8 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/internal/icons/icons.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../Qt/5.14.2/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/cg3lib.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/bounding_box2.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/bounding_box3.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/cylinder.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/intersections2.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/line2.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/line3.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/plane.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/point2.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/point3.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/polygon2.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/quaternion.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/segment.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/segment2.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/segment3.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/sphere.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/transformations3.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/triangle.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/triangle2.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/triangle2_utils.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/triangle3.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/utils2.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/utils3.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/file_commons.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/load_save_obj.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/load_save_ply.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/load_save_file.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/serializable_object.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/serialize.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/serialize_eigen.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/serialize_qt.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/serialize_std.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/ply/ply.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/ply/ply_header.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/ply/ply_vertex.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/ply/ply_face.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/ply/ply_edge.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/cg3_config_folder.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/color.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/command_line_argument_manager.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/comparators.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/const.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/eigen.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/hash.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/map.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/nested_initializer_lists.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/pair.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/set.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/string.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/system.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/timer.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/tokenizer.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/vector.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/utils.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/viewer.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/glcanvas.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/mainwindow.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/drawable_objects/drawable_arrow3.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/drawable_objects/drawable_bounding_box2.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/drawable_objects/drawable_bounding_box3.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/drawable_objects/drawable_cylinder.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/drawable_objects/drawable_mixed_objects.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/drawable_objects/drawable_objects_container.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/drawable_objects/drawable_point2.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/drawable_objects/drawable_point3.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/drawable_objects/drawable_polygon2.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/drawable_objects/drawable_segment2.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/drawable_objects/drawable_segment3.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/drawable_objects/drawable_sphere.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/drawable_objects/drawable_plane.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/drawable_objects/drawable_triangle3.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/interfaces/abstract_mainwindow.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/interfaces/drawable_container.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/interfaces/drawable_object.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/interfaces/manipulable_object.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/interfaces/pickable_object.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/interfaces/drawable_mesh.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/opengl_objects/opengl_objects2.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/opengl_objects/opengl_objects3.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/utilities/loadersaver.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/utilities/console_stream.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/utilities/utils.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/widgets/qclickablelabel.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/internal/drawable_mesh_drawlist_manager.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/internal/drawable_container_drawlist_manager.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/internal/drawable_object_drawlist_manager.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/internal/manipulable_object_drawlist_manager.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/internal/submanager.h ../GAS_2020_TrapezoidalMaps/algorithms/trapezoidalmap_builder.h ../GAS_2020_TrapezoidalMaps/algorithms/trapezoidalmap_query.h ../GAS_2020_TrapezoidalMaps/data_structures/segment_intersection_checker.h ../GAS_2020_TrapezoidalMaps/data_structures/trapezoidalmap_dataset.h ../GAS_2020_TrapezoidalMaps/drawables/drawable_trapezoidalmap_dataset.h ../GAS_2020_TrapezoidalMaps/managers/trapezoidalmap_manager.h ../GAS_2020_TrapezoidalMaps/utils/consistence_checker.h ../GAS_2020_TrapezoidalMaps/utils/fileutils.h ../GAS_2020_TrapezoidalMaps/drawables/drawable_vertical_segment.h ../GAS_2020_TrapezoidalMaps/drawables/drawable_trapezoid.h ../GAS_2020_TrapezoidalMaps/data_structures/trapezoidalmap.h ../GAS_2020_TrapezoidalMaps/utils/fill_color.h ../GAS_2020_TrapezoidalMaps/data_structures/trapezoid.h ../GAS_2020_TrapezoidalMaps/utils/point_utils.h ../GAS_2020_TrapezoidalMaps/data_structures/dag.h ../GAS_2020_TrapezoidalMaps/data_structures/node.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/interfaces/pickable_object.cpp ../GAS_2020_TrapezoidalMaps/algorithms/trapezoidalmap_builder.cpp ../GAS_2020_TrapezoidalMaps/algorithms/trapezoidalmap_query.cpp ../GAS_2020_TrapezoidalMaps/data_structures/segment_intersection_checker.cpp ../GAS_2020_TrapezoidalMaps/data_structures/trapezoidalmap_dataset.cpp ../GAS_2020_TrapezoidalMaps/drawables/drawable_trapezoidalmap_dataset.cpp ../GAS_2020_TrapezoidalMaps/main.cpp ../GAS_2020_TrapezoidalMaps/managers/trapezoidalmap_manager.cpp ../GAS_2020_TrapezoidalMaps/utils/consistence_checker.cpp ../GAS_2020_TrapezoidalMaps/utils/fileutils.cpp ../GAS_2020_TrapezoidalMaps/drawables/drawable_vertical_segment.cpp ../GAS_2020_TrapezoidalMaps/drawables/drawable_trapezoid.cpp ../GAS_2020_TrapezoidalMaps/data_structures/trapezoidalmap.cpp ../GAS_2020_TrapezoidalMaps/utils/fill_color.cpp ../GAS_2020_TrapezoidalMaps/data_structures/trapezoid.cpp ../GAS_2020_TrapezoidalMaps/utils/point_utils.cpp ../GAS_2020_TrapezoidalMaps/data_structures/dag.cpp ../GAS_2020_TrapezoidalMaps/data_structures/node.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/cg3lib.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/bounding_box2.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/bounding_box3.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/cylinder.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/intersections2.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/line2.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/line3.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/plane.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/point2.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/point3.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/polygon2.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/quaternion.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/segment.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/segment2.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/segment3.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/sphere.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/transformations3.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/triangle.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/triangle2.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/triangle2_utils.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/triangle3.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/utils2.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/utils3.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/file_commons.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/load_save_obj.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/load_save_ply.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/load_save_file.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/serializable_object.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/serialize.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/serialize_eigen.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/serialize_qt.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/serialize_std.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/ply/ply.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/ply/ply_header.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/ply/ply_vertex.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/ply/ply_face.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/ply/ply_edge.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/cg3_config_folder.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/color.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/command_line_argument_manager.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/comparators.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/const.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/eigen.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/hash.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/map.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/nested_initializer_lists.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/pair.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/set.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/string.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/system.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/timer.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/tokenizer.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/vector.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/utils.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/viewer.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/glcanvas.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/mainwindow.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/drawable_objects/drawable_arrow3.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/drawable_objects/drawable_bounding_box2.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/drawable_objects/drawable_bounding_box3.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/drawable_objects/drawable_cylinder.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/drawable_objects/drawable_mixed_objects.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/drawable_objects/drawable_objects_container.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/drawable_objects/drawable_point2.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/drawable_objects/drawable_point3.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/drawable_objects/drawable_polygon2.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/drawable_objects/drawable_segment2.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/drawable_objects/drawable_segment3.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/drawable_objects/drawable_sphere.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/drawable_objects/drawable_plane.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/drawable_objects/drawable_triangle3.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/interfaces/abstract_mainwindow.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/interfaces/drawable_container.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/interfaces/drawable_object.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/interfaces/manipulable_object.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/interfaces/pickable_object.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/interfaces/drawable_mesh.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/opengl_objects/opengl_objects2.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/opengl_objects/opengl_objects3.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/utilities/loadersaver.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/utilities/console_stream.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/utilities/utils.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/widgets/qclickablelabel.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/internal/drawable_mesh_drawlist_manager.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/internal/drawable_container_drawlist_manager.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/internal/drawable_object_drawlist_manager.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/internal/manipulable_object_drawlist_manager.h ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/internal/submanager.h ../GAS_2020_TrapezoidalMaps/algorithms/trapezoidalmap_builder.h ../GAS_2020_TrapezoidalMaps/algorithms/trapezoidalmap_query.h ../GAS_2020_TrapezoidalMaps/data_structures/Verticalsegment.h ../GAS_2020_TrapezoidalMaps/data_structures/segment_intersection_checker.h ../GAS_2020_TrapezoidalMaps/data_structures/trapezoidalmap_dataset.h ../GAS_2020_TrapezoidalMaps/drawables/drawable_trapezoidalmap_dataset.h ../GAS_2020_TrapezoidalMaps/managers/trapezoidalmap_manager.h ../GAS_2020_TrapezoidalMaps/utils/consistence_checker.h ../GAS_2020_TrapezoidalMaps/utils/fileutils.h ../GAS_2020_TrapezoidalMaps/drawables/drawable_vertical_segment.h ../GAS_2020_TrapezoidalMaps/drawables/drawable_trapezoid.h ../GAS_2020_TrapezoidalMaps/data_structures/trapezoidalmap.h ../GAS_2020_TrapezoidalMaps/utils/fill_color.h ../GAS_2020_TrapezoidalMaps/data_structures/trapezoid.h ../GAS_2020_TrapezoidalMaps/utils/point_utils.h ../GAS_2020_TrapezoidalMaps/data_structures/dag.h ../GAS_2020_TrapezoidalMaps/data_structures/node.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/interfaces/pickable_object.cpp ../GAS_2020_TrapezoidalMaps/algorithms/trapezoidalmap_builder.cpp ../GAS_2020_TrapezoidalMaps/algorithms/trapezoidalmap_query.cpp ../GAS_2020_TrapezoidalMaps/data_structures/segment_intersection_checker.cpp ../GAS_2020_TrapezoidalMaps/data_structures/trapezoidalmap_dataset.cpp ../GAS_2020_TrapezoidalMaps/data_structures/verticalsegment.cpp ../GAS_2020_TrapezoidalMaps/drawables/drawable_trapezoidalmap_dataset.cpp ../GAS_2020_TrapezoidalMaps/main.cpp ../GAS_2020_TrapezoidalMaps/managers/trapezoidalmap_manager.cpp ../GAS_2020_TrapezoidalMaps/utils/consistence_checker.cpp ../GAS_2020_TrapezoidalMaps/utils/fileutils.cpp ../GAS_2020_TrapezoidalMaps/drawables/drawable_vertical_segment.cpp ../GAS_2020_TrapezoidalMaps/drawables/drawable_trapezoid.cpp ../GAS_2020_TrapezoidalMaps/data_structures/trapezoidalmap.cpp ../GAS_2020_TrapezoidalMaps/utils/fill_color.cpp ../GAS_2020_TrapezoidalMaps/data_structures/trapezoid.cpp ../GAS_2020_TrapezoidalMaps/utils/point_utils.cpp ../GAS_2020_TrapezoidalMaps/data_structures/dag.cpp ../GAS_2020_TrapezoidalMaps/data_structures/node.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/mainwindow.ui ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/internal/drawable_mesh_drawlist_manager.ui ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/internal/drawable_container_drawlist_manager.ui ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/internal/drawable_object_drawlist_manager.ui ../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/internal/manipulable_object_drawlist_manager.ui ../GAS_2020_TrapezoidalMaps/managers/trapezoidalmapmanager.ui $(DISTDIR)/
 
 
@@ -2641,10 +2648,11 @@ moc_trapezoidalmap_manager.cpp: ../GAS_2020_TrapezoidalMaps/managers/trapezoidal
 		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/data_structures/trees/includes/avl_helpers.h \
 		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/data_structures/trees/includes/avl_helpers.cpp \
 		../GAS_2020_TrapezoidalMaps/drawables/drawable_vertical_segment.h \
-		../GAS_2020_TrapezoidalMaps/data_structures/trapezoidalmap.h \
+		../GAS_2020_TrapezoidalMaps/data_structures/Verticalsegment.h \
 		../GAS_2020_TrapezoidalMaps/data_structures/trapezoid.h \
 		../GAS_2020_TrapezoidalMaps/utils/point_utils.h \
 		../GAS_2020_TrapezoidalMaps/drawables/drawable_trapezoid.h \
+		../GAS_2020_TrapezoidalMaps/data_structures/trapezoidalmap.h \
 		../GAS_2020_TrapezoidalMaps/utils/fill_color.h \
 		../GAS_2020_TrapezoidalMaps/data_structures/dag.h \
 		../GAS_2020_TrapezoidalMaps/data_structures/node.h \
@@ -3093,6 +3101,7 @@ trapezoidalmap_builder.o: ../GAS_2020_TrapezoidalMaps/algorithms/trapezoidalmap_
 		../GAS_2020_TrapezoidalMaps/data_structures/node.h \
 		../GAS_2020_TrapezoidalMaps/data_structures/trapezoidalmap.h \
 		../GAS_2020_TrapezoidalMaps/drawables/drawable_vertical_segment.h \
+		../GAS_2020_TrapezoidalMaps/data_structures/Verticalsegment.h \
 		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/interfaces/drawable_object.h \
 		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/color.h \
 		../GAS_2020_TrapezoidalMaps/drawables/drawable_trapezoid.h \
@@ -3366,6 +3375,80 @@ trapezoidalmap_dataset.o: ../GAS_2020_TrapezoidalMaps/data_structures/trapezoida
 		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/bounding_box3.h \
 		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/color.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o trapezoidalmap_dataset.o ../GAS_2020_TrapezoidalMaps/data_structures/trapezoidalmap_dataset.cpp
+
+verticalsegment.o: ../GAS_2020_TrapezoidalMaps/data_structures/verticalsegment.cpp ../GAS_2020_TrapezoidalMaps/data_structures/Verticalsegment.h \
+		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/bounding_box2.h \
+		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/point2.h \
+		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/serialize.h \
+		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/serializable_object.h \
+		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/cg3lib.h \
+		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/serialize_std.h \
+		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/serialize_eigen.h \
+		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/serialize_qt.h \
+		../../../Qt/5.14.2/gcc_64/include/QtGui/QColor \
+		../../../Qt/5.14.2/gcc_64/include/QtGui/qcolor.h \
+		../../../Qt/5.14.2/gcc_64/include/QtGui/qtguiglobal.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qglobal.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qconfig.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qtcore-config.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qsystemdetection.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qprocessordetection.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qtypeinfo.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qsysinfo.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qlogging.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qflags.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qatomic.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qbasicatomic.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qgenericatomic.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qglobalstatic.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qmutex.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qnumeric.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qversiontagging.h \
+		../../../Qt/5.14.2/gcc_64/include/QtGui/qtgui-config.h \
+		../../../Qt/5.14.2/gcc_64/include/QtGui/qrgb.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qnamespace.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qstringlist.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qlist.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qalgorithms.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qiterator.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qrefcount.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qarraydata.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qhashfunctions.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qstring.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qchar.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qbytearray.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qstringliteral.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qstringalgorithms.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qstringview.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qstringbuilder.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qpair.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qvector.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qcontainertools_impl.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qpoint.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qbytearraylist.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qregexp.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/qstringmatcher.h \
+		../../../Qt/5.14.2/gcc_64/include/QtGui/qrgba64.h \
+		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/serialize.cpp \
+		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/serialize_std.cpp \
+		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/serialize_eigen.cpp \
+		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/serialize_qt.cpp \
+		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/hash.h \
+		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/hash.cpp \
+		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/point2.cpp \
+		../GAS_2020_TrapezoidalMaps/data_structures/trapezoid.h \
+		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/segment2.h \
+		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/segment.h \
+		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/point3.h \
+		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/point3.cpp \
+		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/segment.cpp \
+		../GAS_2020_TrapezoidalMaps/utils/point_utils.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o verticalsegment.o ../GAS_2020_TrapezoidalMaps/data_structures/verticalsegment.cpp
 
 drawable_trapezoidalmap_dataset.o: ../GAS_2020_TrapezoidalMaps/drawables/drawable_trapezoidalmap_dataset.cpp ../GAS_2020_TrapezoidalMaps/drawables/drawable_trapezoidalmap_dataset.h \
 		../GAS_2020_TrapezoidalMaps/data_structures/trapezoidalmap_dataset.h \
@@ -3841,10 +3924,11 @@ main.o: ../GAS_2020_TrapezoidalMaps/main.cpp ../GAS_2020_TrapezoidalMaps/cg3lib/
 		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/data_structures/trees/includes/avl_helpers.h \
 		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/data_structures/trees/includes/avl_helpers.cpp \
 		../GAS_2020_TrapezoidalMaps/drawables/drawable_vertical_segment.h \
-		../GAS_2020_TrapezoidalMaps/data_structures/trapezoidalmap.h \
+		../GAS_2020_TrapezoidalMaps/data_structures/Verticalsegment.h \
 		../GAS_2020_TrapezoidalMaps/data_structures/trapezoid.h \
 		../GAS_2020_TrapezoidalMaps/utils/point_utils.h \
 		../GAS_2020_TrapezoidalMaps/drawables/drawable_trapezoid.h \
+		../GAS_2020_TrapezoidalMaps/data_structures/trapezoidalmap.h \
 		../GAS_2020_TrapezoidalMaps/utils/fill_color.h \
 		../GAS_2020_TrapezoidalMaps/data_structures/dag.h \
 		../GAS_2020_TrapezoidalMaps/data_structures/node.h \
@@ -4227,10 +4311,11 @@ trapezoidalmap_manager.o: ../GAS_2020_TrapezoidalMaps/managers/trapezoidalmap_ma
 		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/data_structures/trees/includes/avl_helpers.h \
 		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/data_structures/trees/includes/avl_helpers.cpp \
 		../GAS_2020_TrapezoidalMaps/drawables/drawable_vertical_segment.h \
-		../GAS_2020_TrapezoidalMaps/data_structures/trapezoidalmap.h \
+		../GAS_2020_TrapezoidalMaps/data_structures/Verticalsegment.h \
 		../GAS_2020_TrapezoidalMaps/data_structures/trapezoid.h \
 		../GAS_2020_TrapezoidalMaps/utils/point_utils.h \
 		../GAS_2020_TrapezoidalMaps/drawables/drawable_trapezoid.h \
+		../GAS_2020_TrapezoidalMaps/data_structures/trapezoidalmap.h \
 		../GAS_2020_TrapezoidalMaps/utils/fill_color.h \
 		../GAS_2020_TrapezoidalMaps/data_structures/dag.h \
 		../GAS_2020_TrapezoidalMaps/data_structures/node.h \
@@ -4238,6 +4323,25 @@ trapezoidalmap_manager.o: ../GAS_2020_TrapezoidalMaps/managers/trapezoidalmap_ma
 		../GAS_2020_TrapezoidalMaps/algorithms/trapezoidalmap_query.h \
 		../GAS_2020_TrapezoidalMaps/utils/consistence_checker.h \
 		ui_trapezoidalmapmanager.h \
+		../../../Qt/5.14.2/gcc_64/include/QtCore/QVariant \
+		../../../Qt/5.14.2/gcc_64/include/QtWidgets/QGridLayout \
+		../../../Qt/5.14.2/gcc_64/include/QtWidgets/qgridlayout.h \
+		../../../Qt/5.14.2/gcc_64/include/QtWidgets/qlayout.h \
+		../../../Qt/5.14.2/gcc_64/include/QtWidgets/qlayoutitem.h \
+		../../../Qt/5.14.2/gcc_64/include/QtWidgets/qboxlayout.h \
+		../../../Qt/5.14.2/gcc_64/include/QtWidgets/QLabel \
+		../../../Qt/5.14.2/gcc_64/include/QtWidgets/qlabel.h \
+		../../../Qt/5.14.2/gcc_64/include/QtWidgets/QPushButton \
+		../../../Qt/5.14.2/gcc_64/include/QtWidgets/qpushbutton.h \
+		../../../Qt/5.14.2/gcc_64/include/QtWidgets/qabstractbutton.h \
+		../../../Qt/5.14.2/gcc_64/include/QtWidgets/QRadioButton \
+		../../../Qt/5.14.2/gcc_64/include/QtWidgets/qradiobutton.h \
+		../../../Qt/5.14.2/gcc_64/include/QtWidgets/QSpacerItem \
+		../../../Qt/5.14.2/gcc_64/include/QtWidgets/QSpinBox \
+		../../../Qt/5.14.2/gcc_64/include/QtWidgets/qspinbox.h \
+		../../../Qt/5.14.2/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		../../../Qt/5.14.2/gcc_64/include/QtGui/qvalidator.h \
+		../../../Qt/5.14.2/gcc_64/include/QtWidgets/QVBoxLayout \
 		../../../Qt/5.14.2/gcc_64/include/QtWidgets/QMessageBox \
 		../../../Qt/5.14.2/gcc_64/include/QtWidgets/QFileDialog \
 		../../../Qt/5.14.2/gcc_64/include/QtWidgets/qfiledialog.h \
@@ -4434,7 +4538,8 @@ fileutils.o: ../GAS_2020_TrapezoidalMaps/utils/fileutils.cpp ../GAS_2020_Trapezo
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o fileutils.o ../GAS_2020_TrapezoidalMaps/utils/fileutils.cpp
 
 drawable_vertical_segment.o: ../GAS_2020_TrapezoidalMaps/drawables/drawable_vertical_segment.cpp ../GAS_2020_TrapezoidalMaps/drawables/drawable_vertical_segment.h \
-		../GAS_2020_TrapezoidalMaps/data_structures/trapezoidalmap.h \
+		../GAS_2020_TrapezoidalMaps/data_structures/Verticalsegment.h \
+		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/bounding_box2.h \
 		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/point2.h \
 		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/serialize.h \
 		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/serializable_object.h \
@@ -4498,13 +4603,12 @@ drawable_vertical_segment.o: ../GAS_2020_TrapezoidalMaps/drawables/drawable_vert
 		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/hash.h \
 		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/hash.cpp \
 		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/point2.cpp \
+		../GAS_2020_TrapezoidalMaps/data_structures/trapezoid.h \
 		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/segment2.h \
 		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/segment.h \
 		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/point3.h \
 		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/point3.cpp \
 		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/segment.cpp \
-		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/bounding_box2.h \
-		../GAS_2020_TrapezoidalMaps/data_structures/trapezoid.h \
 		../GAS_2020_TrapezoidalMaps/utils/point_utils.h \
 		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/viewer/interfaces/drawable_object.h \
 		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/color.h \
@@ -4877,7 +4981,12 @@ point_utils.o: ../GAS_2020_TrapezoidalMaps/utils/point_utils.cpp ../GAS_2020_Tra
 		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/io/serialize_qt.cpp \
 		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/hash.h \
 		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/utilities/hash.cpp \
-		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/point2.cpp
+		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/point2.cpp \
+		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/segment2.h \
+		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/segment.h \
+		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/point3.h \
+		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/point3.cpp \
+		../GAS_2020_TrapezoidalMaps/cg3lib/cg3/geometry/segment.cpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o point_utils.o ../GAS_2020_TrapezoidalMaps/utils/point_utils.cpp
 
 dag.o: ../GAS_2020_TrapezoidalMaps/data_structures/dag.cpp ../GAS_2020_TrapezoidalMaps/data_structures/dag.h \

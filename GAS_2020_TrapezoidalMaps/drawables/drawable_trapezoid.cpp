@@ -61,6 +61,7 @@ double DrawableTrapezoid::sceneRadius() const
     return boundingBox.diag();
 }
 
+
 /**
  * @brief DrawableTrapezoid::getFillColor
  * @return

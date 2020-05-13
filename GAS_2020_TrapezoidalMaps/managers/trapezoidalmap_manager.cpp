@@ -204,7 +204,7 @@ void TrapezoidalMapManager::addSegmentToTrapezoidalMap(const cg3::Segment2d& seg
          dag = new Dag();
     }
 
-     TrapezoidalMapBuilder::evaluateSegmentInserted(segment, drawableVerticalSegment, drawableTrapezoid, dag);
+     TrapezoidalMapBuilder::evaluateSegmentInserted(segment, drawableTrapezoid, dag);
 
     //#####################################################################
 }

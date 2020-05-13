@@ -46,7 +46,7 @@ void init(DrawableTrapezoid& drawableTrapezoid, Dag * dag)
  * @param drawableVerticalSegment
  * @param drawableTrapezoid
  */
-void evaluateSegmentInserted(const cg3::Segment2d& insertedSegment, DrawableVerticalSegment& drawableVerticalSegment, DrawableTrapezoid& drawableTrapezoid, Dag * dag)
+void evaluateSegmentInserted(const cg3::Segment2d& insertedSegment, DrawableTrapezoid& drawableTrapezoid, Dag * dag)
 {
     assert(dag->root() != nullptr);
 
@@ -399,27 +399,27 @@ void buildAdjacencyRight(const cg3::Segment2d& insertedSegment, Trapezoid * tRig
     if(tRight != nullptr){
         /* insertedsSegment.p2 not degnere */
         tRight->setAdjacents(buildArea.getAdjacent(Trapezoid::upperRight), tCenterTop, tCenterBottom, buildArea.getAdjacent(Trapezoid::lowerRight));
-        setNeighborOfNeighborLeftSide(tRight, tRight, buildArea);
+        setNeighborOfNeighborRightSide(tRight, tRight, buildArea);
     }
     else {
         if(PointUtils::checkDegenerate(insertedSegment.p2(), buildArea.getVertex(Trapezoid::topRight))){
             /* triangle 1 */
             tCenterBottom->setAdjacent(buildArea.getAdjacent(Trapezoid::upperRight), Trapezoid::upperRight);
             tCenterBottom->setAdjacent(buildArea.getAdjacent(Trapezoid::lowerRight), Trapezoid::lowerRight);
-            setNeighborOfNeighborLeftSide(tCenterBottom, tCenterBottom, buildArea);
+            setNeighborOfNeighborRightSide(tCenterBottom, tCenterBottom, buildArea);
         }
         else {
             if(PointUtils::checkDegenerate(insertedSegment.p2(), buildArea.getVertex(Trapezoid::bottomRight))) {
                 /* triangle 2 */
                 tCenterTop->setAdjacent(buildArea.getAdjacent(Trapezoid::upperRight), Trapezoid::upperRight);
                 tCenterTop->setAdjacent(buildArea.getAdjacent(Trapezoid::lowerRight), Trapezoid::lowerRight);
-                setNeighborOfNeighborLeftSide(tCenterTop, tCenterTop, buildArea);
+                setNeighborOfNeighborRightSide(tCenterTop, tCenterTop, buildArea);
             }
             else {
                 /* segment chain */
                 tCenterTop->setAdjacent(buildArea.getAdjacent(Trapezoid::upperRight), Trapezoid::upperRight);
                 tCenterBottom->setAdjacent(buildArea.getAdjacent(Trapezoid::lowerRight), Trapezoid::lowerRight);
-                setNeighborOfNeighborLeftSide(tCenterTop, tCenterBottom, buildArea);
+                setNeighborOfNeighborRightSide(tCenterTop, tCenterBottom, buildArea);
             }
         }
 

@@ -30,7 +30,7 @@ void init(DrawableTrapezoid& drawableTrapezoid, Dag * dag);
  * Insertion step
  *
  *-------------------------------------------------------------------------*/
-void evaluateSegmentInserted(const cg3::Segment2d& insertedSegment, DrawableVerticalSegment& drawableVerticalSegment, DrawableTrapezoid& drawableTrapezoid, Dag * dag);
+void evaluateSegmentInserted(const cg3::Segment2d& insertedSegment, DrawableTrapezoid& drawableTrapezoid, Dag * dag);
 cg3::Segment2d normalizeSegment(const cg3::Segment2d& insertedSegment);
 std::vector<Trapezoid *> followSegment(const cg3::Segment2d& normalizedSegment, Dag * dag);
 Node * createLeafNode(Trapezoid * t, Dag * dag);
