@@ -1,7 +1,7 @@
 #ifndef DRAWABLE_VERTICAL_SEGMENT_H
 #define DRAWABLE_VERTICAL_SEGMENT_H
 
-#include "data_structures/trapezoidalmap.h"
+#include "data_structures/Verticalsegment.h"
 
 #include <cg3/viewer/interfaces/drawable_object.h>
 
@@ -10,7 +10,7 @@
 /**
  * @brief Class to draw the vertical segments of the trapezoidal map.
  */
-class DrawableVerticalSegment : public TrapezoidalMap, public cg3::DrawableObject
+class DrawableVerticalSegment : public VerticalSegment, public cg3::DrawableObject
 {
 
 public:
@@ -26,6 +26,8 @@ public:
 
     unsigned int getSegmentSize() const;
     void setSegmentSize(unsigned int value);
+    inline void drawVerticalLine(const std::vector<cg3::Point2d>& vertices) const;
+
 
 private:
 

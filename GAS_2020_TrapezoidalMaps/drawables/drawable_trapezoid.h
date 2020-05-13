@@ -30,18 +30,13 @@ public:
     unsigned int getBoundarySize() const;
     void setBoundarySize(unsigned int value);
 
-    void storeQueryResult(Trapezoid * result);
-
     inline void drawTrapezoid(const std::vector<cg3::Point2d>& vertices, const cg3::Color& fillColor) const;
-    inline void drawVerticalLine(const std::vector<cg3::Point2d>& vertices) const;
 
 private:
 
     cg3::Color _lineColor;
     cg3::Color _queryAreaColor;
     unsigned int boundarySize;
-    size_t trapezoidsCountWhenQuery;
-    Trapezoid * queryResult;
 
 };
 

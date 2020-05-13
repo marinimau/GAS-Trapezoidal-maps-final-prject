@@ -18,24 +18,47 @@ class TrapezoidalMap{
 public:
 
     /* constructors */
+
     TrapezoidalMap();
 
+
     /* trapezoids */
+
     Trapezoid * addTrapezoid(Trapezoid trapezoid);
     void deleteTrapezoid(Trapezoid * trapezoid);
     size_t trapezoidNumber() const;
     const std::list<Trapezoid> getTrapezoids() const;
+    std::list<Trapezoid>* getTrapezoidsRef();
+
 
     /* generic */
+
     const cg3::BoundingBox2& getBoundingBox() const;
+
+
+    /* Query */
+
+    void storeQueryResult(Trapezoid * result);
+
+
     void clear();
+
+
 
 private:
 
-    /* trapezoids */
-    std::list<Trapezoid> trapezoids;
-
     cg3::BoundingBox2 boundingBox;
+
+    /* trapezoids */
+    std::list<Trapezoid> _trapezoids;
+
+
+protected:
+
+    /* Query */
+
+    size_t trapezoidsCountWhenQuery;
+    Trapezoid * queryResult;
 
 };
 

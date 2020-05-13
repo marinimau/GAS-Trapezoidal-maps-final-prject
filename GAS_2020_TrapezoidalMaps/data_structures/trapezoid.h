@@ -19,9 +19,12 @@ public:
     enum vertexPosition {topLeft, topRight, bottomLeft, bottomRight};
 
     /* Constructors */
+
     Trapezoid(const cg3::Segment2d top, const cg3::Segment2d bottom, const cg3::Point2d leftP, const cg3::Point2d rightP);
 
+
     /* Getters */
+
     cg3::Point2d rightP() const;
     cg3::Point2d leftP() const;
     cg3::Segment2d top() const;
@@ -34,13 +37,17 @@ public:
     bool active() const;
     Node * dagRef() const;
 
+
     /* Setters */
+
     void setAdjacents(Trapezoid * rightTop, Trapezoid * leftTop, Trapezoid * leftBottom, Trapezoid * rightBottom);
     void setAdjacent(Trapezoid * adjacent, const adjacentPosition& position);
     void deactivate();
     void setDagRef(Node * ref);
 
+
     /* Operator override */
+
     inline bool operator < (const Trapezoid& otherTrapezoid) const
     {
         if (this->_leftP < otherTrapezoid._leftP) return true;
@@ -61,24 +68,32 @@ public:
 private:
 
     /* Points */
+
     cg3::Segment2d _top;
     cg3::Segment2d _bottom;
     cg3::Point2d _leftP;
     cg3::Point2d _rightP;
 
+
     /* Adjacents trapezoids */
+
     Trapezoid * _rt;
     Trapezoid * _lt;
     Trapezoid * _lb;
     Trapezoid * _rb;
 
+
     /* active */
+
     bool _active;
 
+
     /* Node */
+
     Node * _dagRef;
     /* 2-way reference can cause inconsistence, but allow to access in O(1)
      * at the dag leaf after the execution of followSegment */
+
 
 };
 

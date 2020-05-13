@@ -56,33 +56,24 @@ void evaluateSegmentInserted(const cg3::Segment2d& insertedSegment, DrawableVert
     /* 1. check interested trapezoids */
     std::vector<Trapezoid *> interestedTrapezoid = followSegment(normalizedSegment, dag);
 
-    /* 2.a Simple insertion */
-    if(interestedTrapezoid.size() == 1){
-        simpleInsertion(normalizedSegment, interestedTrapezoid, drawableTrapezoid, dag);
-    }
+    /* check for correctness followsegment output */
+    assert(ConsistenceChecker::checkForWrongBuildArea(normalizedSegment, interestedTrapezoid));
 
-    /* 2.b the new segment intersects more than one trapezoid */
-    else {
-        if(interestedTrapezoid.size() == 2){
-
+    switch(interestedTrapezoid.size()){
+        case 1:
+            /* 2.a Simple insertion */
+            simpleInsertion(normalizedSegment, interestedTrapezoid, drawableTrapezoid, dag);
+        break;
+        case 2:
+            /* 2.b the new segment intersects more than one trapezoid */
             twoInterestedTrapezoidsInsertion(normalizedSegment, interestedTrapezoid, drawableTrapezoid, dag);
-        }
-
-
-        /* firs interested trapezoid from its leftp to normalizedSegment.p1 (top e bottom segments invariated */
-
-        /* last interested trapezoid from normalizedSegment.p2 to its rightP (top and bottom invariated */
-
-        // 2.1. interested_points = get point extension
-        // 2.1  delete trapezoid from map
-
+        break;
     }
 
     // if debug, print dag nodes (inorder)
     #ifdef QT_DEBUG
     dag->inOrderVisit(dag->root());
     #endif
-
 }
 
 
@@ -114,6 +105,9 @@ std::vector<Trapezoid *> followSegment(const cg3::Segment2d& normalizedSegment, 
     /* Search with p in the search strucutre D to find T */
     bool isDegenere = false;
     Trapezoid * t = TrapezoidalmapQuery::pointQuery(*p, dag->root(), isDegenere, q);
+
+    assert(t != nullptr);
+
     /* insert the first trapezoid */
     interestedTrapezoids.push_back(t);
 
@@ -132,9 +126,6 @@ std::vector<Trapezoid *> followSegment(const cg3::Segment2d& normalizedSegment, 
         /* insert trapezoid */
         interestedTrapezoids.push_back(t);
     }
-
-
-
     return interestedTrapezoids;
 }
 

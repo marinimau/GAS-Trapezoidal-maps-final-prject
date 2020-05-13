@@ -65,11 +65,12 @@ private:
     //---------------------------------------------------------------------
     //Declare your attributes here
 
-    /* Drawable for the trapezoidal map's vertical segments */
-    DrawableVerticalSegment drawableVerticalSegment;
 
     /* Drawable for the trapezoidal map's trapezoids */
     DrawableTrapezoid drawableTrapezoid;
+
+    /* Drawable for the trapezoidal map's vertical segments */
+    DrawableVerticalSegment drawableVerticalSegment;
 
     /* Dag */
     Dag * dag;

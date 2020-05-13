@@ -8,7 +8,6 @@
 namespace FileUtils {
 
 std::vector<cg3::Segment2d> getSegmentsFromFile(const std::string& filename);
-
 std::vector<cg3::Segment2d> saveSegmentsInFile(const std::string& filename, const std::vector<cg3::Segment2d>& segments);
 
 }

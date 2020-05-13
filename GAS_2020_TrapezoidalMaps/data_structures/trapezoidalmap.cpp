@@ -22,9 +22,10 @@ TrapezoidalMap::TrapezoidalMap() :
  */
 Trapezoid * TrapezoidalMap::addTrapezoid(Trapezoid trapezoid)
 {
-    trapezoids.push_back(trapezoid);
-    return &trapezoids.back();
+    _trapezoids.push_back(trapezoid);
+    return &_trapezoids.back();
 }
+
 
 /**
  * @brief TrapezoidalMap::trapezoidNumber returns the size of the array that contains the trapezoids
@@ -32,8 +33,9 @@ Trapezoid * TrapezoidalMap::addTrapezoid(Trapezoid trapezoid)
  */
 size_t TrapezoidalMap::trapezoidNumber() const
 {
-    return trapezoids.size();
+    return _trapezoids.size();
 }
+
 
 /**
  * @brief TrapezoidalMap::getTrapezoidsData returns  the raw trapezoid's data
@@ -41,8 +43,19 @@ size_t TrapezoidalMap::trapezoidNumber() const
  */
 const std::list<Trapezoid> TrapezoidalMap::getTrapezoids() const
 {
-    return trapezoids;
+    return _trapezoids;
 }
+
+
+/**
+ * @brief TrapezoidalMap::getTrapezoidsRef return a reference to the trapezoids list
+ * @return
+ */
+std::list<Trapezoid>* TrapezoidalMap::getTrapezoidsRef()
+{
+    return &_trapezoids;
+}
+
 
 /* Generic */
 
@@ -55,10 +68,29 @@ const cg3::BoundingBox2& TrapezoidalMap::getBoundingBox() const
     return boundingBox;
 }
 
+
+/* query */
+
+/**
+ * @brief DrawableTrapezoid::storeQueryResult: store pointer to the result trapezoid
+ * and number of trapezoid in the map. If another query is executed result change,
+ * if a building step is executed, trapezoidCount change.
+ * by combining these two parameters, draw() highlights the result only when required.
+ * @param result
+ */
+void TrapezoidalMap::storeQueryResult(Trapezoid * result)
+{
+    trapezoidsCountWhenQuery = trapezoidNumber();
+    queryResult = result;
+}
+
+
 /**
  * @brief TrapezoidalMap::clear (clear both pointExtension and trapezoids)
  */
 void TrapezoidalMap::clear()
 {
-    trapezoids.clear();
+    _trapezoids.clear();
+    trapezoidsCountWhenQuery = 0;
+    queryResult = nullptr;
 }

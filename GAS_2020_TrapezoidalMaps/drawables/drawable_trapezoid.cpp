@@ -25,9 +25,6 @@ void DrawableTrapezoid::draw() const
         if(trapezoid.active()){
             std::vector<cg3::Point2d> vertices = trapezoid.getVertices();
 
-            /* vertical lines */
-            drawVerticalLine(vertices);
-
             /* remove degenere vertices */
             PointUtils::removeDegenerate(vertices);
 
@@ -105,20 +102,6 @@ void DrawableTrapezoid::setBoundarySize(unsigned int value)
 
 
 /**
- * @brief DrawableTrapezoid::storeQueryResult: store pointer to the result trapezoid
- * and number of trapezoid in the map. If another query is executed result change,
- * if a building step is executed, trapezoidCount change.
- * by combining these two parameters, draw() highlights the result only when required.
- * @param result
- */
-void DrawableTrapezoid::storeQueryResult(Trapezoid * result)
-{
-    trapezoidsCountWhenQuery = trapezoidNumber();
-    queryResult = result;
-}
-
-
-/**
  * @brief DrawableTrapezoid::drawTrapezoid
  * @param vertices
  */
@@ -133,16 +116,6 @@ inline void DrawableTrapezoid::drawTrapezoid(const std::vector<cg3::Point2d>& ve
     }
 }
 
-
-/**
- * @brief drawVerticalLine
- * @param vertices
- */
-inline void DrawableTrapezoid::drawVerticalLine(const std::vector<cg3::Point2d>& vertices) const
-{
-    cg3::opengl::drawLine2(vertices[1], vertices[2], _lineColor, static_cast<int>(1));
-    cg3::opengl::drawLine2(vertices[0], vertices[3], _lineColor, static_cast<int>(1));
-}
 
 
 

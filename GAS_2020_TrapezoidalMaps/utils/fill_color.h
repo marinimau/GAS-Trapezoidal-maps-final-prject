@@ -10,7 +10,8 @@
 
 namespace FillColor {
 
-    cg3::Color getFillColor(const std::vector<cg3::Point2d>& vertices);
+cg3::Color getFillColor(const std::vector<cg3::Point2d>& vertices);
+
 }
 
 #endif // FILL_COLOR_H

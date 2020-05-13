@@ -85,6 +85,9 @@ TrapezoidalMapManager::TrapezoidalMapManager(QWidget *parent) :
     mainWindow.pushDrawableObject(&drawableVerticalSegment, "Vertical Segments");
     mainWindow.pushDrawableObject(&drawableTrapezoid, "Trapezoids");
 
+    /* this is for remove vertical segments a run time */
+    drawableVerticalSegment.setDataSource(drawableTrapezoid.getTrapezoidsRef());
+
     dag = new Dag();
     TrapezoidalMapBuilder::init(drawableTrapezoid, dag);
     //#####################################################################
@@ -240,10 +243,7 @@ void TrapezoidalMapManager::queryTrapezoidalMap(const cg3::Point2d& queryPoint)
 
     bool isDegenere = false;
     Trapezoid * result = TrapezoidalmapQuery::pointQuery(queryPoint, dag->root(), isDegenere);
-    if(result == nullptr){
-        printf("in bounding box");
-    }
-    else {
+    if(result != nullptr){
         drawableTrapezoid.storeQueryResult(result);
     }
 

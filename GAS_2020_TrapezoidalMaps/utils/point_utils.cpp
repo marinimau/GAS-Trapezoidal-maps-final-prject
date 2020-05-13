@@ -1,4 +1,5 @@
 #include "point_utils.h"
+#define TOLLERANCE 0.000001
 
 namespace PointUtils {
 
@@ -37,7 +38,7 @@ bool checkSameX(const cg3::Point2d& p1, const cg3::Point2d& p2)
  */
 bool checkDegenerate(const cg3::Point2d& p1, const cg3::Point2d& p2)
 {
-    return (fabs(p1.x() - p2.x()) <= std::numeric_limits<double>::epsilon() && fabs(p1.y() - p2.y()) <= std::numeric_limits<double>::epsilon());
+    return (fabs(p1.x() - p2.x()) <= std::numeric_limits<double>::epsilon() + TOLLERANCE && fabs(p1.y() - p2.y()) <= std::numeric_limits<double>::epsilon()  + TOLLERANCE);
 }
 
 

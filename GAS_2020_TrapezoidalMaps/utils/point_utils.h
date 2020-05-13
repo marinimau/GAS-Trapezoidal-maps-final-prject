@@ -2,6 +2,7 @@
 #define POINT_UTILS_H
 
 #include <cg3/geometry/point2.h>
+#include <cg3/geometry/segment2.h>
 
 namespace PointUtils {
 

@@ -44,6 +44,7 @@ SOURCES +=  \
     algorithms/trapezoidalmap_query.cpp \
     data_structures/segment_intersection_checker.cpp \
     data_structures/trapezoidalmap_dataset.cpp \
+    data_structures/verticalsegment.cpp \
     drawables/drawable_trapezoidalmap_dataset.cpp \
     main.cpp \
     managers/trapezoidalmap_manager.cpp \
@@ -64,6 +65,7 @@ FORMS += \
 HEADERS += \
     algorithms/trapezoidalmap_builder.h \
     algorithms/trapezoidalmap_query.h \
+    data_structures/Verticalsegment.h \
     data_structures/segment_intersection_checker.h \
     data_structures/trapezoidalmap_dataset.h \
     drawables/drawable_trapezoidalmap_dataset.h \
