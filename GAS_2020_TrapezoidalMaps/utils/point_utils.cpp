@@ -26,7 +26,7 @@ double evaluateYValue(const cg3::Point2d& a, const cg3::Point2d& b, const double
  */
 bool checkSameX(const cg3::Point2d& p1, const cg3::Point2d& p2)
 {
-    return (fabs(p1.x() - p2.x()) <= std::numeric_limits<double>::epsilon());
+    return (fabs(p1.x() - p2.x()) <= std::numeric_limits<double>::epsilon() + TOLLERANCE);
 }
 
 

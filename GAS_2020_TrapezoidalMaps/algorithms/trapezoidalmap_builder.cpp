@@ -268,11 +268,11 @@ std::tuple<Trapezoid *, Trapezoid *> addLeftAndRightTrapezoid(const cg3::Segment
     Trapezoid * tRight = nullptr;
 
     /* if inserted segment.p1.x != buildArea.leftP.x build left trapezoid */
-    if(!PointUtils::checkSameX(insertedSegment.p1(), buildArea[0]->leftP())){
+    if(!(PointUtils::checkDegenerate(insertedSegment.p1(), buildArea[0]->getVertex(Trapezoid::topLeft)) || PointUtils::checkDegenerate(insertedSegment.p1(), buildArea[0]->getVertex(Trapezoid::bottomLeft)))){
         tLeft = addLeftTrapezoid(insertedSegment, *buildArea[0], drawableTrapezoid);
     }
     /* if inserted segment.p2.x != buildArea.rightP.x build right trapezoid */
-    if(!PointUtils::checkSameX(insertedSegment.p2(), buildArea[buildArea.size()-1]->rightP())){
+    if(!(PointUtils::checkDegenerate(insertedSegment.p2(), buildArea[buildArea.size()-1]->getVertex(Trapezoid::topRight)) || PointUtils::checkDegenerate(insertedSegment.p2(), buildArea[buildArea.size()-1]->getVertex(Trapezoid::bottomRight)))){
         tRight = addRightTrapezoid(insertedSegment, *buildArea[buildArea.size()-1], drawableTrapezoid);
     }
     return {tLeft, tRight};
