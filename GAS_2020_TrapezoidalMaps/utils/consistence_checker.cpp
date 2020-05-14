@@ -1,5 +1,6 @@
 #include "consistence_checker.h"
 #define TOLLERANCE 0.1
+#define BOUNDINGBOX 1e+6
 
 namespace ConsistenceChecker {
 
@@ -90,6 +91,30 @@ bool isInside(const cg3::Point2d& point, const Trapezoid& polygon)
         }
     }
     return false;
+}
+
+
+/**
+ * @brief adjacencyOk: check if all adjacency are ok
+ * @param allTrapezoids
+ * @return
+ */
+bool adjacencyOk(const std::list<Trapezoid>& allTrapezoids)
+{
+    for (auto const& t : allTrapezoids) {
+        /* if one is upper or lower is null also the other must be null */
+        if((t.getAdjacent(Trapezoid::upperLeft) == nullptr || t.getAdjacent(Trapezoid::lowerLeft) == nullptr) && t.leftP().x() != -BOUNDINGBOX){
+            if(t.getAdjacent(Trapezoid::upperLeft) != nullptr || t.getAdjacent(Trapezoid::lowerLeft) != nullptr){
+                return false;
+            }
+        }
+        if((t.getAdjacent(Trapezoid::upperRight) == nullptr || t.getAdjacent(Trapezoid::lowerRight) == nullptr)  && t.rightP().x() != +BOUNDINGBOX){
+            if(t.getAdjacent(Trapezoid::upperRight) != nullptr || t.getAdjacent(Trapezoid::lowerRight) != nullptr){
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
 }

@@ -70,6 +70,9 @@ void evaluateSegmentInserted(const cg3::Segment2d& insertedSegment, DrawableTrap
         break;
     }
 
+    /* check adjacence consistency */
+    assert(ConsistenceChecker::adjacencyOk(drawableTrapezoid.getTrapezoids()));
+
     // if debug, print dag nodes (inorder)
     #ifdef QT_DEBUG
     dag->inOrderVisit(dag->root());
@@ -239,6 +242,7 @@ void twoInterestedTrapezoidsInsertion(const cg3::Segment2d& insertedSegment, std
     /* Adjacency update */
     twoInterestedTrapezoidsBuildAdjacency(insertedSegment, tLeft, tRight, tCenter1, tCenter2, tCenter3, buildArea, segmentAboveRightP);
 
+
     /* Dag update */
     twoInterestedTrapezoidsDagUpdate(insertedSegment, tLeft, tRight, tCenter1, tCenter2, tCenter3, buildArea, dag, segmentAboveRightP);
 }
@@ -267,12 +271,21 @@ std::tuple<Trapezoid *, Trapezoid *> addLeftAndRightTrapezoid(const cg3::Segment
     Trapezoid * tLeft = nullptr;
     Trapezoid * tRight = nullptr;
 
+
     /* if inserted segment.p1.x != buildArea.leftP.x build left trapezoid */
-    if(!(PointUtils::checkDegenerate(insertedSegment.p1(), buildArea[0]->getVertex(Trapezoid::topLeft)) || PointUtils::checkDegenerate(insertedSegment.p1(), buildArea[0]->getVertex(Trapezoid::bottomLeft)))){
+    if(
+            !(PointUtils::checkDegenerate(insertedSegment.p1(), buildArea[0]->getVertex(Trapezoid::topLeft)) ||
+              PointUtils::checkDegenerate(insertedSegment.p1(), buildArea[0]->getVertex(Trapezoid::bottomLeft)) ||
+              (buildArea[0]->getAdjacent(Trapezoid::upperLeft) != nullptr && PointUtils::checkDegenerate(insertedSegment.p1(), buildArea[0]->getAdjacent(Trapezoid::upperLeft)->getVertex(Trapezoid::bottomRight))) ||
+              (buildArea[0]->getAdjacent(Trapezoid::lowerLeft) != nullptr && PointUtils::checkDegenerate(insertedSegment.p1(), buildArea[0]->getAdjacent(Trapezoid::lowerLeft)->getVertex(Trapezoid::topRight))))){
         tLeft = addLeftTrapezoid(insertedSegment, *buildArea[0], drawableTrapezoid);
     }
     /* if inserted segment.p2.x != buildArea.rightP.x build right trapezoid */
-    if(!(PointUtils::checkDegenerate(insertedSegment.p2(), buildArea[buildArea.size()-1]->getVertex(Trapezoid::topRight)) || PointUtils::checkDegenerate(insertedSegment.p2(), buildArea[buildArea.size()-1]->getVertex(Trapezoid::bottomRight)))){
+    if(
+            !(PointUtils::checkDegenerate(insertedSegment.p2(), buildArea[buildArea.size()-1]->getVertex(Trapezoid::topRight)) ||
+              PointUtils::checkDegenerate(insertedSegment.p2(), buildArea[buildArea.size()-1]->getVertex(Trapezoid::bottomRight)) ||
+              (buildArea[buildArea.size()-1]->getAdjacent(Trapezoid::upperRight) != nullptr && PointUtils::checkDegenerate(insertedSegment.p2(), buildArea[buildArea.size()-1]->getAdjacent(Trapezoid::upperRight)->getVertex(Trapezoid::bottomLeft))) ||
+              (buildArea[buildArea.size()-1]->getAdjacent(Trapezoid::lowerRight) != nullptr && PointUtils::checkDegenerate(insertedSegment.p2(), buildArea[buildArea.size()-1]->getAdjacent(Trapezoid::lowerRight)->getVertex(Trapezoid::topLeft))))){
         tRight = addRightTrapezoid(insertedSegment, *buildArea[buildArea.size()-1], drawableTrapezoid);
     }
     return {tLeft, tRight};
@@ -377,6 +390,8 @@ void buildAdjacencyLeft(const cg3::Segment2d& insertedSegment, Trapezoid * tLeft
             else {
                 /* segment chain */
                 tCenterTop->setAdjacent(buildArea.getAdjacent(Trapezoid::upperLeft), Trapezoid::upperLeft);
+                tCenterTop->setAdjacent(buildArea.getAdjacent(Trapezoid::upperLeft), Trapezoid::lowerLeft);
+                tCenterBottom->setAdjacent(buildArea.getAdjacent(Trapezoid::lowerLeft), Trapezoid::upperLeft);
                 tCenterBottom->setAdjacent(buildArea.getAdjacent(Trapezoid::lowerLeft), Trapezoid::lowerLeft);
                 setNeighborOfNeighborLeftSide(tCenterTop, tCenterBottom, buildArea);
             }
@@ -418,6 +433,8 @@ void buildAdjacencyRight(const cg3::Segment2d& insertedSegment, Trapezoid * tRig
             else {
                 /* segment chain */
                 tCenterTop->setAdjacent(buildArea.getAdjacent(Trapezoid::upperRight), Trapezoid::upperRight);
+                tCenterTop->setAdjacent(buildArea.getAdjacent(Trapezoid::upperRight), Trapezoid::lowerRight);
+                tCenterBottom->setAdjacent(buildArea.getAdjacent(Trapezoid::lowerRight), Trapezoid::upperRight);
                 tCenterBottom->setAdjacent(buildArea.getAdjacent(Trapezoid::lowerRight), Trapezoid::lowerRight);
                 setNeighborOfNeighborRightSide(tCenterTop, tCenterBottom, buildArea);
             }

@@ -17,6 +17,8 @@ bool checkForWrongBuildArea(const cg3::Segment2d& insertedSegment, std::vector<T
 bool checkIntersection(const cg3::Segment2d& segment, const Trapezoid& polygon);
 bool isInside(const cg3::Point2d& point, const Trapezoid& polygon);
 
+bool adjacencyOk(const std::list<Trapezoid>& allTrapezoids);
+
 };
 
 #endif // CONSISTENCECHECKER_H
