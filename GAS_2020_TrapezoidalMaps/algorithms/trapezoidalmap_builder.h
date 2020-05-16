@@ -87,6 +87,9 @@ void setNeighborOfNeighborRightSide(Trapezoid * inseretedRightUpper, Trapezoid *
  *-------------------------------------------------------------------------*/
 void simpleCaseDagUpdate(const cg3::Segment2d& insertedSegment, Trapezoid * tLeft, Trapezoid * tRight, Trapezoid * tCenterTop, Trapezoid * tCenterBottom, Trapezoid * buildArea, Dag * dag);
 void twoInterestedTrapezoidsDagUpdate(const cg3::Segment2d& insertedSegment, Trapezoid * tLeft, Trapezoid * tRight, Trapezoid * tCenter1, Trapezoid * tCenter2, Trapezoid * tCenter3, std::vector<Trapezoid *>& buildArea, Dag * dag, const bool& segmentAboveRightP);
+void twoInterestedTrapezoidsDagUpdateLeftStep(const cg3::Segment2d& insertedSegment, Node * node_tLeft, Node * node_tCenter1,Node * node_tCenter2, Trapezoid * buildArea, Dag * dag, const bool& segmentAboveRightP);
+void twoInterestedTrapezoidsDagUpdateRightStep(const cg3::Segment2d& insertedSegment, Node * node_tRight, Node * node_tCenter2, Node * node_tCenter3, Trapezoid * buildArea, Dag * dag, const bool& segmentAboveRightP);
+Node * dagSegmentSplit(const cg3::Segment2d& insertedSegment, Node * node_leftChild, Node * node_rightChild, Dag * dag);
 }
 
 #endif // TRAPEZOIDALMAPBUILDER_H

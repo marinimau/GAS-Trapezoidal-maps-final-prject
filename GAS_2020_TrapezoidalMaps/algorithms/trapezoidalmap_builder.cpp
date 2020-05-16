@@ -271,6 +271,7 @@ std::tuple<Trapezoid *, Trapezoid *> addLeftAndRightTrapezoid(const cg3::Segment
     Trapezoid * tLeft = nullptr;
     Trapezoid * tRight = nullptr;
 
+    /* In the following lines i have checked a lot of cases instead of check only x value, this because round of xcordinates can introduce points in generic positionS */
 
     /* if inserted segment.p1.x != buildArea.leftP.x build left trapezoid */
     if(
@@ -711,15 +712,11 @@ void simpleCaseDagUpdate(const cg3::Segment2d& insertedSegment, Trapezoid * tLef
      /* root > right */
     insertionRoot->setRightChild(dag->addNode(Node(Node::q, new cg3::Point2d(insertedSegment.p2().x(), insertedSegment.p2().y()))));
     /* root > right > left */
-    insertionRoot->rightChild()->setLeftChild(dag->addNode(Node(new cg3::Segment2d(insertedSegment.p1(), insertedSegment.p2()))));
+    insertionRoot->rightChild()->setLeftChild(dagSegmentSplit(insertedSegment, createLeafNode(tCenterTop, dag), createLeafNode(tCenterBottom, dag), dag));
     /* root > right > right */
     if(tRight != nullptr){
         insertionRoot->rightChild()->setRightChild(createLeafNode(tRight, dag));
     }
-    /* root > right > left > left */
-    insertionRoot->rightChild()->leftChild()->setLeftChild(createLeafNode(tCenterTop, dag));
-    /* root > right > left > right */
-    insertionRoot->rightChild()->leftChild()->setRightChild(createLeafNode(tCenterBottom, dag));
 
     /* deactivate old trapezoid */
     *(buildArea->dagRef()) = *(insertionRoot);
@@ -750,6 +747,23 @@ void twoInterestedTrapezoidsDagUpdate(const cg3::Segment2d& insertedSegment, Tra
     Node * node_tCenter3 = createLeafNode(tCenter3, dag);
     Node * node_tRight = createLeafNode(tRight, dag);
 
+   // left step
+    twoInterestedTrapezoidsDagUpdateLeftStep(insertedSegment, node_tLeft, node_tCenter1, node_tCenter2, buildArea[0], dag, segmentAboveRightP);
+    // right step
+    twoInterestedTrapezoidsDagUpdateRightStep(insertedSegment, node_tRight, node_tCenter2, node_tCenter3, buildArea[1], dag, segmentAboveRightP);
+}
+
+
+/**
+ * @brief twoInterestedTrapezoidsDagUpdateLeftStep
+ * @param insertedSegment
+ * @param tLeft
+ * @param tCenterTop
+ * @param tCenterBottom
+ * @param buildArea
+ */
+void twoInterestedTrapezoidsDagUpdateLeftStep(const cg3::Segment2d& insertedSegment, Node * node_tLeft, Node * node_tCenter1,Node * node_tCenter2, Trapezoid * buildArea, Dag * dag, const bool& segmentAboveRightP)
+{
     /* Substitute buildArea[0]->dagRef() */
     /* root: substitute trapezoid with insertedSegment.p1 */
     Node * insertionRoot1 = dag->addNode(Node(Node::p, new cg3::Point2d(insertedSegment.p1().x(), insertedSegment.p1().y())));
@@ -757,29 +771,32 @@ void twoInterestedTrapezoidsDagUpdate(const cg3::Segment2d& insertedSegment, Tra
     if(node_tLeft != nullptr){
         insertionRoot1->setLeftChild(node_tLeft);
     }
-    /* root > right_child: inserted_segment */
-    insertionRoot1->setRightChild(dag->addNode(Node(new cg3::Segment2d(insertedSegment.p1(), insertedSegment.p2()))));
-
     if(segmentAboveRightP){
-        /* root > right_child > left_child > tCenter2 */
-        insertionRoot1->rightChild()->setLeftChild(node_tCenter2);
-        /* root > right_child > right_child > tCenter1 */
-        insertionRoot1->rightChild()->setRightChild(node_tCenter1);
-
+        insertionRoot1->setRightChild(dagSegmentSplit(insertedSegment, node_tCenter2, node_tCenter1, dag));
     }
     else {
-        /* root > right_child > left_child > tCenter1 */
-        insertionRoot1->rightChild()->setLeftChild(node_tCenter1);
-        /* root > right_child > right_child > tCenter2 */
-        insertionRoot1->rightChild()->setRightChild(node_tCenter2);
+        insertionRoot1->setRightChild(dagSegmentSplit(insertedSegment, node_tCenter1, node_tCenter2, dag));
     }
 
-
     // replace node
-    buildArea[0]->deactivate();
-    *(buildArea[0]->dagRef()) = *(insertionRoot1);
+    buildArea->deactivate();
+    *(buildArea->dagRef()) = *(insertionRoot1);
+
+}
 
 
+/**
+ * @brief twoInterestedTrapezoidsDagUpdateRightStep
+ * @param insertedSegment
+ * @param node_tRight
+ * @param node_tCenter2
+ * @param node_tCenter3
+ * @param buildArea
+ * @param dag
+ * @param segmentAboveRightP
+ */
+void twoInterestedTrapezoidsDagUpdateRightStep(const cg3::Segment2d& insertedSegment, Node * node_tRight, Node * node_tCenter2, Node * node_tCenter3, Trapezoid * buildArea, Dag * dag, const bool& segmentAboveRightP)
+{
     /* Substitute buildArea[1]->dagRef() */
     /* root: substitute trapezoid with insertedSegment.p2 */
     Node * insertionRoot2 = dag->addNode(Node(Node::p, new cg3::Point2d(insertedSegment.p2().x(), insertedSegment.p2().y())));
@@ -787,24 +804,33 @@ void twoInterestedTrapezoidsDagUpdate(const cg3::Segment2d& insertedSegment, Tra
     if( node_tRight != nullptr){
         insertionRoot2->setRightChild(node_tRight);
     }
-    /* root > left_child: inserted_segment */
-    insertionRoot2->setLeftChild(dag->addNode(Node(new cg3::Segment2d(insertedSegment.p1(), insertedSegment.p2()))));
-
     if(segmentAboveRightP){
-        /* root > left_child > left_child > tCenter2 */
-        insertionRoot2->leftChild()->setLeftChild(node_tCenter2);
-        /* root > left_child > right_child > tCenter3 */
-        insertionRoot2->leftChild()->setRightChild(node_tCenter3);
+        insertionRoot2->setLeftChild(dagSegmentSplit(insertedSegment, node_tCenter2, node_tCenter3, dag));
     }
     else {
-        /* root > left_child > left_child > tCenter3 */
-        insertionRoot2->leftChild()->setLeftChild(node_tCenter3);
-        /* root > left_child > right_child > tCenter2 */
-        insertionRoot2->leftChild()->setRightChild(node_tCenter2);
+        insertionRoot2->setLeftChild(dagSegmentSplit(insertedSegment, node_tCenter3, node_tCenter2, dag));
     }
 
-    buildArea[1]->deactivate();
-   *(buildArea[1]->dagRef()) = *(insertionRoot2);
+    buildArea->deactivate();
+   *(buildArea->dagRef()) = *(insertionRoot2);
+}
+
+
+/**
+ * @brief dagSegmentSplit
+ * @param insertedSegment
+ * @param node_leftChild
+ * @param node_rightChild
+ * @param dag
+ * @return
+ */
+Node * dagSegmentSplit(const cg3::Segment2d& insertedSegment, Node * nodeLeftChild, Node * nodeRightChild, Dag * dag)
+{
+    Node * root = dag->addNode(Node(new cg3::Segment2d(insertedSegment.p1(), insertedSegment.p2())));
+    root->setLeftChild(nodeLeftChild);
+    root->setRightChild(nodeRightChild);
+
+    return root;
 }
 
 }
