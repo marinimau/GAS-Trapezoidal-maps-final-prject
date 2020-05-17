@@ -33,15 +33,15 @@ void init(DrawableTrapezoid& drawableTrapezoid, Dag * dag);
 void evaluateSegmentInserted(const cg3::Segment2d& insertedSegment, DrawableTrapezoid& drawableTrapezoid, Dag * dag);
 cg3::Segment2d normalizeSegment(const cg3::Segment2d& insertedSegment);
 std::vector<Trapezoid *> followSegment(const cg3::Segment2d& normalizedSegment, Dag * dag);
-Node * createLeafNode(Trapezoid * t, Dag * dag);
 
 /*-------------------------------------------------------------------------*
  *
  * Insertion Cases
  *
  *-------------------------------------------------------------------------*/
-void simpleInsertion(const cg3::Segment2d& insertedSegment, std::vector<Trapezoid *>& buildArea, DrawableTrapezoid& drawableTrapezoid, Dag * dag);
+void oneInterestedTrapezoid(const cg3::Segment2d& insertedSegment, std::vector<Trapezoid *>& buildArea, DrawableTrapezoid& drawableTrapezoid, Dag * dag);
 void twoInterestedTrapezoidsInsertion(const cg3::Segment2d& insertedSegment, std::vector<Trapezoid *>& buildArea, DrawableTrapezoid& drawableTrapezoid, Dag * dag);
+void manyInterestedTrapezoidsInsertion(const cg3::Segment2d& insertedSegment, std::vector<Trapezoid *>& buildArea, DrawableTrapezoid& drawableTrapezoid, Dag * dag);
 
 /*-------------------------------------------------------------------------*
  *
@@ -85,6 +85,7 @@ void setNeighborOfNeighborRightSide(Trapezoid * inseretedRightUpper, Trapezoid *
  * Dag update step
  *
  *-------------------------------------------------------------------------*/
+Node * createLeafNode(Trapezoid * t, Dag * dag);
 void simpleCaseDagUpdate(const cg3::Segment2d& insertedSegment, Trapezoid * tLeft, Trapezoid * tRight, Trapezoid * tCenterTop, Trapezoid * tCenterBottom, Trapezoid * buildArea, Dag * dag);
 void twoInterestedTrapezoidsDagUpdate(const cg3::Segment2d& insertedSegment, Trapezoid * tLeft, Trapezoid * tRight, Trapezoid * tCenter1, Trapezoid * tCenter2, Trapezoid * tCenter3, std::vector<Trapezoid *>& buildArea, Dag * dag, const bool& segmentAboveRightP);
 void twoInterestedTrapezoidsDagUpdateLeftStep(const cg3::Segment2d& insertedSegment, Node * node_tLeft, Node * node_tCenter1,Node * node_tCenter2, Trapezoid * buildArea, Dag * dag, const bool& segmentAboveRightP);

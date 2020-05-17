@@ -39,7 +39,10 @@ public:
 
 
     /* Setters */
-
+    void setLeftP(const cg3::Point2d& leftP);
+    void setRightP(const cg3::Point2d& rightP);
+    void setTop(const cg3::Segment2d& top);
+    void setBottom(const cg3::Segment2d& bottom);
     void setAdjacents(Trapezoid * rightTop, Trapezoid * leftTop, Trapezoid * leftBottom, Trapezoid * rightBottom);
     void setAdjacent(Trapezoid * adjacent, const adjacentPosition& position);
     void deactivate();

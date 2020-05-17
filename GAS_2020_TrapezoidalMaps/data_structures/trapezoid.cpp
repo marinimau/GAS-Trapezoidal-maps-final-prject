@@ -176,6 +176,46 @@ Node * Trapezoid::dagRef() const
 /* Setters */
 
 /**
+ * @brief Trapezoid::setLeftP
+ * @param leftP
+ */
+void Trapezoid::setLeftP(const cg3::Point2d& leftP)
+{
+    _leftP = leftP;
+}
+
+
+/**
+ * @brief Trapezoid::setRightP
+ * @param rightP
+ */
+void Trapezoid::setRightP(const cg3::Point2d& rightP)
+{
+    _rightP = rightP;
+}
+
+
+/**
+ * @brief Trapezoid::setTop
+ * @param top
+ */
+void Trapezoid::setTop(const cg3::Segment2d& top)
+{
+    _top = top;
+}
+
+
+/**
+ * @brief Trapezoid::setBottom
+ * @param bottom
+ */
+void Trapezoid::setBottom(const cg3::Segment2d& bottom)
+{
+    _bottom = bottom;
+}
+
+
+/**
  * @brief Trapezoid::setAdjacents: set all the the adjacents trapezoid, in case of the same trapezoid both in top and bottom use the same pointer
  * @param rightTop
  * @param leftTop
