@@ -70,7 +70,7 @@ void evaluateSegmentInserted(const cg3::Segment2d& insertedSegment, DrawableTrap
         break;
         default:
             /* 2.c the new segment intersects more than two trapezoid */
-            manyInterestedTrapezoidsInsertion(normalizedSegment, interestedTrapezoid, drawableTrapezoid, dag);
+           manyInterestedTrapezoidsInsertion(normalizedSegment, interestedTrapezoid, drawableTrapezoid, dag);
     }
 
     /* check adjacence consistency */
@@ -226,7 +226,6 @@ void twoInterestedTrapezoidsInsertion(const cg3::Segment2d& insertedSegment, std
     /* Adjacency update */
     twoInterestedTrapezoidsBuildAdjacency(insertedSegment, tLeft, tRight, tCenter1, tCenter2, tCenter3, buildArea, segmentAboveRightP);
 
-
     /* Dag update */
     twoInterestedTrapezoidsDagUpdate(insertedSegment, tLeft, tRight, tCenter1, tCenter2, tCenter3, buildArea, dag, segmentAboveRightP);
 }
@@ -254,7 +253,7 @@ void manyInterestedTrapezoidsInsertion(const cg3::Segment2d& insertedSegment, st
     /* flags for intermediate trapezoids creation */
     bool createTop = true, createBottom = true;
 
-    Trapezoid *tTop = nullptr, *tBottom = nullptr;
+    Trapezoid *tTop = nullptr, *tBottom = nullptr, *previous_tTop = nullptr, *previous_tBottom = nullptr;
     Node *node_tTop = nullptr, *node_tBottom = nullptr;
 
     bool segmentAboveRightP = false;
@@ -298,7 +297,17 @@ void manyInterestedTrapezoidsInsertion(const cg3::Segment2d& insertedSegment, st
 
         }
 
-        /* call dag update for this case */
+        /* call adjacency update */
+        manyInterestedTrapezoidsBuildAdjacency(insertedSegment, tLeft, tRight, tTop, tBottom, previous_tTop, previous_tBottom, buildArea, i, segmentAboveRightP);
+
+        if(previous_tTop == nullptr || previous_tTop->leftP() != tTop->leftP()){
+            previous_tTop = tTop;
+        }
+        if(previous_tBottom == nullptr || previous_tBottom->leftP() != tBottom->leftP()){
+            previous_tBottom = tBottom;
+        }
+
+        /* call dag update */
         manyInterestedTrapezoidsDagUpdateStep(insertedSegment, node_tLeft, node_tRight, node_tTop, node_tBottom, buildArea, dag, i);
 
         /* deactivate the old trapezoid */
@@ -543,7 +552,7 @@ void twoInterestedTrapezoidsBuildAdjacency(const cg3::Segment2d& insertedSegment
     /* internal */
     twoInterestedTrapezoidsAdjacencyInternal(tLeft, tRight, tCenter1, tCenter2, tCenter3, segmentAboveRightP);
     /* exceptions */
-    twoInterestedTrapezoidsAdjacencyExceptions(tCenter1, tCenter3, buildArea, segmentAboveRightP);
+    handleAdjacencyExceptions(tCenter1, tCenter3, buildArea, 0, evaluateExternalNeighboors(buildArea, segmentAboveRightP, 0));
     /* external */
     twoInterestedTrapezoidsAdjacencyExternal(insertedSegment, tLeft, tRight, tCenter1, tCenter2, tCenter3, buildArea, segmentAboveRightP);
 }
@@ -594,64 +603,16 @@ void twoInterestedTrapezoidsAdjacencyInternal(Trapezoid * tLeft, Trapezoid * tRi
 
 
 /**
- * @brief twoInterestedTrapezoidsAdjacencyExceptions: handle the exceptions given by the adjacency case
+ * @brief twoInterestedTrapezoidsAdjacencyExternal
+ * @param insertedSegment
+ * @param tLeft
+ * @param tRight
  * @param tCenter1
+ * @param tCenter2
  * @param tCenter3
  * @param buildArea
  * @param segmentAboveRightP
  */
-void twoInterestedTrapezoidsAdjacencyExceptions(Trapezoid * tCenter1, Trapezoid * tCenter3, const std::vector<Trapezoid*>& buildArea, const bool& segmentAboveRightP)
-{
-    switch(twoInterestedTrapezoidsEvaluateAdjacencyCase(buildArea, segmentAboveRightP)){
-        case 1:
-            tCenter1->setAdjacent(buildArea[0]->getAdjacent(Trapezoid::upperRight), Trapezoid::upperRight);
-            setNeighborOfNeighborRightSide(tCenter1, tCenter1, *buildArea[0]);
-            break;
-        case 2:
-            tCenter3->setAdjacent(buildArea[1]->getAdjacent(Trapezoid::upperLeft), Trapezoid::upperLeft);
-            setNeighborOfNeighborLeftSide(tCenter3, tCenter3, *buildArea[1]);
-            break;
-        case 3:
-            tCenter1->setAdjacent(buildArea[0]->getAdjacent(Trapezoid::lowerRight), Trapezoid::lowerRight);
-            setNeighborOfNeighborRightSide(tCenter1, tCenter1, *buildArea[0]);
-            break;
-        case 4:
-            tCenter3->setAdjacent(buildArea[1]->getAdjacent(Trapezoid::lowerLeft), Trapezoid::lowerLeft);
-            setNeighborOfNeighborLeftSide(tCenter3, tCenter3, *buildArea[1]);
-            break;
-    }
-}
-
-
-/**
- * @brief twoInterestedTrapezoidsEvaluateAdjacencyCase: there are 4 possible variants of case 2
- *  this function evaluates in which case we are.
- * @param buildArea
- * @param segmentAboveRightP
- * @return
- */
-inline int twoInterestedTrapezoidsEvaluateAdjacencyCase(const std::vector<Trapezoid*>& buildArea, const bool& segmentAboveRightP)
-{
-    if(segmentAboveRightP){
-        if(buildArea[0]->getVertex(Trapezoid::bottomRight).y() < buildArea[1]->getVertex(Trapezoid::bottomLeft).y()){
-            return 3;
-        }
-        else {
-            return 4;
-        }
-    }
-    else {
-        if(buildArea[0]->getVertex(Trapezoid::topRight).y() > buildArea[1]->getVertex(Trapezoid::topLeft).y()){
-            return 1;
-        }
-        else {
-            return 2;
-        }
-    }
-}
-
-
-
 void twoInterestedTrapezoidsAdjacencyExternal(const cg3::Segment2d& insertedSegment, Trapezoid * tLeft, Trapezoid * tRight, Trapezoid * tCenter1, Trapezoid * tCenter2, Trapezoid * tCenter3, const std::vector<Trapezoid*>& buildArea, const bool& segmentAboveRightP)
 {
     Trapezoid *aUR = nullptr, *aLR = nullptr, *eUL = nullptr, *eLL = nullptr;
@@ -678,7 +639,160 @@ void twoInterestedTrapezoidsAdjacencyExternal(const cg3::Segment2d& insertedSegm
 }
 
 
+/* more than 2 interestedTrapezoids Adjacency */
+
+/**
+ * @brief manyInterestedTrapezoidsBuildAdjacency
+ * @param insertedSegment
+ * @param tLeft
+ * @param tRight
+ * @param tTop
+ * @param tBottom
+ * @param previous_tTop
+ * @param previous_tBottom
+ * @param buildArea
+ * @param buildAreaIndex
+ */
+void manyInterestedTrapezoidsBuildAdjacency(const cg3::Segment2d& insertedSegment, Trapezoid * tLeft, Trapezoid * tRight, Trapezoid * tTop, Trapezoid * tBottom, Trapezoid * previous_tTop, Trapezoid * previous_tBottom, std::vector<Trapezoid *>& buildArea, const size_t& buildAreaIndex, const bool& segmentAboveRightP)
+{
+    /* build adjacency for the first of the interested trapezoids */
+    if(buildAreaIndex == 0){
+        tTop->setAdjacents(nullptr, tLeft, tLeft, nullptr);
+        tBottom->setAdjacents(nullptr, tLeft, tLeft, nullptr);
+        buildAdjacencyLeft(insertedSegment, tLeft, tBottom, tTop, *buildArea[buildAreaIndex]);
+    }
+    /* build adjacency for the last of the interested trapezoids */
+    if(buildAreaIndex == (buildArea.size() -1)){
+        tTop->setAdjacent(tRight, Trapezoid::upperRight);
+        tTop->setAdjacent(tRight, Trapezoid::lowerRight);
+        tBottom->setAdjacent(tRight, Trapezoid::upperRight);
+        tBottom->setAdjacent(tRight, Trapezoid::lowerRight);
+        buildAdjacencyRight(insertedSegment, tRight, tBottom, tTop, *buildArea[buildAreaIndex]);
+    }
+
+    if(buildAreaIndex > 0){
+
+        if(tTop != previous_tTop){
+            tTop->setAdjacent(previous_tTop, Trapezoid::upperLeft);
+            tTop->setAdjacent(previous_tTop, Trapezoid::lowerLeft);
+            if(previous_tTop->getAdjacent(Trapezoid::upperRight) == nullptr){
+                previous_tTop->setAdjacent(tTop, Trapezoid::upperRight);
+            }
+            if(previous_tTop->getAdjacent(Trapezoid::lowerRight) == nullptr){
+                previous_tTop->setAdjacent(tTop, Trapezoid::lowerRight);
+            }
+        }
+
+        if(tBottom != previous_tBottom){
+            tBottom->setAdjacent(previous_tBottom, Trapezoid::upperLeft);
+            tBottom->setAdjacent(previous_tBottom, Trapezoid::lowerLeft);
+
+            if(previous_tBottom->getAdjacent(Trapezoid::upperRight) == nullptr){
+                previous_tBottom->setAdjacent(tBottom, Trapezoid::upperRight);
+            }
+            if(previous_tBottom->getAdjacent(Trapezoid::lowerRight) == nullptr){
+                previous_tBottom->setAdjacent(tBottom, Trapezoid::lowerRight);
+            }
+        }
+        /* set adjacency with external trapezoids */
+        manyInterestedTrapezoidsExternalAdjacency(tTop, tBottom, previous_tTop, previous_tBottom, buildArea, buildAreaIndex);
+    }
+}
+
+
+/**
+ * @brief manyInterestedTrapezoidsExternalAdjacency
+ * @param tTop
+ * @param tBottom
+ * @param previous_tTop
+ * @param previous_tBottom
+ * @param buildArea
+ * @param buildAreaIndex
+ */
+void manyInterestedTrapezoidsExternalAdjacency(Trapezoid * tTop, Trapezoid * tBottom, Trapezoid * previous_tTop, Trapezoid * previous_tBottom, std::vector<Trapezoid *>& buildArea, const size_t& buildAreaIndex)
+{
+    if(buildAreaIndex < buildArea.size() -1){
+        if(buildArea[buildAreaIndex - 1]->getAdjacent(Trapezoid::upperRight) != buildArea[buildAreaIndex]){
+            handleAdjacencyExceptions(previous_tTop, previous_tTop, buildArea, buildAreaIndex - 1, 1);
+        }
+        if(buildArea[buildAreaIndex]->getAdjacent(Trapezoid::upperLeft) != buildArea[buildAreaIndex - 1]){
+            handleAdjacencyExceptions(tTop, tTop, buildArea, buildAreaIndex - 1 , 2);
+        }
+        if(buildArea[buildAreaIndex - 1]->getAdjacent(Trapezoid::lowerRight) != buildArea[buildAreaIndex]){
+            handleAdjacencyExceptions(previous_tBottom, previous_tBottom, buildArea, buildAreaIndex - 1, 3);
+        }
+        if(buildArea[buildAreaIndex]->getAdjacent(Trapezoid::lowerLeft) != buildArea[buildAreaIndex - 1]){
+            handleAdjacencyExceptions(tBottom, tBottom, buildArea, buildAreaIndex - 1, 4);
+        }
+
+    }
+}
+
+
+/* Adjacency exception */
+
+/**
+ * @brief handleAdjacencyExceptions: handle the external adjacency given the adjacency case
+ * @param tCenter1
+ * @param tCenter2
+ * @param buildArea
+ * @param startIndex
+ * @param adjacencyCase
+ */
+void handleAdjacencyExceptions(Trapezoid * tCenter1, Trapezoid * tCenter3, const std::vector<Trapezoid*>& buildArea, size_t startIndex, const int& adjacencyCase)
+{
+    assert(adjacencyCase > 0 && adjacencyCase < 5);
+    switch(adjacencyCase){
+        case 1:
+            tCenter1->setAdjacent(buildArea[startIndex]->getAdjacent(Trapezoid::upperRight), Trapezoid::upperRight);
+            setNeighborOfNeighborRightSide(tCenter1, tCenter1, *buildArea[startIndex]);
+            break;
+        case 2:
+            tCenter3->setAdjacent(buildArea[startIndex + 1]->getAdjacent(Trapezoid::upperLeft), Trapezoid::upperLeft);
+            setNeighborOfNeighborLeftSide(tCenter3, tCenter3, *buildArea[startIndex + 1]);
+            break;
+        case 3:
+            tCenter1->setAdjacent(buildArea[startIndex]->getAdjacent(Trapezoid::lowerRight), Trapezoid::lowerRight);
+            setNeighborOfNeighborRightSide(tCenter1, tCenter1, *buildArea[startIndex]);
+            break;
+        case 4:
+            tCenter3->setAdjacent(buildArea[startIndex + 1]->getAdjacent(Trapezoid::lowerLeft), Trapezoid::lowerLeft);
+            setNeighborOfNeighborLeftSide(tCenter3, tCenter3, *buildArea[startIndex + 1]);
+            break;
+    }
+}
+
+
 /* Neighbors adjacency */
+
+/**
+ * @brief evaluateExternalNeighboors: there are 4 possible variants of case 2
+ *  this function evaluates in which case we are.
+ * @param buildArea
+ * @param segmentAboveRightP
+ * @param startIndex
+ * @return
+ */
+inline int evaluateExternalNeighboors(const std::vector<Trapezoid*>& buildArea, const bool& segmentAboveRightP, const size_t startIndex)
+{
+    if(segmentAboveRightP){
+        if(buildArea[startIndex]->getVertex(Trapezoid::bottomRight).y() < buildArea[startIndex + 1]->getVertex(Trapezoid::bottomLeft).y()){
+            return 3;
+        }
+        else {
+            return 4;
+        }
+    }
+    else {
+        if(buildArea[startIndex]->getVertex(Trapezoid::topRight).y() > buildArea[startIndex + 1]->getVertex(Trapezoid::topLeft).y()){
+            return 1;
+        }
+        else {
+            return 2;
+        }
+    }
+}
+
 
 /**
  * @brief setNeighborOfNeighborLeftSide
