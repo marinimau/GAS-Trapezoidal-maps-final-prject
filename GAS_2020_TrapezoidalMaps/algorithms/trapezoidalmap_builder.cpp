@@ -298,7 +298,7 @@ void manyInterestedTrapezoidsInsertion(const cg3::Segment2d& insertedSegment, st
         }
 
         /* call adjacency update */
-        manyInterestedTrapezoidsBuildAdjacency(insertedSegment, tLeft, tRight, tTop, tBottom, previous_tTop, previous_tBottom, buildArea, i, segmentAboveRightP);
+        manyInterestedTrapezoidsBuildAdjacency(insertedSegment, tLeft, tRight, tTop, tBottom, previous_tTop, previous_tBottom, buildArea, i);
 
         if(previous_tTop == nullptr || previous_tTop->leftP() != tTop->leftP()){
             previous_tTop = tTop;
@@ -653,7 +653,7 @@ void twoInterestedTrapezoidsAdjacencyExternal(const cg3::Segment2d& insertedSegm
  * @param buildArea
  * @param buildAreaIndex
  */
-void manyInterestedTrapezoidsBuildAdjacency(const cg3::Segment2d& insertedSegment, Trapezoid * tLeft, Trapezoid * tRight, Trapezoid * tTop, Trapezoid * tBottom, Trapezoid * previous_tTop, Trapezoid * previous_tBottom, std::vector<Trapezoid *>& buildArea, const size_t& buildAreaIndex, const bool& segmentAboveRightP)
+void manyInterestedTrapezoidsBuildAdjacency(const cg3::Segment2d& insertedSegment, Trapezoid * tLeft, Trapezoid * tRight, Trapezoid * tTop, Trapezoid * tBottom, Trapezoid * previous_tTop, Trapezoid * previous_tBottom, std::vector<Trapezoid *>& buildArea, const size_t& buildAreaIndex)
 {
     /* build adjacency for the first of the interested trapezoids */
     if(buildAreaIndex == 0){
@@ -681,6 +681,8 @@ void manyInterestedTrapezoidsBuildAdjacency(const cg3::Segment2d& insertedSegmen
             if(previous_tTop->getAdjacent(Trapezoid::lowerRight) == nullptr){
                 previous_tTop->setAdjacent(tTop, Trapezoid::lowerRight);
             }
+            /* set adjacency with external trapezoids */
+            manyInterestedTrapezoidsExternalAdjacencyTop(tTop, previous_tTop, buildArea, buildAreaIndex);
         }
 
         if(tBottom != previous_tBottom){
@@ -693,38 +695,46 @@ void manyInterestedTrapezoidsBuildAdjacency(const cg3::Segment2d& insertedSegmen
             if(previous_tBottom->getAdjacent(Trapezoid::lowerRight) == nullptr){
                 previous_tBottom->setAdjacent(tBottom, Trapezoid::lowerRight);
             }
+            /* set adjacency with external trapezoids */
+            manyInterestedTrapezoidsExternalAdjacencyBottom(tBottom, previous_tBottom, buildArea, buildAreaIndex);
         }
-        /* set adjacency with external trapezoids */
-        manyInterestedTrapezoidsExternalAdjacency(tTop, tBottom, previous_tTop, previous_tBottom, buildArea, buildAreaIndex);
     }
 }
 
 
 /**
- * @brief manyInterestedTrapezoidsExternalAdjacency: set the adjacency with the non-interested trapezoids
+ * @brief manyInterestedTrapezoidsExternalAdjacencyTop: set the adjacency between tTop and the non-interested trapezoids
  * @param tTop
- * @param tBottom
  * @param previous_tTop
+ * @param buildArea
+ * @param buildAreaIndex
+ */
+void manyInterestedTrapezoidsExternalAdjacencyTop(Trapezoid * tTop, Trapezoid * previous_tTop, std::vector<Trapezoid *>& buildArea, const size_t& buildAreaIndex)
+{
+
+    if(buildArea[buildAreaIndex - 1]->getAdjacent(Trapezoid::upperRight) != buildArea[buildAreaIndex]){
+        handleAdjacencyExceptions(previous_tTop, previous_tTop, buildArea, buildAreaIndex - 1, 1);
+    }
+    if(buildArea[buildAreaIndex]->getAdjacent(Trapezoid::upperLeft) != buildArea[buildAreaIndex - 1]){
+        handleAdjacencyExceptions(tTop, tTop, buildArea, buildAreaIndex - 1 , 2);
+    }
+}
+
+
+/**
+ * @brief manyInterestedTrapezoidsExternalAdjacencyBottom: set the adjacency between tBottom and the non-interested trapezoids
+ * @param tBottom
  * @param previous_tBottom
  * @param buildArea
  * @param buildAreaIndex
  */
-void manyInterestedTrapezoidsExternalAdjacency(Trapezoid * tTop, Trapezoid * tBottom, Trapezoid * previous_tTop, Trapezoid * previous_tBottom, std::vector<Trapezoid *>& buildArea, const size_t& buildAreaIndex)
+void manyInterestedTrapezoidsExternalAdjacencyBottom(Trapezoid * tBottom, Trapezoid * previous_tBottom, std::vector<Trapezoid *>& buildArea, const size_t& buildAreaIndex)
 {
-    if(buildAreaIndex <= buildArea.size() -1){
-        if(buildArea[buildAreaIndex - 1]->getAdjacent(Trapezoid::upperRight) != buildArea[buildAreaIndex]){
-            handleAdjacencyExceptions(previous_tTop, previous_tTop, buildArea, buildAreaIndex - 1, 1);
-        }
-        if(buildArea[buildAreaIndex]->getAdjacent(Trapezoid::upperLeft) != buildArea[buildAreaIndex - 1]){
-            handleAdjacencyExceptions(tTop, tTop, buildArea, buildAreaIndex - 1 , 2);
-        }
-        if(buildArea[buildAreaIndex - 1]->getAdjacent(Trapezoid::lowerRight) != buildArea[buildAreaIndex]){
-            handleAdjacencyExceptions(previous_tBottom, previous_tBottom, buildArea, buildAreaIndex - 1, 3);
-        }
-        if(buildArea[buildAreaIndex]->getAdjacent(Trapezoid::lowerLeft) != buildArea[buildAreaIndex - 1]){
-            handleAdjacencyExceptions(tBottom, tBottom, buildArea, buildAreaIndex - 1, 4);
-        }
-
+    if(buildArea[buildAreaIndex - 1]->getAdjacent(Trapezoid::lowerRight) != buildArea[buildAreaIndex]){
+        handleAdjacencyExceptions(previous_tBottom, previous_tBottom, buildArea, buildAreaIndex - 1, 3);
+    }
+    if(buildArea[buildAreaIndex]->getAdjacent(Trapezoid::lowerLeft) != buildArea[buildAreaIndex - 1]){
+        handleAdjacencyExceptions(tBottom, tBottom, buildArea, buildAreaIndex - 1, 4);
     }
 }
 
