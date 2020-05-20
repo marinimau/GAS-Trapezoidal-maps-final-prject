@@ -701,7 +701,7 @@ void manyInterestedTrapezoidsBuildAdjacency(const cg3::Segment2d& insertedSegmen
 
 
 /**
- * @brief manyInterestedTrapezoidsExternalAdjacency
+ * @brief manyInterestedTrapezoidsExternalAdjacency: set the adjacency with the non-interested trapezoids
  * @param tTop
  * @param tBottom
  * @param previous_tTop
@@ -711,7 +711,7 @@ void manyInterestedTrapezoidsBuildAdjacency(const cg3::Segment2d& insertedSegmen
  */
 void manyInterestedTrapezoidsExternalAdjacency(Trapezoid * tTop, Trapezoid * tBottom, Trapezoid * previous_tTop, Trapezoid * previous_tBottom, std::vector<Trapezoid *>& buildArea, const size_t& buildAreaIndex)
 {
-    if(buildAreaIndex < buildArea.size() -1){
+    if(buildAreaIndex <= buildArea.size() -1){
         if(buildArea[buildAreaIndex - 1]->getAdjacent(Trapezoid::upperRight) != buildArea[buildAreaIndex]){
             handleAdjacencyExceptions(previous_tTop, previous_tTop, buildArea, buildAreaIndex - 1, 1);
         }
@@ -742,6 +742,12 @@ void manyInterestedTrapezoidsExternalAdjacency(Trapezoid * tTop, Trapezoid * tBo
 void handleAdjacencyExceptions(Trapezoid * tCenter1, Trapezoid * tCenter3, const std::vector<Trapezoid*>& buildArea, size_t startIndex, const int& adjacencyCase)
 {
     assert(adjacencyCase > 0 && adjacencyCase < 5);
+
+    /*
+     * This function is called for the 2-interested trapezoids insertion and for the many-interested trapezoid insertion. In the second case
+     * tCenter1 and tCenter3 always have equal value to each other.
+     */
+
     switch(adjacencyCase){
         case 1:
             tCenter1->setAdjacent(buildArea[startIndex]->getAdjacent(Trapezoid::upperRight), Trapezoid::upperRight);
