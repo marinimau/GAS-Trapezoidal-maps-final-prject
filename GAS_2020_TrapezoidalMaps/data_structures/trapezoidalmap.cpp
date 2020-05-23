@@ -23,20 +23,7 @@ TrapezoidalMap::TrapezoidalMap() :
 Trapezoid * TrapezoidalMap::addTrapezoid(Trapezoid trapezoid)
 {
     _trapezoids.push_back(trapezoid);
-    std::list<Trapezoid>::iterator it = _trapezoids.end();
-    --it;
-    _trapezoids.back().setIterator(it);
     return &_trapezoids.back();
-}
-
-
-/**
- * @brief TrapezoidalMap::deleteTrapezoid: given a iterator delete the trapezoid at that position
- * @param iterator
- */
-void TrapezoidalMap::deleteTrapezoid(const std::list<Trapezoid>::iterator& iterator)
-{
-    //_trapezoids.erase(iterator);
 }
 
 

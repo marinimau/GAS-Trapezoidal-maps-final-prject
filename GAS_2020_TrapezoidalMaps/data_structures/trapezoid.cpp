@@ -173,16 +173,6 @@ Node * Trapezoid::dagRef() const
 }
 
 
-/**
- * @brief Trapezoid::iterator return a iterator that allows the erasure from the trapezoidalmap in O(1)
- * @return
- */
-std::list<Trapezoid>::iterator Trapezoid::iterator()
-{
-    return _iterator;
-}
-
-
 /* Setters */
 
 /**
@@ -281,14 +271,4 @@ void Trapezoid::deactivate()
 void Trapezoid::setDagRef(Node *ref)
 {
     _dagRef = ref;
-}
-
-
-/**
- * @brief Trapezoid::setIterator: set the iterator that allows to erase the trapezoid from the tMap in O(1)
- * @param iterator
- */
-void Trapezoid::setIterator(const std::list<Trapezoid>::iterator iterator)
-{
-    _iterator = iterator;
 }

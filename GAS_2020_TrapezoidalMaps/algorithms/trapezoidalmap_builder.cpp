@@ -54,23 +54,23 @@ void evaluateSegmentInserted(const cg3::Segment2d& insertedSegment, DrawableTrap
     cg3::Segment2d normalizedSegment = normalizeSegment(insertedSegment);
 
     /* 1. check interested trapezoids */
-    std::vector<Trapezoid *> interestedTrapezoid = followSegment(normalizedSegment, dag);
+    std::vector<Trapezoid *> interestedTrapezoids = followSegment(normalizedSegment, dag);
 
     /* check for correctness followsegment output */
-    assert(ConsistenceChecker::checkForWrongBuildArea(normalizedSegment, interestedTrapezoid));
+    assert(ConsistenceChecker::checkForWrongBuildArea(normalizedSegment, interestedTrapezoids));
 
-    switch(interestedTrapezoid.size()){
+    switch(interestedTrapezoids.size()){
         case 1:
             /* 2.a Simple insertion */
-            oneInterestedTrapezoid(normalizedSegment, interestedTrapezoid, drawableTrapezoid, dag);
+            oneInterestedTrapezoid(normalizedSegment, interestedTrapezoids, drawableTrapezoid, dag);
         break;
         case 2:
             /* 2.b the new segment intersects 2 trapezoids */
-           twoInterestedTrapezoidsInsertion(normalizedSegment, interestedTrapezoid, drawableTrapezoid, dag);
+           twoInterestedTrapezoidsInsertion(normalizedSegment, interestedTrapezoids, drawableTrapezoid, dag);
         break;
         default:
             /* 2.c the new segment intersects more than two trapezoid */
-           manyInterestedTrapezoidsInsertion(normalizedSegment, interestedTrapezoid, drawableTrapezoid, dag);
+           manyInterestedTrapezoidsInsertion(normalizedSegment, interestedTrapezoids, drawableTrapezoid, dag);
     }
 
     /* check adjacence consistency */
@@ -78,7 +78,7 @@ void evaluateSegmentInserted(const cg3::Segment2d& insertedSegment, DrawableTrap
 
     // if debug, print dag nodes (inorder)
     #ifdef QT_DEBUG
-    dag->inOrderVisit(dag->root());
+    //dag->inOrderVisit(dag->root());
     #endif
 }
 
@@ -183,7 +183,6 @@ void oneInterestedTrapezoid(const cg3::Segment2d& insertedSegment, std::vector<T
 
     /* delet old trapezoid */
     buildArea[0]->deactivate();
-    drawableTrapezoid.deleteTrapezoid(buildArea[0]->iterator());
 
 }
 
@@ -235,9 +234,7 @@ void twoInterestedTrapezoidsInsertion(const cg3::Segment2d& insertedSegment, std
 
     /* Delete old trapezoids */
     buildArea[0]->deactivate();
-    drawableTrapezoid.deleteTrapezoid(buildArea[0]->iterator());
     buildArea[1]->deactivate();
-    drawableTrapezoid.deleteTrapezoid(buildArea[1]->iterator());
 }
 
 
@@ -321,14 +318,8 @@ void manyInterestedTrapezoidsInsertion(const cg3::Segment2d& insertedSegment, st
         manyInterestedTrapezoidsDagUpdateStep(insertedSegment, node_tLeft, node_tRight, node_tTop, node_tBottom, buildArea, dag, i);
 
         /* deactivate the old trapezoid */
-        if(i>0){
-            buildArea[i-1]->deactivate();
-            drawableTrapezoid.deleteTrapezoid(buildArea[i - 1]->iterator());
-        }
-        if(i == buildArea.size() - 1){
-            buildArea[i]->deactivate();
-            drawableTrapezoid.deleteTrapezoid(buildArea[i]->iterator());
-        }
+        buildArea[i]->deactivate();
+
     }
 }
 
@@ -688,7 +679,7 @@ void twoInterestedTrapezoidsAdjacencyExternal(const cg3::Segment2d& insertedSegm
  * @param buildArea
  * @param buildAreaIndex
  */
-void manyInterestedTrapezoidsBuildAdjacency(const cg3::Segment2d& insertedSegment, Trapezoid * tLeft, Trapezoid * tRight, Trapezoid * tTop, Trapezoid * tBottom, Trapezoid * previous_tTop, Trapezoid * previous_tBottom, std::vector<Trapezoid *>& buildArea, const size_t& buildAreaIndex)
+void manyInterestedTrapezoidsBuildAdjacency(const cg3::Segment2d& insertedSegment, Trapezoid * tLeft, Trapezoid * tRight, Trapezoid * tTop, Trapezoid * tBottom, Trapezoid * previous_tTop, Trapezoid * previous_tBottom, const std::vector<Trapezoid *>& buildArea, const size_t& buildAreaIndex)
 {
     /* build adjacency for the first of the interested trapezoids */
     if(buildAreaIndex == 0){
