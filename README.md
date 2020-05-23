@@ -8,13 +8,10 @@ https://github.com/marinimau/GAS-Trapezoidal-maps-final-prject
 <br/>
 
 ## Project Organization
-
 The organization of the project is as follows:
-<br/>
+<br/><br/><br/>
 ### Algorithms
-<br/>
-
-#### **TrapezoidalMapBuilder** 
+#### TrapezoidalMapBuilder
 contains the algorithms for the construction of the trapezoidal
 map and the dag.
 The flow of construction is as follows:
@@ -30,73 +27,69 @@ The flow of construction is as follows:
     b. Update internal and external adjacencies
     c. Update the dag
     d. Deactivate old trapezoids.
-<br/>
-#### **TrapezoidalMap Query:** 
+
+
+#### TrapezoidalMap Query: 
 Implements the methods to execute a point query on the dag.
-<br/>
+<br/><br/><br/>
+
 
 ### Data Structures
-<br/>
-
-#### **Dag**
+#### Dag
 Implements the dag (a pointer to the root, and a list to store the nodes to avoid
 dynamic allocation).
 <br/>
 
-#### **Node**
+#### Node
 data structure used to save the nodes of the dag. It has an attribute “type” to
 specify the type of the node (p, q, segment, trapezoid). Each node has an attribute value
 that points at the object linked to the node. Node also has pointers to left and right
 childs.
 <br/>
 
-#### **SegmentIntesectionChecker** 
+#### SegmentIntesectionChecker 
 Already implemented.
 <br/>
 
-#### **Trapezoid**
+#### Trapezoid
 data Structure used to store the single trapezoid using: topSegment,
 bottomSegment, leftP and rightP, saves also 4 pointers to manage the adjacency, and a
 pointer to the node that saves it in the dag.
 <br/>
 
-#### **TrapezoidalMap** 
+#### TrapezoidalMap 
 data structure used to save all the trapezoids of the trapezoidalMap
 (using list). Save also a pointer to the trapezoids resulting from the pointQuery, it is used by the drawable to enhance it.
 <br/>
 
-#### **TrapezoidalMapDataset** 
+#### TrapezoidalMapDataset 
 Already implemented.
 <br/>
 
-####  **VerticalSegment**
+####  VerticalSegment
 used to manage the vertical segment separately in the ui. Vertical
 segments are obtained from the list of trapezoids.
-<br/>
+<br/><br/><br/>
 
 
 ### Drawables
-
-<br/>
-
-#### **DrawableTrapezoid**
+#### DrawableTrapezoid
 drawable for the trapezoids of the trapezoidalMap
 
 <br/>
 
-#### **DrawableVerticalSegment**
+#### DrawableVerticalSegment
 drawable for the vertical segments of the trapezoidalMap
 <br/>
 ### Managers
 <br/>
 
-#### **TrapezoidalMapManager**
+#### TrapezoidalMapManager
 Already implemented.
-<br/>
-### Utils
-<br/>
+<br/><br/><br/>
 
-#### **ConsistenceChecker**
+### Utils
+#### ConsistenceChecker
 Implements some tests which are executed at each segment
 insertion. It is evaluated:
 1. The correctness of followSegment output
@@ -108,14 +101,14 @@ insertion. It is evaluated:
 mode.
 <br/>
 
-#### **FileUtils**
+#### FileUtils
 Already implemented.
 <br/>
-#### **FillColor** 
+#### FillColor
 contains a method to calculate the fill color of each trapezoids based on the
 value of its vertices.
 <br/>
-#### **PointUtils** 
+#### PointUtils 
 contains methods for calculate intersections, evaluate if 2 points are
 degenerate and others.
 
@@ -126,14 +119,14 @@ Tests are performed with the provided dataset and in release mode (except for 10
 expressed in seconds
 
 ```
-random10.txt 		4.4e-05
-random20.txt 		9.5e-05
-random40.txt 		0.000178
-random50.txt 		0.000228
-random100.txt 		0.000464
-random500.txt 		0.001485
-random1000.txt  	0.002385
-random2000.txt 	    0.005249
-random5000.txt 	    0.014229
-Random 10000 		0.034327
+random10.txt 	4.4e-05
+random20.txt 	9.5e-05
+random40.txt 	0.000178
+random50.txt 	0.000228
+random100.txt 	0.000464
+random500.txt 	0.001485
+random1000.txt  0.002385
+random2000.txt  0.005249
+random5000.txt  0.014229
+Random 10000 	0.034327
 ```
