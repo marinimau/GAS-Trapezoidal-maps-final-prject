@@ -76,14 +76,11 @@ segments are obtained from the list of trapezoids.
 #### DrawableTrapezoid
 drawable for the trapezoids of the trapezoidalMap
 
-<br/>
-
 #### DrawableVerticalSegment
 drawable for the vertical segments of the trapezoidalMap
-<br/>
-### Managers
-<br/>
+<br/><br/><br/>
 
+### Managers
 #### TrapezoidalMapManager
 Already implemented.
 <br/><br/><br/>
@@ -99,19 +96,18 @@ insertion. It is evaluated:
 
 **These tests heavily affect performance** , for this reason they are executed only in debug
 mode.
-<br/>
 
 #### FileUtils
 Already implemented.
-<br/>
+
 #### FillColor
 contains a method to calculate the fill color of each trapezoids based on the
 value of its vertices.
-<br/>
+
 #### PointUtils 
 contains methods for calculate intersections, evaluate if 2 points are
 degenerate and others.
-
+<br/><br/><br/>
 
 ## Results
 
