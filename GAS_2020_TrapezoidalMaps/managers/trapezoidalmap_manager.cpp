@@ -203,8 +203,8 @@ void TrapezoidalMapManager::addSegmentToTrapezoidalMap(const cg3::Segment2d& seg
     if(dag == NULL){
          dag = new Dag();
     }
-
-     TrapezoidalMapBuilder::evaluateSegmentInserted(segment, drawableTrapezoid, dag);
+    drawableTrapezoid.clearQueryResult();
+    TrapezoidalMapBuilder::evaluateSegmentInserted(segment, drawableTrapezoid, dag);
 
     //#####################################################################
 }

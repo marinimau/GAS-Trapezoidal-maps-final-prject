@@ -25,7 +25,7 @@ public:
     /* trapezoids */
 
     Trapezoid * addTrapezoid(Trapezoid trapezoid);
-    void deleteTrapezoid(Trapezoid * trapezoid);
+    void deleteTrapezoid(const std::list<Trapezoid>::iterator& iterator);
     size_t trapezoidNumber() const;
     const std::list<Trapezoid> getTrapezoids() const;
     std::list<Trapezoid>* getTrapezoidsRef();
@@ -39,7 +39,7 @@ public:
     /* Query */
 
     void storeQueryResult(Trapezoid * result);
-
+    inline void clearQueryResult() { queryResult = nullptr; };
 
     void clear();
 
@@ -56,8 +56,6 @@ private:
 protected:
 
     /* Query */
-
-    size_t trapezoidsCountWhenQuery;
     Trapezoid * queryResult;
 
 };

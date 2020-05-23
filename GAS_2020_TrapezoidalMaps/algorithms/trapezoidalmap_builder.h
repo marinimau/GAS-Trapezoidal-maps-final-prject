@@ -76,8 +76,8 @@ void twoInterestedTrapezoidsAdjacencyExternal(const cg3::Segment2d& insertedSegm
 
 /* more than 2 interestedTrapezoids Adjacency */
 void manyInterestedTrapezoidsBuildAdjacency(const cg3::Segment2d& insertedSegment, Trapezoid * tLeft, Trapezoid * tRight, Trapezoid * tTop, Trapezoid * tBottom, Trapezoid * previous_tTop, Trapezoid * previous_tBottom, std::vector<Trapezoid *>& buildArea, const size_t& buildAreaIndex);
-void manyInterestedTrapezoidsExternalAdjacencyTop(Trapezoid * tTop, Trapezoid * previous_tTop, std::vector<Trapezoid *>& buildArea, const size_t& buildAreaIndex);
-void manyInterestedTrapezoidsExternalAdjacencyBottom(Trapezoid * tBottom, Trapezoid * previous_tBottom, std::vector<Trapezoid *>& buildArea, const size_t& buildAreaIndex);
+void manyInterestedTrapezoidsExternalAdjacencyTop(Trapezoid * tTop, Trapezoid * previous_tTop, const std::vector<Trapezoid *>& buildArea, const size_t& buildAreaIndex);
+void manyInterestedTrapezoidsExternalAdjacencyBottom(Trapezoid * tBottom, Trapezoid * previous_tBottom, const std::vector<Trapezoid *>& buildArea, const size_t& buildAreaIndex);
 
 /* Adjacency exceptions */
 void handleAdjacencyExceptions(Trapezoid * tCenter1, Trapezoid * tCenter3, const std::vector<Trapezoid*>& buildArea, size_t startIndex, const int& adjacencyCase);

@@ -32,8 +32,6 @@ void VerticalSegment::setDataSource(std::list<Trapezoid>* source)
 }
 
 
-
-
 /**
  * @brief TrapezoidalMap::clear (clear both pointExtension and trapezoids)
  */

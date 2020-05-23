@@ -1,5 +1,6 @@
 #include "node.h"
 
+
 /* Constructors */
 
 /**
@@ -11,6 +12,7 @@ Node::Node(){
     _leftChild = nullptr;
     _rightChild = nullptr;
 }
+
 
 /**
  * @brief Node::Node: costructor for a trapezoid node
@@ -24,6 +26,7 @@ Node::Node(Trapezoid * trapezoid)
     _rightChild = nullptr;
 }
 
+
 /**
  * @brief Node::Node: constructor for a segment node
  * @param segment
@@ -35,6 +38,7 @@ Node::Node(cg3::Segment2d * segment)
     _leftChild = nullptr;
     _rightChild = nullptr;
 }
+
 
 /**
  * @brief Node::Node: constructor for a point node (p or q)
@@ -49,6 +53,7 @@ Node::Node(const Node::nodeType& type, cg3::Point2d * point)
     _rightChild = nullptr;
 }
 
+
 /* Destructors */
 
 /**
@@ -59,7 +64,9 @@ Node::~Node()
 
 }
 
+
 /* Getters */
+
 /**
  * @brief value, return value of the node
  * @return
@@ -68,6 +75,7 @@ void * Node::value() const
 {
     return _value;
 }
+
 
 /**
  * @brief Node::type: return the type of the node
@@ -78,6 +86,7 @@ Node::nodeType Node::type() const
     return _type;
 }
 
+
 /**
  * @brief Node::leftChild: return the left child of current node
  * @return
@@ -87,6 +96,7 @@ Node * Node::leftChild() const
     return _leftChild;
 }
 
+
 /**
  * @brief Node::rightChild: return the right child of the current node
  * @return
@@ -95,6 +105,7 @@ Node * Node::rightChild() const
 {
     return _rightChild;
 }
+
 
 /* Setters */
 
@@ -108,6 +119,7 @@ void Node::setValue(Trapezoid * trapezoid)
     _value = trapezoid;
 }
 
+
 /**
  * @brief Node::setValue set the value of the node (for segment node)
  * @param segment
@@ -117,6 +129,7 @@ void Node::setValue(cg3::Segment2d * segment)
     _type = Node::s;
     _value = segment;
 }
+
 
 /**
  * @brief Node::setValue set the value of the node (for point node)
@@ -130,6 +143,7 @@ void Node::setValue(const Node::nodeType type, cg3::Point2d * point)
     _value = point;
 }
 
+
 /**
  * @brief setLeftChild: set the left child of the node
  * @param left_child
@@ -139,6 +153,7 @@ void Node::setLeftChild(Node * left_child)
     assert(_type != Node::t);
     _leftChild = left_child;
 }
+
 
 /**
  * @brief setLeftChild: set the right child of the node

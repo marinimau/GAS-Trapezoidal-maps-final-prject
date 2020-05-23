@@ -10,7 +10,7 @@ DrawableTrapezoid::DrawableTrapezoid():
     _queryAreaColor(0,0,255),
     boundarySize(0)
 {
-
+    queryResult = nullptr;
 }
 
 
@@ -19,8 +19,6 @@ DrawableTrapezoid::DrawableTrapezoid():
  */
 void DrawableTrapezoid::draw() const
 {
-    size_t trapezoidCount = trapezoidNumber();
-
     for (const Trapezoid  trapezoid : getTrapezoids()) {
         if(trapezoid.active()){
             std::vector<cg3::Point2d> vertices = trapezoid.getVertices();
@@ -29,7 +27,7 @@ void DrawableTrapezoid::draw() const
             PointUtils::removeDegenerate(vertices);
 
             /* trapezoids */
-            if(trapezoidCount == trapezoidsCountWhenQuery && trapezoid == *(queryResult)){
+            if(queryResult != nullptr && trapezoid == *(queryResult)){
                 drawTrapezoid(vertices, _queryAreaColor);
             }
             else {

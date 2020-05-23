@@ -15,7 +15,7 @@ TrapezoidalMap::TrapezoidalMap() :
 /* Trapezoids */
 
 /**
- * @brief TrapezoidalMap::addTrapezoid add a trapezoid and return the ref of the trapezoid inserted.
+ * @brief TrapezoidalMap::addTrapezoid add a trapezoid, store inside the trapezoid an iterator to access it in O(1) and return the ref of the trapezoid inserted.
  * @param trapezoid (the trapezoid object to insert)
  * @param trapezoidInserted (flag)
  * @return
@@ -23,7 +23,20 @@ TrapezoidalMap::TrapezoidalMap() :
 Trapezoid * TrapezoidalMap::addTrapezoid(Trapezoid trapezoid)
 {
     _trapezoids.push_back(trapezoid);
+    std::list<Trapezoid>::iterator it = _trapezoids.end();
+    --it;
+    _trapezoids.back().setIterator(it);
     return &_trapezoids.back();
+}
+
+
+/**
+ * @brief TrapezoidalMap::deleteTrapezoid: given a iterator delete the trapezoid at that position
+ * @param iterator
+ */
+void TrapezoidalMap::deleteTrapezoid(const std::list<Trapezoid>::iterator& iterator)
+{
+    //_trapezoids.erase(iterator);
 }
 
 
@@ -73,14 +86,10 @@ const cg3::BoundingBox2& TrapezoidalMap::getBoundingBox() const
 
 /**
  * @brief DrawableTrapezoid::storeQueryResult: store pointer to the result trapezoid
- * and number of trapezoid in the map. If another query is executed result change,
- * if a building step is executed, trapezoidCount change.
- * by combining these two parameters, draw() highlights the result only when required.
  * @param result
  */
 void TrapezoidalMap::storeQueryResult(Trapezoid * result)
 {
-    trapezoidsCountWhenQuery = trapezoidNumber();
     queryResult = result;
 }
 
@@ -90,7 +99,6 @@ void TrapezoidalMap::storeQueryResult(Trapezoid * result)
  */
 void TrapezoidalMap::clear()
 {
+    clearQueryResult();
     _trapezoids.clear();
-    trapezoidsCountWhenQuery = 0;
-    queryResult = nullptr;
 }

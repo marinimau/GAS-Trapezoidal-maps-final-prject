@@ -24,7 +24,6 @@ public:
 
     /* Others */
     Node * addNode(Node node);
-    void deleteLeaf(Node * leaf);
 
     /* Debug */
     void inOrderVisit(Node * current);

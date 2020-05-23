@@ -36,6 +36,7 @@ public:
     Trapezoid * getAdjacent(const adjacentPosition& position) const;
     bool active() const;
     Node * dagRef() const;
+    std::list<Trapezoid>::iterator iterator();
 
 
     /* Setters */
@@ -47,6 +48,7 @@ public:
     void setAdjacent(Trapezoid * adjacent, const adjacentPosition& position);
     void deactivate();
     void setDagRef(Node * ref);
+    void setIterator(const std::list<Trapezoid>::iterator iterator);
 
 
     /* Operator override */
@@ -97,6 +99,9 @@ private:
     /* 2-way reference can cause inconsistence, but allow to access in O(1)
      * at the dag leaf after the execution of followSegment */
 
+    /* Iterator */
+    std::list<Trapezoid>::iterator _iterator;
+    /* each trapezoid store a iterator, through the iterator it is possible to remove the element from the trapezoidal map in O (1)*/
 
 };
 

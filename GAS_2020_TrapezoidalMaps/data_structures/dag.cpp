@@ -66,14 +66,6 @@ Node * Dag::addNode(Node node)
 
 }
 
-/**
- * @brief Dag::deleteLeaf
- * @param trapezoid
- */
-void Dag::deleteLeaf(Node * leaf)
-{
-
-}
 
 /* Debug */
 
