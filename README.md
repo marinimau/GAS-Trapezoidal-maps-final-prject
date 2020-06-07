@@ -1,4 +1,4 @@
-# A Trapezoidal Map implementation with C++ QT Creator and CGAL
+# A Trapezoidal Map implementation with C++ QT Creator and cg3lib
 
 ![header](https://raw.githubusercontent.com/marinimau/GAS-Trapezoidal-maps-final-prject/master/images/image3.png)
 
@@ -109,6 +109,13 @@ value of its vertices.
 #### PointUtils 
 contains methods for calculate intersections, evaluate if 2 points are
 degenerate and others.
+<br/><br/><br/>
+
+
+## Technologies
+
+- **[QT Creator](https://www.qt.io)**
+- **[cg3lib](https://github.com/cg3hci/cg3lib)**
 <br/><br/><br/>
 
 ## Results
