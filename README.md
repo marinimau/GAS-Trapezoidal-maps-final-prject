@@ -1,5 +1,7 @@
 # [GAS] Final project
 
+![header](https://raw.githubusercontent.com/marinimau/GAS-Trapezoidal-maps-final-prject/master/images/image3.png)
+
 <br/>
 
 ## Repository
@@ -130,4 +132,14 @@ Random 10000 	0.034327
 
 ## Screenshot
 
-![1]()
+10 segments:
+![10 segments](https://raw.githubusercontent.com/marinimau/GAS-Trapezoidal-maps-final-prject/master/images/image6.png)
+
+10 segments (no fill):
+![10 segments no fill](https://raw.githubusercontent.com/marinimau/GAS-Trapezoidal-maps-final-prject/master/images/image2.png)
+
+query:
+![query](https://raw.githubusercontent.com/marinimau/GAS-Trapezoidal-maps-final-prject/master/images/image4.png)
+
+5000 segments:
+![5000 segments](https://raw.githubusercontent.com/marinimau/GAS-Trapezoidal-maps-final-prject/master/images/image1.png)
