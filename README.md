@@ -1,4 +1,4 @@
-# [GAS] Final project
+# A Trapezoidal Map implementation with C++ QT Creator and CGAL
 
 ![header](https://raw.githubusercontent.com/marinimau/GAS-Trapezoidal-maps-final-prject/master/images/image3.png)
 
