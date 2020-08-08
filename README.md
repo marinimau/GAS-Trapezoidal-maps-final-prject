@@ -1,3 +1,5 @@
+Implementation of a [trapezoidal map](http://graphics.stanford.edu/courses/cs268-16-fall/Notes/handout6.pdf) (building and search)
+
 # A Trapezoidal Map implementation with C++ QT Creator and cg3lib
 
 ![header](https://raw.githubusercontent.com/marinimau/GAS-Trapezoidal-maps-final-prject/master/images/image3.png)
