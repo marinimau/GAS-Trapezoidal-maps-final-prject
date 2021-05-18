@@ -125,18 +125,20 @@ degenerate and others.
 Tests are performed with the provided dataset and in release mode (except for 10.000). Time
 expressed in seconds
 
-```
-random10.txt 	4.4e-05
-random20.txt 	9.5e-05
-random40.txt 	0.000178
-random50.txt 	0.000228
-random100.txt 	0.000464
-random500.txt 	0.001485
-random1000.txt  0.002385
-random2000.txt  0.005249
-random5000.txt  0.014229
-Random 10000 	0.034327
-```
+| test         | time (seconds) |
+|--------------|------------|
+| random10.txt |	4.4e-05
+| random20.txt |	9.5e-05
+| random40.txt |	0.000178
+| random50.txt |	0.000228
+| random100.txt |	0.000464
+| random500.txt 	|0.001485
+| random1000.txt | 0.002385
+| random2000.txt | 0.005249
+| random5000.txt | 0.014229
+|random 10000  | 0.034327
+
+
 <br/><br/><br/>
 
 ## Screenshot
